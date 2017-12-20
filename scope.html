@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="utf-8">
-    <title>光交箱智能管理系统</title>
+    <title>工厂智能管理系统</title>
     <!-- Bootstrap core CSS -->
     <link href="./resource/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -71,6 +71,15 @@
                                         <li><a href="#" id="UserManage">用户管理</a></li>
                                         <li><a href="#" id="StaffManage">员工管理</a></li>
                                         <li><a href="#" id="AttendanceManage">考勤管理</a></li>
+                                        <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
+                                        <li><a href="#" id="SoftwareLoadManage">软件包管理</a></li>
+                                        <li><a href="#" id="ParaManage">参数管理</a></li>
+                                        <li><a href="#" id="InstControl">数据管理</a></li-->
+                                    </ul>
+                                </li>
+                                <li><a><i class="fa fa-edit"></i> 生产管理 <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="#" id="AssembleManage">生产管理</a></li>
                                         <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
                                         <li><a href="#" id="SoftwareLoadManage">软件包管理</a></li>
                                         <li><a href="#" id="ParaManage">参数管理</a></li>
@@ -990,6 +999,38 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row clearfix" id="AssembleHistoryView">
+                                        <div class="col-md-12 column">
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon" id="AssembleHistoryTime" style="min-width: 100px">查询周期</span>
+                                                    <select class="form-control" placeholder="钥匙种类" aria-describedby="basic-addon1" id="AssembleHistoryTime_choice">
+                                                        <option value="1">今日</option>
+                                                        <option value="7">近7天</option>
+                                                        <option value="30">近30天</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" id="AssembleHistoryWord" style="min-width: 100px">关键字</span>
+                                                    <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="AssembleHistoryWord_Input"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 column">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary" id="AssembleHistoryTableFlash">查询</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="AssembleHistoryLastFlash"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 column" id="AssembleHistoryQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                            <p></p>
+                                            <table id="AssembleHistoryQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                            </table>
+                                        </div>
+                                    </div>
                                         <div class="row clearfix" id="PGManageView" >
                                             <div class="col-md-6 col-sm-6 col-xs-6 column" id="PGRightWindow1">
                                                 <ul class="pagination" id="PG_Page_control">
