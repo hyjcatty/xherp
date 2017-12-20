@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>光交箱智能管理系统-登陆</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./resource/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/Login.css" rel="stylesheet">
+    <script src="./resource/js/jquery.min.js"></script>
+    <script src="./resource/js/bootstrap.min.js"></script>
+    <script src="./js/hcu_util.js"></script>
+    <script src="./js/login.js"></script>
+</head>
+<body>
+<div class="logo-header">
+    <!--img src="./svg/logo.png" id="logo" class="logo" -->
+</div>
+<div class="web-header">
+    <!--img src="./svg/webhead.png" id="webhead" style="position:absolute;right:0;height:100px;top:0;z-index: -1"-->
+</div>
+<div class="container">
+    <div class="leaderboard">
+    <div class="panel panel-default" id="kuang" style="z-index: 99">
+        <div class="panel-heading">
+            <h3 class="panel-title">登录</h3>
+        </div>
+        <div class="panel-body">
+            <div class="input-group">
+                <span class="input-group-addon" id="Username" style="min-width: 100px">用户名</span>
+                <input type="text" class="form-control" placeholder="用户名" aria-describedby="basic-addon1" id="Username_Input"/>
+            </div>
+            <p></p>
+            <div class="input-group">
+                <span class="input-group-addon" id="Password" style="min-width: 100px">密码</span>
+                <input type="password" class="form-control" placeholder="密码" aria-describedby="basic-addon1" id="Password_Input"/>
+            </div>
+            <p></p>
+            <button type="button" id="Login_Comfirm" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off" style="min-width: 125px;margin-right: 25px" >
+                登陆
+            </button>
+            <button type="button" id="Forget_Password" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off" style="min-width: 125px;margin-left: 25px" >
+                忘记密码
+            </button>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="modal fade" id="UserAlarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="UserAlertModalLabel">警告</h4>
+            </div>
+            <div class="modal-body" id="UserAlertModalContent">
+                <strong>警告！</strong>您尚未选择一个用户项。
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

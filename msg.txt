@@ -1,0 +1,1574 @@
+-----login-----
+REQUEST:
+var map={
+    action:"login",
+    name:$("#Username_Input").val(),
+    password:$("#Password_Input").val()
+};
+RESPONSE:
+    $body = array(
+	'key'=> '1234567',
+	'admin'=> 'true'
+    );
+    $usrinfo=array(
+	'status'=>'true',
+	'auth'=>'true',
+	'ret'=>$body,
+	'msg'=>'login successfully'
+    );
+-----UserInfo-----
+REQUEST:
+var body = {
+	session: session
+};
+var map={
+	action:"UserInfo",
+	type:"query",
+	body: body
+	user:"null"
+};
+
+RESPONSE:
+$webauth=array(
+	'UserManage' => 'true',
+	'ParaManage' => 'true',
+	'InstControl' => 'true',
+	'PGManage' => 'true',
+	'ProjManage' => 'true',
+	'MPManage' => 'true',
+	'DevManage' => 'true',
+	'KeyManage' => 'true',
+	'KeyAuth' => 'true',
+	'KeyHistory' => 'true',
+	'MPMonitor' => 'true',
+	'MPStaticMonitorTable' => 'true',
+	'WarningCheck' => 'true',
+	'WarningHandle' => 'true',
+	'InstConf' => 'true',
+	'InstRead' => 'true'
+);
+$userauth=array(
+	'query' => 'true',
+	'mod' => 'true',
+	'webauth' => $webauth
+
+);
+$user = array(
+	'id'=> '1234567',
+	'name'=> 'admin',
+	'level'=> '0',
+	'city'=> ("上海"),
+	'userauth'=>$userauth
+);
+$retval=array(
+	'status'=>$retstatus,
+	'auth'=>'true',
+	'msg'=>'',
+	'ret'=>($user)
+);
+-----ProjectPGList-----
+REQUEST:
+var map={
+	action:"ProjectPGList",
+	type:"query",
+	user:usr.id
+};
+RESPONSE:
+$temp = array(
+	'id'=>(string)$i,
+	'name'=>'项目'.(string)$i
+);
+array_push($proj_pg_list,$temp);
+$retval=array(
+	'status'=>'true',
+	'ret'=>$proj_pg_list,
+	'auth'=>'true',
+	'msg'=>''
+);
+-----UserTable-----
+REQUEST:
+var body = {
+	startseq: start,
+	length:length
+};
+var map={
+	action:"UserTable",
+	type:"query",
+	body: body,
+	user:usr.id
+};
+RESPONSE:
+$temp = array(
+	'id'=>(string)($start+($i+1)),
+	'name'=>"username".(string)($start+$i),
+	'nickname'=>"用户".(string)($start+$i),
+	'mobile'=>"139139".(string)($start+$i),
+	'mail'=>"139139".(string)($start+$i)."@cmcc.com",
+	'type'=>(string)$type,
+	'date'=>"2016-01-01 12:12:12",
+	'memo'=>"备注".(string)($start+$i)
+);
+array_push($usertable,$temp);
+$body=array{
+	'start'=> (string)$start,
+	'total'=> (string)$total,
+	'length'=>(string)$query_length,
+	'usertable'=> $usertable
+};
+$retval=array(
+	'status'=>'true',
+	'ret'=> $body,
+	'msg'=>'success',
+	'auth'=>'true'
+);
+-----UserDel-----
+REQUEST:
+var body = {
+	userid: id
+};
+var map={
+	action:"UserDel",
+	type:"mod",
+	body: body,
+	user:usr.id
+};
+RESPONSE:
+$retval=array(
+	'status'=>'true',
+	'msg'=>'success',
+	'auth'=>'true'
+);
+-----UserNew-----
+REQUEST:
+var body = {
+	name: user.name,
+	nickname: user.nickname,
+	password: user.password,
+	mobile: user.mobile,
+	mail: user.mail,
+	type: user.type,
+	memo: user.memo,
+	auth: auth
+};
+
+var map={
+	action:"UserNew",
+	type:"mod",
+	body: body,
+	user:usr.id
+};
+RESPONSE:
+$retval=array(
+	'status'=>'true',
+	'msg'=>'success',
+	'auth'=>'true'
+);
+-----UserMod-----
+REQUEST:
+var body={
+	userid: user.id,
+	name: user.name,
+	nickname: user.nickname,
+	password: user.password,
+	mobile: user.mobile,
+	mail: user.mail,
+	type: user.type,
+	memo: user.memo,
+	auth: auth
+};
+var map={
+	action:"UserMod",
+	type:"mod",
+	body: body,
+	user:usr.id
+};
+RESPONSE:
+$retval=array(
+	'status'=>'true',
+	'msg'=>'success',
+	'auth'=>'true'
+);
+-----UserProj-----
+REQUEST:
+    var body = {
+        userid: user
+    }
+    var map={
+        action:"UserProj",
+        body:body,
+        type:"query",
+        user:usr.id
+    };
+RESPONSE:
+	$retval= array(
+		'status'=>"true",
+		'ret'=>$userproj,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----UserKey-----
+REQUEST:
+    var body = {
+        userid: user
+    }
+    var map={
+        action:"UserKey",
+        body:body,
+        type:"query",
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $proj_keylist,
+		'auth'=>'true',
+		'msg'=>''
+	);
+-----ProjectList-----
+REQUEST:
+    var map={
+        action:"ProjectList",
+        type:"query",
+        user:usr.id
+    };
+RESPONSE:
+$temp = array(
+	'id'=> (string)($i),
+	'name'=> "项目".(string)$i
+);
+$retval=array(
+	'status'=>'true',
+	'ret'=> $projlist,
+	'auth'=>'true',
+	'msg'=>''
+);
+-----PGTable-----
+REQUEST:
+    var body={
+        startseq: start,
+        length:length
+    }
+    var map={
+        action:"PGTable",
+        body:body,
+        type:"query",
+        user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'PGCode'=>(string)($start+($i+1)),
+		'PGName'=>"项目组".(string)($start+$i),
+		'ChargeMan'=>"用户".(string)($start+$i),
+		'Telephone'=>"139139".(string)($start+$i),
+		'Department'=>"单位".(string)($start+$i),
+		'Address'=>"地址".(string)($start+$i),
+		'Stage'=>"备注".(string)($start+$i)
+	);
+	array_push($pgtable,$temp);
+	
+	$body=array(
+		'start'=> (string)$start,
+		'total'=> (string)$total,
+		'length'=>(string)$query_length,
+		'pgtable'=> $pgtable
+	);
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $body,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+
+-----PGDel-----
+REQUEST:
+    var body={
+        PGCode: id
+    }
+    var map={
+        action:"PGDel",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----PGNew-----
+REQUEST:
+    var body={
+        PGCode: pg.PGCode,
+        PGName:pg.PGName,
+        ChargeMan:pg.ChargeMan,
+        Telephone:pg.Telephone,
+        Department:pg.Department,
+        Address:pg.Address,
+        Stage:pg.Stage,
+        Projlist: projlist
+    }
+    var map={
+        action:"PGNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----PGMod-----
+REQUEST:
+    var body={
+        PGCode: pg.PGCode,
+        PGName:pg.PGName,
+        ChargeMan:pg.ChargeMan,
+        Telephone:pg.Telephone,
+        Department:pg.Department,
+        Address:pg.Address,
+        Stage:pg.Stage,
+        Projlist: projlist
+    }
+    var map={
+        action:"PGMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----PGProj-----
+REQUEST:
+    var body={
+        PGCode: pgid
+    };
+    var map={
+        action:"PGProj",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'id'=> (string)($i+1),
+		'name'=> "项目".(string)$i
+	);
+	array_push($PGProj,$temp);
+	
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $PGProj,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----KeyTable-----
+REQUEST:
+    var body={
+        startseq: start,
+        length:length
+    };
+    var map={
+        action:"KeyTable",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$body=array(
+		'start'=> (string)$start,
+		'total'=> (string)$total,
+		'length'=>(string)$query_length,
+		'keytable'=> $keytable	
+	);
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $body,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----KeyDel-----
+REQUEST:
+    var body={
+        KeyCode: id
+    };
+    var map={
+        action:"KeyDel",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----KeyNew-----
+REQUEST:
+    var body={
+        KeyCode: key.KeyCode,
+        KeyName:key.KeyName,
+        KeyProj:key.KeyProj,
+        KeyType:key.KeyType,
+        HardwareCode:key.HardwareCode,
+        Memo:key.Memo
+    };
+    var map={
+        action:"KeyNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----KeyMod-----
+REQUEST:
+    var body={
+        KeyCode: key.KeyCode,
+        KeyName:key.KeyName,
+        KeyProj:key.KeyProj,
+        KeyType:key.KeyType,
+        HardwareCode:key.HardwareCode,
+        Memo:key.Memo
+    };
+    var map={
+        action:"KeyMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----KeyAuthlist-----
+    var body={
+        KeyCode:keyid
+    };
+    var map={
+        action:"KeyAuthlist",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+-----ProjTable-----
+REQUEST:
+    var body={
+        startseq: start,
+        length:length
+    }
+    var map={
+        action:"ProjTable",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'ProjCode'=> (string)($start+($i+1)),
+		'ProjName'=>"项目".(string)($start+$i),
+		'ChargeMan'=>"用户".(string)($start+$i),
+		'Telephone'=>"139139".(string)($start+$i),
+		'Department'=>"单位".(string)($start+$i),
+		'Address'=>"地址".(string)($start+$i),
+		'ProStartTime'=>"2016-01-01",
+		'Stage'=>"备注".(string)($start+$i)
+	);
+	array_push($projtable,$temp);
+	
+	$body=array(
+		'start'=> (string)$start,
+		'total'=> (string)$total,
+		'length'=>(string)$query_length,
+		'projtable'=> $projtable
+		);
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $body,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----ProjDel-----
+REQUEST:
+    var body={
+	ProjCode: ProjCode
+	};
+    var map={
+        action:"ProjDel",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----ProjNew-----
+REQUEST:
+    var body={
+	ProjCode: project.ProjCode,
+        ProjName:project.ProjName,
+        ChargeMan:project.ChargeMan,
+        Telephone:project.Telephone,
+        Department:project.Department,
+        Address:project.Address,
+        ProStartTime:project.ProStartTime,
+        Stage:project.Stage
+	};
+    var map={
+        action:"ProjNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----ProjMod-----
+REQUEST:
+	var body={
+
+        ProjCode: project.ProjCode,
+        ProjName:project.ProjName,
+        ChargeMan:project.ChargeMan,
+        Telephone:project.Telephone,
+        Department:project.Department,
+        Address:project.Address,
+        ProStartTime:project.ProStartTime,
+        Stage:project.Stage
+	};
+    var map={
+        action:"ProjMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----PointProj-----
+REQUEST:
+    var body={
+	ProjCode: ProjCode
+	};
+    var map={
+        action:"PointProj",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'id'=> (string)($i+1),
+		'name'=> "测量点".(string)($i+1),
+		'ProjCode'=> $projcode
+	);
+	array_push($ProjPoint,$temp);
+	
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $ProjPoint,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----ProjKey-----
+REQUEST:
+    var body={
+	ProjCode: ProjCode
+    };
+    var map={
+        action:"ProjKey",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'id'=>"0xh0",
+		'name'=>"0xh0",
+		'username'=>"未授予"
+	);
+	array_push($proj_keylist,$temp);
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$proj_keylist,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----GetVersionList-----
+REQUEST:
+    var map={
+        action:"GetVersionList",
+		type:"query",
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+        'status'=>'true',
+        'ret'=> $verlist,
+		'msg'=>'success',
+		'auth'=>'true'
+    );
+-----GetProjDevVersion-----
+REQUEST:
+    var body={
+	ProjCode: ProjCode
+	};
+    var map={
+        action:"GetProjDevVersion",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $projdev,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----UpdateDevVersion-----
+REQUEST:
+    var body={
+	list: update_list,
+        version: update_version
+	};
+    var map={
+        action:"UpdateDevVersion",
+        type:"mod",
+        body: body,
+        user:usr.id   
+    };
+RESPONSE:
+	$retval=array(
+        'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+    );
+-----PointTable-----
+REQUEST:
+    var body={
+        startseq: start,
+        length:length
+	};
+    var map={
+        action:"PointTable",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'StatCode'=> (string)($start+($i+1)),
+		'StatName'=>"测量点".(string)($start+$i),
+		'ProjCode'=> $projcode,
+		'ChargeMan'=>"用户".(string)($start+$i),
+		'Telephone'=>"139139".(string)($start+$i),
+		'Longitude'=>"121.0000",
+		'Latitude'=>"31.0000",
+		'Department'=>"单位".(string)($start+$i),
+		'Address'=>"地址".(string)($start+$i),
+		'Country'=>"区县".(string)($start+$i),
+		'Street'=>"街镇".(string)($start+$i),
+		'Square'=>"10000",
+		'ProStartTime'=>"2016-01-01",
+		'Stage'=>"备注".(string)($start+$i)
+	);
+	array_push($pointtable,$temp);
+	
+	$body = array(
+		'start'=> (string)$start,
+		'total'=> (string)$total,
+		'length'=>(string)$query_length,
+		'pointtable'=> $pointtable
+		);
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $body,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----PointDel-----
+REQUEST:
+    var body={StatCode: StatCode};
+    var map={
+        action:"PointDel",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----PointNew-----
+REQUEST:
+    var body={
+	StatCode: point.StatCode,
+        StatName:point.StatName,
+        ProjCode: point.ProjCode,
+        ChargeMan:point.ChargeMan,
+        Telephone:point.Telephone,
+        Longitude:point.Longitude,
+        Latitude:point.Latitude,
+        Department:point.Department,
+        Address:point.Address,
+        Country:point.Country,
+        Street:point.Street,
+        Square:point.Square,
+        ProStartTime:point.ProStartTime,
+        Stage:point.Stage
+	};
+    var map={
+        action:"PointNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----PointMod-----
+REQUEST:
+    var body={
+	StatCode: point.StatCode,
+        StatName:point.StatName,
+        ProjCode: point.ProjCode,
+        ChargeMan:point.ChargeMan,
+        Telephone:point.Telephone,
+        Longitude:point.Longitude,
+        Latitude:point.Latitude,
+        Department:point.Department,
+        Address:point.Address,
+        Country:point.Country,
+        Street:point.Street,
+        Square:point.Square,
+        ProStartTime:point.ProStartTime,
+        Stage:point.Stage
+	};
+    var map={
+        action:"PointMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----PointDev-----
+REQUEST:
+    var body={
+	StatCode: StatCode
+	};
+    var map={
+        action:"PointDev",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+			'id'=> (string)($i+1),
+			'name'=> "设备".(string)$i
+		);
+		array_push($projdev,$temp);
+	}
+	$retval=array(
+		'status'=>"true",
+		'ret'=> $projdev,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----ProjPoint-----
+REQUEST:
+    var map={
+        action:"ProjPoint",
+	type:"query",
+        user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'id'=> (string)($i+1),
+		'name'=> "测量点".(string)($i+1),
+		'ProjCode'=> $projcode
+	);
+	array_push($ProjPoint,$temp);
+	
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $ProjPoint,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----DevTable-----
+REQUEST:
+    var body={
+        startseq: start,
+        length:length
+	};
+    var map={
+        action:"DevTable",
+		body:body,
+        type:"query",
+        user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'DevCode'=> (string)($start+($i+1)),
+		'StatCode'=> $statcode,
+		'ProjCode'=> $projcode,
+		'StartTime'=>"2016-01-01",
+		'PreEndTime'=>"2017-01-01",
+		'EndTime'=>"2099-12-31",
+		'DevStatus'=>'true',
+		'VideoURL'=>"www.tokoyhot.com",
+		'MAC'=>'mac',
+		'IP'=>"127.0.0.1"
+	);
+	array_push($devtable,$temp);
+	
+	$body=array(
+		'start'=> (string)$start,
+		'total'=> (string)$total,
+		'length'=>(string)$query_length,
+		'devtable'=> $devtable
+	);
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $body,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+
+-----DevDel-----
+REQUEST:
+    var body={
+	DevCode: DevCode
+    };
+    var map={
+        action:"DevDel",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>"true",
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----DevNew-----
+REQUEST:
+    var body={
+	DevCode: device.DevCode,
+        StatCode:device.StatCode,
+        StartTime:device.StartTime,
+        PreEndTime:device.PreEndTime,
+        EndTime:device.EndTime,
+        DevStatus:device.DevStatus,
+        VideoURL:device.VideoURL
+	};
+    var map={
+        action:"DevNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>"true",
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----DevMod-----
+REQUEST:
+    var body={
+	DevCode: device.DevCode,
+        StatCode:device.StatCode,
+        StartTime:device.StartTime,
+        PreEndTime:device.PreEndTime,
+        EndTime:device.EndTime,
+        DevStatus:device.DevStatus,
+        VideoURL:device.VideoURL
+	};
+    var map={
+        action:"DevMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>"true",
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----MonitorList-----
+REQUEST:
+    var map={
+        action:"MonitorList",
+        type:"query",
+        user:usr.id
+    };
+RESPONSE:
+	$map18= array(
+		'StatCode'=>"120101020",
+		'StatName'=>"临港城投大厦",
+		'ChargeMan'=>"赵六",
+		'Telephone'=>"13912345678",
+		'Department'=>"",
+		'Address'=>"环湖西一路333号",
+		'Country'=>"浦东新区",
+		'Street'=>"",
+		'Square'=>"0",
+		'Flag_la'=>"N",
+		'Latitude'=>"30.900796",
+		'Flag_lo'=>"E",
+		'Longitude'=>"121.933166",
+		'ProStartTime'=>"2015-11-30",
+		'Stage'=>""
+	);
+	array_push($stat_list,$map18);
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $stat_list,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----DevAlarm-----
+REQUEST:
+    var body={StatCode: monitor_selected.StatCode};
+    var map={
+	action:"DevAlarm",
+	body:body,
+	type:"query",
+	user:usr.id
+    };
+RESPONSE:
+	$map8 = array(
+		'AlarmName'=>"风速",
+		'AlarmEName'=> "WS",
+		'AlarmValue'=>(string)rand(10,150),
+		'AlarmUnit'=>"km/h",
+		'WarningTarget'=>"false"
+	);
+	array_push($alarmlist,$map8);
+    $vcr_list= array();
+	$map=array(
+	   'vcrname'=> "录像".(string)$i,
+	   'vcraddress'=> "127.0.0.1/"
+	);
+	array_push($vcr_list,$map);
+    
+	$body=array(
+		'StatCode'=>$StatCode,
+		'alarmlist'=> $alarmlist,
+		'vcr'=>$vcr_list
+	);
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $body,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+
+-----GetVideoList-----
+REQUEST:
+    var body={
+		StatCode:StatCode,
+		date:date,
+		hour:hour
+    };
+    var map={
+        action:"GetVideoList",
+		body:body,
+		type:"query",
+		user:usr.id
+    };
+RESPONSE:
+	$map = array(
+		'id'=>"Video_" .$StatCode . "_"  .$date ."_" .$hour ."_" .(string)$j,
+		'attr'=>"Video_" .$StatCode . "_"  .$date ."_" .$hour ."_" .(string)$j."视频属性"
+	);
+	array_push($VideoList,$map);
+    
+    $retval=array(
+        'status'=>'true',
+        'ret'=> $VideoList,
+		'msg'=>'success',
+		'auth'=>'true'
+    );
+
+-----GetStaticMonitorTable-----
+REQUEST:
+    var map={
+        action:"GetStaticMonitorTable",
+		type:"query",
+		user:usr.id
+    };
+RESPONSE:
+	$body=array(
+        'ColumnName'=> $column_name,
+        'TableData'=>$row_content
+	);
+    $retval=array(
+        'status'=>'true',
+        'ret'=> $body,
+		'msg'=>'success',
+		'auth'=>'true'
+    );
+-----AlarmQuery-----
+REQUEST:
+    var body={
+		StatCode: alarm_selected.StatCode,
+        date: date,
+        type:type
+    };
+    var map={
+        action:"AlarmQuery",
+		body:body,
+		type:"query",
+		user:usr.id
+    };
+RESPONSE:
+	$body=array(
+		'StatCode'=> $StatCode,
+		'date'=> $query_date,
+		'AlarmName'=> $AlarmName,
+		'AlarmUnit'=> $AlarmUnit,
+		'WarningTarget'=>$WarningTarget,
+		'minute_head'=>$minute_head,
+		'day_head'=>$day_head,
+		'hour_head'=>$hour_head,
+		'minute_alarm'=> $minute_alarm,
+		'hour_alarm'=> $hour_alarm,
+		'day_alarm'=> $day_alarm
+		);
+	$retval= array(
+		'status'=>"true",
+		'ret'=> $body,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----TableQuery-----
+REQUEST:
+    var body = {
+	TableName : tablename,
+        Condition: condition,
+        Filter: filter
+	};
+    var map={
+        action:"TableQuery",
+        body:body,
+	type:"query",
+	user:usr.id
+    };
+RESPONSE:
+	$body=array(
+		'ColumnName'=> $column_name,
+		'TableData'=>$row_content
+		);
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$body,
+		'msg'=>'success',
+		'auth'=>'true'
+		
+	);
+
+-----SensorList-----
+REQUEST:
+    var map={
+	action:"SensorList",
+	type:"query",
+	user:usr.id
+    };
+RESPONSE:
+	$map = array(
+		'id'=>"b01",
+		'name'=>"rain",
+		'nickname'=>"降雨",
+		'memo'=>"降雨传感器",
+		'code'=>""
+	);
+	array_push($ret,$map);
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$ret,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----DevSensor-----
+REQUEST:
+    var body={
+        DevCode: DevCode
+	};
+    var map={
+        action:"DevSensor",
+        body:body,
+	type:"query",
+	user:usr.id
+    };
+RESPONSE:
+	$map = array(
+		'id'=>"a01",
+		'status'=>"false",
+		'para'=>$temp
+	);
+	array_push($ret,$map);
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$ret,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----SensorUpdate-----
+REQUEST:
+    var body={
+	DevCode: device_selected.DevCode,
+        SensorCode: select_sensor.id,
+        status:$("#SensorStatus_choice").val(),
+        ParaList :paramlist
+	};
+    var map = {
+        action: "SensorUpdate",
+        body:body,
+	type:"mod",
+	user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----KeyAuthlist-----
+REQUEST:
+    var body={KeyCode: KeyId};
+    var map={
+        action:"KeyAuthlist",
+        body:body,
+	type:"query",
+	user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'AuthId'=>(string)($i),
+		'DomainId'=>"区域".(string)($i),
+		'DomainName'=>"区域".(string)($i),
+		'KeyId'=>"钥匙".(string)($i),
+		'KeyName'=>"钥匙".(string)($i),
+		'UserId'=>"用户".(string)($i),
+		'UserName'=>"用户".(string)($i),
+		'AuthWay'=>"sssssss"
+	);
+	array_push($authlist,$temp);
+	
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$authlist,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----GetUserMsg-----
+REQUEST:
+    var body = {
+        id: usr.id
+	}
+    var map = {
+        action: "GetUserMsg",
+        body:body,
+	type:"query",
+	user:usr.id
+    };
+RESPONSE:
+	$body=array(
+		'msg'=>'您好，今天是xxxx号，欢迎领导前来视察，今天的气温是 今天的PM2.5是....',
+		'ifdev'=>"true"
+	);
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$body,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----GetUserImg-----
+REQUEST:
+    var body = {
+        id: usr.id
+	}
+    var map = {
+        action: "GetUserImg",
+        body:body,
+	type:"query",
+	user:usr.id
+    };
+RESPONSE:
+	$map = array(
+		'name'=>"test".(string)$i.".jpg",
+		'url'=>"assets/img/test".(string)$i.".jpg"
+	);
+	array_push($ImgList,$map);
+
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$ImgList,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----ClearUserImg-----
+REQUEST:
+    var body = {
+        id: usr.id
+    }
+    var map = {
+        action: "ClearUserImg",
+        body:body,
+		type:"query",
+		user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----SetUserMsg-----
+REQUEST:
+    var body={
+		id: usr.id,
+        msg: msg,
+        ifdev: ifdev
+    };
+
+    var map = {
+        action: "SetUserMsg",
+        body:body,
+		type:"query",
+		user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----GetCameraUnit-----
+REQUEST:
+    var map = {
+        action: "GetCameraUnit",
+		type:"query",
+		user:usr.id
+    };
+RESPONSE:
+	$camera=array(
+		'v'=>"3~",
+		'h'=>"3~"
+	);
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$camera,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----GetCameraStatus-----
+REQUEST:
+    var body = {
+	StatCode:statcode
+    };
+    var map = {
+        action: "GetCameraStatus",
+        body:body,
+		type:"query",
+		user:usr.id
+    };
+RESPONSE:
+	$camerastatus=array(
+		'v'=>"120~",
+		'h'=>"120~",
+		'url'=>"./video/screenshot/".(string)$videocode.".png"
+	);
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$camerastatus,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----CameraVAdj & CameraHAdj-----
+REQUEST:
+    var body = {
+	StatCode:statcode,
+	adj: value
+    };
+    var map;
+    if(vorh == "v"){
+        map = {
+            action: "CameraVAdj",
+            body:body,
+	    type:"mod",
+	    user:usr.id
+            
+        };
+    }else{
+        map = {
+            action: "CameraHAdj",
+            body:body,
+	    type:"mod",
+	    user:usr.id
+        };
+    }
+
+RESPONSE:
+	$camerastatus=array(
+		'v'=>"120~",
+		'h'=>"120~",
+		'url'=>"./video/screenshot/".(string)$videocode.".png"
+	);
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$camerastatus,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----OpenLock-----
+REQUEST:
+    var body={StatCode:statcode};
+    var map = {
+        action: "OpenLock",
+        body:body,
+        type:"mod",
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'auth'=>$auth,
+		'msg'=>"1231231"
+	);
+-----ProjKeyList-----
+REQUEST:
+    var map={
+        action:"ProjKeyList",
+		type:"query",
+		user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'id'=> (string)($i+1),
+		'name'=> "钥匙".(string)($i+1),
+		'ProjCode'=> $projcode,
+		'username'=>"巡检员".(string)($i+1)
+	);
+	array_push($proj_keylist,$temp);
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $proj_keylist,
+		'auth'=>'true',
+		'msg'=>''
+	);
+
+-----DomainAuthlist-----
+REQUEST:
+    var body={
+		DomainCode:DomainCode
+    };
+    var map={
+        action:"DomainAuthlist",
+        body:body,
+		type:"query",
+		user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'AuthId'=>(string)($i),
+		'DomainId'=>"区域".(string)($i),
+		'DomainName'=>"区域".(string)($i),
+		'KeyId'=>"钥匙".(string)($i),
+		'KeyName'=>"钥匙".(string)($i),
+		'UserId'=>"用户".(string)($i),
+		'UserName'=>"用户".(string)($i),
+		'AuthWay'=>"sssssss"
+	);
+	array_push($authlist,$temp);
+	
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$authlist,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----KeyAuthDel-----
+REQUEST:
+    var body={AuthId:authid};
+    var map={
+        action:"KeyAuthDel",
+        body:body,
+        type:"mod",
+        user:usr.id
+    };
+RESPONSE;
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----KeyAuthNew-----
+REQUEST:
+    var body={
+        DomainId: DomainId,
+        KeyId:KeyId,
+        Authway:authway
+    };
+    var map={
+        action:"KeyAuthNew",
+        body:auth,
+        type:"mod",
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----KeyGrant-----
+REQUEST:
+    var body={
+	KeyCode:keyid,
+	UserId:userid
+    };
+    var map={
+        action:"KeyGrant",
+        body:body,
+        type:"mod",
+        user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----AlarmType-----
+REQUEST:
+    var map={
+        action:"AlarmType",
+		type:"query",
+		user:usr.id
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $ret,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----ShowUserMsg-----
+REQUEST:
+	var body={
+		id: usr,
+        StatCode: StatCode
+	};
+    var map = {
+        action: "ShowUserMsg",
+        body:body,
+		type:"query",
+		user:usr
+    };
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'msg'=>$temp.'您好，今天是'.$temp.'号，欢迎领导前来视察，今天的气温是 今天的PM2.5是....',
+		'auth'=>'true'
+	);
+-----GetVideo-----
+REQUEST:
+	var body = {
+		videoid: videoid
+	};
+	var map = {
+		action: "GetVideo",
+		body: body;
+		type:"query",
+		user:"null"
+	};
+RESPONSE:
+	$retval=array(
+		'status'=>'true',
+		'ret'=> "avorion.mp4",
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----ProjUserList-----
+REQUEST:
+	var map={
+        action:"ProjUserList",
+		type:"query",
+	    user:usr.id
+    };
+RESPONSE:
+	$temp = array(
+		'id'=> (string)($i+1),
+		'name'=> "巡检员".(string)($i+1),
+		'ProjCode'=> $projcode
+	);
+	array_push($proj_userlist,$temp);
+	
+	$retval=array(
+		'status'=>'true',
+		'ret'=> $proj_userlist,
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+-----KeyHistory-----
+REQUEST:
+    var condition = {
+        ProjCode:Query_project,
+        Time:Query_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"KeyHistory",
+        body:condition,
+        user:usr.id
+    };
+RESPONSE:
+	$body=array(
+        'ColumnName'=> $column_name,
+        'TableData'=>$row_content
+	);
+    $retval=array(
+        'status'=>'true',
+		'ret'=>$body,
+		'msg'=>'success',
+		'auth'=>'true'
+    );

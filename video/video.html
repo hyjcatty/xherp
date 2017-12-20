@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link href="http://vjs.zencdn.net/5.10.7/video-js.css" rel="stylesheet">
+
+    <!-- If you'd like to support IE8 -->
+    <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <script src="../resource/js/jquery.min.js"></script>
+    <script src="../js/hcu_util.js"></script>
+    <title></title>
+</head>
+<body>
+<div id = "notepad">
+    加载中
+</div>
+
+
+<script src="http://vjs.zencdn.net/5.10.7/video.js"></script>
+</body>
+<script>
+    var videoid;
+    var responsed = false;
+    var text = "加载中";
+    var cycle_time=2000;
+    var request_head= "../request.php";
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+
+    $(document).ready(function() {
+
+        videoid = getQueryString("id");
+        var download_handle= setInterval("require_VCR()", cycle_time);
+
+    });
+    function require_VCR(){
+        if(responsed) return;
+		var body = {
+			videoid: videoid
+		};
+        var map = {
+            action: "GetVideo",
+            body: body,
+			type:"query",
+			user:"null"
+        };
+        jQuery.get(request_head, map, function (data) {
+            log(data);
+            var result=JSON.parse(data);
+            var ret = result.status;
+            if(ret == "false"){
+                responsed = true;
+                $("#notepad").empty();
+                $("#notepad").append("获取视频失败，请检查设备的因特网链接是否顺畅。")
+            }else{
+                var url = result.ret;
+                var txt = $("#notepad").text();
+                if(url == "downloading"){
+                    txt = txt+".";
+                    if(txt.length >15) txt = text;
+                    $("#notepad").empty();
+                    $("#notepad").append(txt);
+                }else{
+                    responsed = true;
+                    $("body").empty();
+                    txt = "<video id='my-video' class='video-js' controls preload='auto' width='320' height='264'data-setup='{}'>"+
+                            "<source src="+url+" type='video/mp4'>"+
+                            "<p class='vjs-no-js'>"+
+                            "需要支持js和html5的浏览器</a> </p> </video>"+
+                            "<script src='http://vjs.zencdn.net/5.10.7/video.js'/>";
+                    $("body").append(txt);
+                }
+            }
+        });
+    }
+</script>
+</html>
