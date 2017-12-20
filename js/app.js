@@ -167,6 +167,10 @@ var  if_key_history_table_initialize = false;
 //key history table Control
 var Attendance_History_table_initialized = true;
 var  if_attendance_history_table_initialize = false;
+
+//key history table Control
+var Assemble_History_table_initialized = true;
+var  if_assemble_history_table_initialize = false;
 //Export table
 var  if_Export_table_initialize = false;
 //key auth Control
@@ -597,6 +601,13 @@ $(document).ready(function() {
         active_menu("AttendanceManage");
         touchcookie();
         attendance_history();
+
+    });
+    $("#AssembleManage").on('click',function(){
+        CURRENT_URL = "AssembleManage";
+        active_menu("AssembleManage");
+        touchcookie();
+        assemble_history();
 
     });
     $("#KeyManage").on('click',function(){
@@ -1440,6 +1451,11 @@ $(document).ready(function() {
 
         touchcookie();
     });
+    $("#AssembleHistoryTableFlash").on('click',function(){
+        query_assemble_history();
+
+        touchcookie();
+    });
     $("#KeyHistoryTableFlash").on('click',function(){
         query_open_lock_history();
 
@@ -1892,6 +1908,15 @@ function attendance_history(){
     //key_history_initialize();
     //query_static_warning();
 }
+function assemble_history(){
+    clear_window();
+    hide_searchbar();
+    write_title("考勤历史查询","请输入查询条件");
+    $("#AssembleHistoryView").css("display","block");
+    assemble_history_initialize();
+    //key_history_initialize();
+    //query_static_warning();
+}
 function key_history(){
     clear_window();
     hide_searchbar();
@@ -1932,6 +1957,7 @@ function clear_window(){
     $("#OTDRManageView").css("display","none");
     $("#ExportTableView").css("display","none");
     $("#AttendanceHistoryView").css("display","none");
+    $("#AssembleHistoryView").css("display","none");
 }
 
 
@@ -2879,15 +2905,15 @@ function draw_staff_table(data){
     for(i=0;i<table_row;i++){
         if((sequence+i)<staff_table.length){
             if(0!==i%2){
-                txt =txt+ "<tr class='success li_menu' id='table_cell"+i+"' staffid='"+staff_table[sequence+i].id+"'>";
-            }else{ txt =txt+ "<tr class='li_menu' id='table_cell"+i+"' staffid='"+staff_table[sequence+i].id+"'>";}
+                txt =txt+ "<tr class='success li_menu' id='staff_table_cell"+i+"' staffid='"+staff_table[sequence+i].id+"'>";
+            }else{ txt =txt+ "<tr class='li_menu' id='staff_table_cell"+i+"' staffid='"+staff_table[sequence+i].id+"'>";}
             txt = txt +"<td>" + staff_table[sequence+i].id+"</td>" +"<td>" + staff_table[sequence+i].name+"</td>" ;
             txt = txt+"<td>"+get_staff_gender(staff_table[sequence+i].gender)+"</td>"+"<td>" + staff_table[sequence+i].position+"</td>" +"<td>" + staff_table[sequence+i].mobile+"</td>"+"<td>" + staff_table[sequence+i].address+"</td>";
             txt = txt +"</tr>";
         }else{
             if(0!==i%2){
-                txt =txt+ "<tr class='success' id='table_cell"+i+"' userid='null'>";
-            }else{ txt =txt+ "<tr  id='table_cell"+i+"' userid='null'>";}
+                txt =txt+ "<tr class='success' id='staff_table_cell"+i+"' userid='null'>";
+            }else{ txt =txt+ "<tr  id='staff_table_cell"+i+"' userid='null'>";}
             txt = txt +"<td>--</td>" +"<td>--</td>" +"<td>--</td>" +"<td>--</td>" +"<td>--</td>" +"<td>--</td>";
             txt = txt +"</tr>";
         }
@@ -2896,7 +2922,7 @@ function draw_staff_table(data){
     txt = txt+"</tbody>";
 
     $("#Table_staff").append(txt);
-    table_cell_click = function(){
+    staff_table_cell_click = function(){
         if($(this).attr("staffid") !="null"){
             for(var i=0;i<staff_table.length;i++){
                 if($(this).attr("staffid") == staff_table[i].id){
@@ -2910,7 +2936,7 @@ function draw_staff_table(data){
         }
     };
     for(i=0;i<table_row;i++){
-        $("#table_cell"+i).on('click',table_cell_click);
+        $("#staff_table_cell"+i).on('click',staff_table_cell_click);
     }
 
 }
@@ -7605,9 +7631,9 @@ function key_history_initialize(){
 }
 function attendance_history_initialize(){
         Attendance_History_table_initialized = true;
-
-
-
+}
+function assemble_history_initialize(){
+    Assemble_History_table_initialized = true;
 }
 function query_open_lock_history(){
     if(Key_History_table_initialized !== true) return;
@@ -7901,6 +7927,87 @@ function del_attendance(attendanceid){
 
     $("#UserDelAlarm").modal('hide');
 }
+
+function query_assemble_history(){
+    if(Assemble_History_table_initialized !== true) return;
+    var Query_time = $("#AssembleHistoryTime_choice").val();
+    var Query_word = $("#AssembleHistoryWord_Input").val();
+    var condition = {
+        Time:Query_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"AssembleHistory",
+        body:condition,
+        user:usr.id
+    };
+    var query_assemble_history_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#AssembleHistoryLastFlash").empty();
+        $("#AssembleHistoryLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+            txt = txt +"<tr>";
+            //txt = txt +"<td><button type='button' class='btn btn-default open_btn' AttendanceCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><ul class='pagination'> <li><a href='#' class = 'video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></a> </li></ul></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
+            //console.log("StateCode="+TableData[i][0]);
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#AssembleHistoryQueryTable").empty();
+        $("#AssembleHistoryQueryTable").append(txt);
+        if(if_assemble_history_table_initialize) $("#AssembleHistoryQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#AssembleHistoryQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        if_assemble_history_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_assemble_history_callback);
+
+}
+
+
+
+
 function isDatetime(date){
     var regex=/^(?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]:[0-5][0-9]$/;
     if(!regex.test(date)){
