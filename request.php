@@ -523,7 +523,8 @@ $retval=array(
         mobile: user.mobile,
         address: user.address,
         gender: user.gender,
-        memo: user.memo
+        memo: user.memo,
+        nickname: user.nickname
     };
 
     var map={
@@ -561,7 +562,8 @@ $retval=array(
         mobile: user.mobile,
         address: user.address,
         gender: user.gender,
-        memo: user.memo
+        memo: user.memo,
+        nickname: user.nickname
     };
     var map={
         action:"StaffMod",
@@ -631,6 +633,7 @@ $retval=array(
         address: user.address,
         gender: user.gender,
         memo: user.memo
+        nickname: user.nickname
     );
     array_push($stafftable,$temp);
     $body=array{
@@ -660,6 +663,7 @@ $retval=array(
     			'id'=>(string)($start+($i+1)),
     			'name'=>"staffname".(string)($start+$i),
     			'PJcode'=>'12345',
+    			'nickname'=>"nickname".(string)($start+$i),
     			'mobile'=>"139139".(string)($start+$i),
     			'gender'=>(string)$type,
     			'address'=>"address".(string)($start+$i),

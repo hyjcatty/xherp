@@ -2855,7 +2855,7 @@ function draw_staff_table_head(){
         "</li>";
     $("#Staff_Page_control").append(txt);
     table_head="<thead>"+
-        "<tr>"+"<th>序号</th>"+"<th>员工名</th>"+"<th>性别</th>"+"<th>岗位</th>"+"<th>手机号</th>"+"<th>地址</th>";
+        "<tr>"+"<th>序号</th>"+"<th>员工名</th>"+"<th>性别</th>"+"<th>微信昵称</th>"+"<th>岗位</th>"+"<th>手机号</th>";
     table_head=table_head+"</tr></thread>";
     click_draw_staff_table = function(){
         draw_staff_table($(this));
@@ -2908,7 +2908,7 @@ function draw_staff_table(data){
                 txt =txt+ "<tr class='success li_menu' id='staff_table_cell"+i+"' staffid='"+staff_table[sequence+i].id+"'>";
             }else{ txt =txt+ "<tr class='li_menu' id='staff_table_cell"+i+"' staffid='"+staff_table[sequence+i].id+"'>";}
             txt = txt +"<td>" + staff_table[sequence+i].id+"</td>" +"<td>" + staff_table[sequence+i].name+"</td>" ;
-            txt = txt+"<td>"+get_staff_gender(staff_table[sequence+i].gender)+"</td>"+"<td>" + staff_table[sequence+i].position+"</td>" +"<td>" + staff_table[sequence+i].mobile+"</td>"+"<td>" + staff_table[sequence+i].address+"</td>";
+            txt = txt+"<td>"+get_staff_gender(staff_table[sequence+i].gender)+"</td>"+"<td>" + staff_table[sequence+i].nickname+"</td>"+"<td>" + staff_table[sequence+i].position+"</td>" +"<td>" + staff_table[sequence+i].mobile+"</td>";
             txt = txt +"</tr>";
         }else{
             if(0!==i%2){
@@ -2956,13 +2956,15 @@ function clear_staff_detail_panel(){
         "</div>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
         "<dl >"+
+        "<dt>微信昵称：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>工厂代码：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>联系电话：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
-        "<dt>地址：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
         "<dl >"+
+
+        "<dt>地址：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>备注：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>";
@@ -2983,13 +2985,15 @@ function draw_staff_detail_panel(){
         "</div>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
         "<dl >"+
+
+        "<dt>地址：</dt><dd>"+staff_selected.nickname+"</dd>"+
         "<dt>工厂代码：</dt><dd>"+staff_selected.PJcode+"</dd>"+
         "<dt>联系电话：</dt><dd>"+staff_selected.mobile+"</dd>"+
-        "<dt>地址：</dt><dd>"+staff_selected.address+"</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
         "<dl >"+
+        "<dt>地址：</dt><dd>"+staff_selected.address+"</dd>"+
         "<dt>备注：</dt><dd>"+staff_selected.memo+"</dd>"+
         "</dl>"+
         "</div>";
@@ -3007,6 +3011,7 @@ function show_new_staff_module(){
     $("#NewStaffPosition_Input").val("");
     $("#NewStaffAddress_Input").val("");
     $("#NewStaffMemo_Input").val("");
+    $("#NewStaffNickname_Input").val("");
     $("#newStaffname_Input").attr("placeholder","员工名");
     $("#NewStaffPJcode_Input").attr("placeholder","工厂代码");
     $("#NewStaffMobile_Input").attr("placeholder","联系电话");
@@ -3028,6 +3033,7 @@ function submit_new_staff_module(){
     var new_staff_possion = $("#NewStaffPosition_Input").val();
     var new_staff_address = $("#NewStaffAddress_Input").val();
     var new_staff_memo = $("#NewStaffMemo_Input").val();
+    var new_staff_nickname = $("#NewStaffNickname_Input").val();
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#newStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3059,7 +3065,8 @@ function submit_new_staff_module(){
         mobile: new_staff_mobile,
         address: new_staff_address,
         gender: new_staff_gender,
-        memo: new_staff_memo
+        memo: new_staff_memo,
+        nickname:new_staff_nickname
     };
     new_staff(staff);
 }
@@ -3073,6 +3080,7 @@ function show_mod_staff_module(staff){
     $("#NewStaffPosition_Input").val(staff.position);
     $("#NewStaffAddress_Input").val(staff.address);
     $("#NewStaffMemo_Input").val(staff.memo);
+    $("#NewStaffNickname_Input").val(staff.nickname);
     $("#newStaffname_Input").attr("placeholder","员工名");
     $("#NewStaffPJcode_Input").attr("placeholder","工厂代码");
     $("#NewStaffMobile_Input").attr("placeholder","联系电话");
@@ -3092,6 +3100,7 @@ function submit_mod_staff_module(){
     var new_staff_possion = $("#NewStaffPosition_Input").val();
     var new_staff_address = $("#NewStaffAddress_Input").val();
     var new_staff_memo = $("#NewStaffMemo_Input").val();
+    var new_staff_nickname = $("#NewStaffNickname_Input").val();
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#newStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3122,7 +3131,8 @@ function submit_mod_staff_module(){
         mobile: new_staff_mobile,
         address: new_staff_address,
         gender: new_staff_gender,
-        memo: new_staff_memo
+        memo: new_staff_memo,
+        nickname:new_staff_nickname
     };
     modify_staff(staff);
 }
