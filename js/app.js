@@ -26,6 +26,7 @@ var default_point={
 };
 var if_online=true;
 var user_point=default_point;
+var staff_name_list=[];
 //var countevent=0;
 function logout(){
     delCookie("Environmental.inspection.session");
@@ -82,6 +83,8 @@ var staff_total=0;
 var staff_table=null;
 var staff_selected;
 var staff_module_status;
+var attendance_module_status;
+var select_attendance_ID=null;
 // pg table control
 var pg_initial = false;
 var pg_start=0;
@@ -498,6 +501,7 @@ function get_user_information(){
             get_monitor_list();
             hide_menu();
 			getfavoritelist();
+            get_staff_name_list();
             
         }
 	};
@@ -1502,7 +1506,9 @@ $(document).ready(function() {
 
 
     $("#newAttendanceCommit").on('click',function(){
+        if(attendance_module_status)
         new_attendance_submit();
+        else mod_attendance_submit();
     });
     $("#delAttendanceCommit").on('click',function(){
         var attendanceid=$("#delAttendanceCommit").attr("AttendanceID");
@@ -1966,6 +1972,88 @@ function clear_window(){
 }
 
 
+function get_staff_name_list(){
+    var map={
+        action:"StaffnameList",
+        type:"query",
+        user:usr.id
+    };
+
+    var get_staff_name_list_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        staff_name_list = [];
+        for(var i=0;i< result.ret.length;i++){
+            var temp={
+                id:result.ret[i].id,
+                name:result.ret[i].name,
+                pinyin:"",
+                pinyinnospace:"",
+            };
+            $("#AssembleHideWord_Input").val(temp.name);
+            temp.pinyin = $("#AssembleHideWord_Input").toPinyin();
+            temp.pinyinnospace = temp.pinyin.replace(/\s+/g,"");
+            staff_name_list.push(temp);
+            //console.log("id=["+temp.id+"]name=["+temp.name+"]pinyin=["+temp.pinyin+"]");
+        }
+
+        var substringMatcher = function(strs) {
+            return function findMatches(q, cb) {
+                var matches, substringRegex;
+
+                // an array that will be populated with substring matches
+                matches = [];
+
+                // regex used to determine if a string contains the substring `q`
+                substrRegex = new RegExp(q, 'i');
+
+                // iterate through the pool of strings and for any string that
+                // contains the substring `q`, add it to the `matches` array
+                $.each(strs, function(i, str) {
+                    if (substrRegex.test(str.name)||substrRegex.test(str.pinyin)||substrRegex.test(str.pinyinnospace)) {
+                        matches.push(str.name);
+                    }
+                        });
+
+                cb(matches);
+            };
+        };
+
+
+        $('#AssembleHistoryWord_Input').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'states',
+                source: substringMatcher(staff_name_list)
+            });
+        $('#AttendanceHistoryWord_Input').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'states',
+                source: substringMatcher(staff_name_list)
+            });
+
+        $('#NewAttendanceName_Input').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'states',
+                source: substringMatcher(staff_name_list)
+            });
+    };
+    JQ_get(request_head,map,get_staff_name_list_callback);
+
+}
 /**
  * User view function part
  */
@@ -1975,24 +2063,24 @@ function get_project_pg_list(){
         type:"query",
         user:usr.id
     };
-	var get_project_pg_list_callback = function(result){
-		if(result.status == "false"){
-            show_expiredModule();
-            return;
-        }
-        project_pg_list = result.ret;
-	};
-	JQ_get(request_head,map,get_project_pg_list_callback);
-	/*
-    jQuery.get(request_head, map, function (data) {
-        log(data);
-        var result=JSON.parse(data);
+    var get_project_pg_list_callback = function(result){
         if(result.status == "false"){
             show_expiredModule();
             return;
         }
         project_pg_list = result.ret;
-    });*/
+    };
+    JQ_get(request_head,map,get_project_pg_list_callback);
+    /*
+     jQuery.get(request_head, map, function (data) {
+     log(data);
+     var result=JSON.parse(data);
+     if(result.status == "false"){
+     show_expiredModule();
+     return;
+     }
+     project_pg_list = result.ret;
+     });*/
 }
 function get_user_table(start,length){
     var body = {
@@ -7768,7 +7856,7 @@ function query_attendance_history(){
         $("#AttendanceHistoryLastFlash").append("最后刷新时间："+Last_update_date);
         var ColumnName = result.ret.ColumnName;
         var TableData = result.ret.TableData;
-        var txt = "<thead> <tr><th></th>";
+        var txt = "<thead> <tr><th></th><th></th>";
         var i;
         for( i=0;i<ColumnName.length;i++){
             txt = txt +"<th>"+ColumnName[i]+"</th>";
@@ -7779,7 +7867,7 @@ function query_attendance_history(){
         for( i=0;i<TableData.length;i++){
             txt = txt +"<tr>";
             txt = txt +"<td><button type='button' class='btn btn-default open_btn' AttendanceCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
-            //txt = txt +"<td><ul class='pagination'> <li><a href='#' class = 'video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></a> </li></ul></td>";
+            txt = txt +"<td><button type='button' class='btn btn-default mod_btn' AttendanceCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-pencil ' aria-hidden='true' ></em></button></td>";
             //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
             //console.log("StateCode="+TableData[i][0]);
             for(var j=0;j<TableData[i].length;j++){
@@ -7823,7 +7911,14 @@ function query_attendance_history(){
             $('#AttendanceDelAlarm').modal('show');
 
         };
+        Modstaff_btn_click = function(){
+
+            select_attendance_ID  = $(this).attr("AttendanceCode");
+            get_attendance(select_attendance_ID);
+
+        };
         $(".open_btn").on('click',Openpicture_btn_click);
+        $(".mod_btn").on('click',Modstaff_btn_click);
         /*
          $("#KeyHistoryQueryTable_paginate").on('click',function(){
          $(".open_btn").on('click',Openpicture_btn_click);
@@ -7838,6 +7933,33 @@ function query_attendance_history(){
 
 }
 function show_new_attendance_module(){
+    attendance_module_status=true;
+    $("#NewAttendancePJcode_Input").val("");
+    $("#NewAttendanceName_Input").val("");
+    $("#NewAttendanceStartTime_Input").val("");
+    $("#NewAttendanceEndTime_Input").val("");
+    $("#AttendanceDate_Input").val("");
+    $("#NewAttendancePJcode_Input").attr("disabled",false);
+    $("#NewAttendanceName_Input").attr("disabled",false);
+    $("#AttendanceDate_Input").attr("disabled",false);
+    modal_middle($('#newAttendanceModal'));
+    $('#newAttendanceModal').modal('show');
+}
+function show_mod_attendance_module(attendance){
+    attendance_module_status=false;
+    $("#NewAttendancePJcode_Input").val(attendance.PJcode);
+    $("#NewAttendanceName_Input").val(attendance.name);
+    $("#NewAttendanceStartTime_Input").val(attendance.arrivetime);
+    $("#NewAttendanceEndTime_Input").val(attendance.leavetime);
+    $("#AttendanceDate_Input").val(attendance.date);
+    $("#NewAttendancePJcode_Input").attr("disabled",true);
+    $("#NewAttendanceName_Input").attr("disabled",true);
+    $("#AttendanceDate_Input").attr("disabled",true);
+    modal_middle($('#newAttendanceModal'));
+    $('#newAttendanceModal').modal('show');
+}
+/*
+function show_mod_attendance_module(){
     $("#NewAttendancePJcode_Input").val("");
     $("#NewAttendanceName_Input").val("");
     $("#NewAttendanceStartTime_Input").val("");
@@ -7845,7 +7967,7 @@ function show_new_attendance_module(){
     $("#AttendanceDate_Input").val("");
     modal_middle($('#newAttendanceModal'));
     $('#newAttendanceModal').modal('show');
-}
+}*/
 function new_attendance_submit(){
     var PJcode = $("#NewAttendancePJcode_Input").val();
     var name = $("#NewAttendanceName_Input").val();
@@ -7858,14 +7980,6 @@ function new_attendance_submit(){
     }
     if(name===""){
         $("#NewAttendanceName_Input").val("");
-        return;
-    }
-    if(!isDatetime(starttime)){
-        $("#NewAttendanceStartTime_Input").val("");
-        return;
-    }
-    if(!isDatetime(leavetime)){
-        $("#NewAttendanceEndTime_Input").val("");
         return;
     }
     if(date === ""){
@@ -7912,6 +8026,76 @@ function new_attendance(attendance){
         }
     };
     JQ_get(request_head,map,new_attendance_callback);
+}
+function mod_attendance_submit(){
+    var PJcode = $("#NewAttendancePJcode_Input").val();
+    var name = $("#NewAttendanceName_Input").val();
+    var starttime = $("#NewAttendanceStartTime_Input").val();
+    var leavetime = $("#NewAttendanceEndTime_Input").val();
+    var date = $("#AttendanceDate_Input").val();
+    var attendance = {
+        PJcode: PJcode,
+        name: name,
+        arrivetime: starttime,
+        leavetime: leavetime,
+        date: date
+    };
+    mod_attendance(attendance);
+}
+
+function mod_attendance(attendance){
+    var body = {
+        attendanceID:select_attendance_ID,
+        PJcode: attendance.PJcode,
+        name: attendance.name,
+        arrivetime: attendance.arrivetime,
+        leavetime: attendance.leavetime,
+        date: attendance.date
+    };
+
+    var map={
+        action:"AttendanceMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var mod_attendance_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            $('#newAttendanceModal').modal('hide');
+            create_user_flash = function(){
+                query_attendance_history();
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"修改成功！",create_user_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"修改失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,mod_attendance_callback);
+}
+function get_attendance(attendanceid){
+    var body = {
+        attendanceID:attendanceid,
+    };
+
+    var map={
+        action:"GetAttendance",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+    var get_attendance_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            show_mod_attendance_module(result.ret);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"查询失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,get_attendance_callback);
 }
 function del_attendance(attendanceid){
     var body = {

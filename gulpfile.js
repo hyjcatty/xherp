@@ -110,7 +110,7 @@ gulp.task('scripts', function() {
         .pipe(concat('app.js'))
         //.pipe(gulp.dest('./dist/js'))
         .pipe(rename('app.js'))
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(gulp.dest(option.buildPath+"/js/"));
     gulp.src('./js/hcu_util.js')
         .pipe(concat('hcu_util.js'))

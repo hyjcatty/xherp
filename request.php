@@ -301,7 +301,45 @@ $retval=array(
 	);
 	$jsonencode = _encode($retval);
 	echo $jsonencode; break;
-
+case "StaffnameList":
+/*
+REQUEST:
+var map={
+	action:"StaffnameList",
+	type:"query",
+	user:usr.id
+};
+RESPONSE:
+for($i=0;$i<14;$i++){
+		$temp = array(
+			'id'=>(string)$i,
+			'name'=>'员工'.(string)$i
+		);
+		array_push($staff_name_list,$temp);
+	}
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$staff_name_list,
+		'auth'=>'true',
+		'msg'=>''
+	);
+*/
+    $staff_name_list=array();
+	for($i=0;$i<14;$i++){
+		$temp = array(
+			'id'=>(string)$i,
+			'name'=>'员工'.(string)$i
+		);
+		array_push($staff_name_list,$temp);
+	}
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$staff_name_list,
+		'auth'=>'true',
+		'msg'=>''
+	);
+	$jsonencode = _encode($retval);
+	echo $jsonencode; break;
 case "ProjectList":
 /*
 REQUEST:
@@ -3989,6 +4027,41 @@ $retval=array(
 	);
     $jsonencode = _encode($retval);
 	echo $jsonencode; break;
+case "AttendanceMod":
+/*
+REQUEST:
+var body = {
+        AttendanceID:id
+        PJcode: attendance.PJcode,
+        name: attendance.name,
+        arrivetime: attendance.arrivetime,
+        leavetime: attendance.leavetime,
+        date: attendance.date
+    };
+
+    var map={
+        action:"AttendanceNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+$retval=array(
+	'status'=>'true',
+	'msg'=>'success',
+	'auth'=>'true'
+);
+*/
+	$body= $_GET['body'];
+	$auth = array() ;
+    if(isset($_GET['auth'])) $auth= $body['auth'];
+	$retval=array(
+		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+    $jsonencode = _encode($retval);
+	echo $jsonencode; break;
 
 case "AttendanceDel":
 /*
@@ -4011,6 +4084,46 @@ $retval=array(
 */
 	$retval=array(
 		'status'=>'true',
+		'msg'=>'success',
+		'auth'=>'true'
+	);
+    $jsonencode = _encode($retval);
+	echo $jsonencode; break;
+case "GetAttendance":
+/*
+REQUEST:
+var body = {
+        AttendanceID:id
+    };
+
+    var map={
+        action:"GetAttendance",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+RESPONSE:
+$retval=array(
+	'status'=>'true',
+	'msg'=>'success',
+	'auth'=>'true'
+);
+*/
+	$body= $_GET['body'];
+	$auth = array() ;
+    if(isset($_GET['auth'])) $auth= $body['auth'];
+
+    $ret = array(
+    'attendanceID'=>"1234",
+            'PJcode'=> "1234",
+            'name'=> "name1234",
+            'arrivetime'=> "12:34:56",
+            'leavetime'=> "02:04:06",
+            'date'=> "2017-12-13"
+    );
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$ret,
 		'msg'=>'success',
 		'auth'=>'true'
 	);
