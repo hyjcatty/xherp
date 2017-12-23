@@ -5,6 +5,7 @@
 function log(str){
     //console.log(str);
 }
+
 function date_compare_today(date){
     var temp = date.split("-");
     var input = new Date(parseInt(temp[0]),parseInt(temp[1])-1,parseInt(temp[2])-1);
@@ -31,7 +32,27 @@ function date_compare(date1,date2){
         return date2;
     }
 }
-
+function isDatetime(date){
+    var regex=/^(?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]:[0-5][0-9]$/;
+    if(!regex.test(date)){
+        return false;
+    }
+    return true;
+}
+function dateplus30(date){
+    var temp = date.split("-");
+    var input = new Date(parseInt(temp[0]),parseInt(temp[1])-1,parseInt(temp[2])-1);
+    input.setDate(input.getDate()+30);//设置天数 -1 天
+    var time = input.Format("yyyy-MM-dd");
+    return time;
+}
+function dateminus30(date){
+    var temp = date.split("-");
+    var input = new Date(parseInt(temp[0]),parseInt(temp[1])-1,parseInt(temp[2])-1);
+    input.setDate(input.getDate()-30);//设置天数 -1 天
+    var time = input.Format("yyyy-MM-dd");
+    return time;
+}
 function get_minute_list(date){
     var input = date.split("-");
     var myDate=new Date();

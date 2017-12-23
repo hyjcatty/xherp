@@ -174,6 +174,12 @@ var  if_attendance_history_table_initialize = false;
 //key history table Control
 var Assemble_History_table_initialized = true;
 var  if_assemble_history_table_initialize = false;
+//key history table Control
+var Assemble_Audit_table_initialized = true;
+var  if_assemble_audit_table_initialize = false;
+//key history table Control
+var Attendance_Audit_table_initialized = true;
+var  if_attendance_audit_table_initialize = false;
 //Export table
 var  if_Export_table_initialize = false;
 //key auth Control
@@ -612,6 +618,20 @@ $(document).ready(function() {
         active_menu("AssembleManage");
         touchcookie();
         assemble_history();
+
+    });
+    $("#AssembleAudit").on('click',function(){
+        CURRENT_URL = "AssembleAudit";
+        active_menu("AssembleAudit");
+        touchcookie();
+        assemble_audit();
+
+    });
+    $("#AttendanceAudit").on('click',function(){
+        CURRENT_URL = "AttendanceAudit";
+        active_menu("AttendanceAudit");
+        touchcookie();
+        attendance_audit();
 
     });
     $("#KeyManage").on('click',function(){
@@ -1222,6 +1242,202 @@ $(document).ready(function() {
         }
     });
 
+
+
+
+    $("#AttendanceHistoryStartTime_input").change(function(){
+        //console.log("AttendanceHistoryStartTime_input changes");
+        var startdate  = $("#AttendanceHistoryStartTime_input").val();
+        var enddate  = $("#AttendanceHistoryEndTime_input").val();
+        var compare = date_compare_today(startdate);
+        if(startdate !==  compare){
+            $("#AttendanceHistoryStartTime_input").val(compare);
+            startdate = compare;
+        }
+        if(enddate === ""){
+            $("#AttendanceHistoryEndTime_input").val(startdate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+            var startplus30 = dateplus30(startdate);
+            var tempdate2 = date_compare(startplus30,enddate);
+            if(tempdate === enddate){
+                $("#AttendanceHistoryEndTime_input").val(startdate);
+            }else if(tempdate2 ===startplus30){
+                $("#AttendanceHistoryEndTime_input").val(startplus30);
+            }
+        }
+        return;
+    });
+    $("#AttendanceHistoryEndTime_input").change(function(){
+        //console.log("AttendanceHistoryEndTime_input changes");
+        var startdate  = $("#AttendanceHistoryStartTime_input").val();
+        var enddate  = $("#AttendanceHistoryEndTime_input").val();
+        var compare = date_compare_today(enddate);
+        if(enddate !==  compare){
+            $("#AttendanceHistoryEndTime_input").val(compare);
+            enddate = compare;
+        }
+        if(startdate === ""){
+            $("#AttendanceHistoryStartTime_input").val(enddate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+
+            var endminus30 = dateminus30(enddate);
+            var tempdate2 = date_compare(endminus30,startdate);
+            if(tempdate === enddate){
+                $("#AttendanceHistoryStartTime_input").val(enddate);
+            }else if(tempdate2 ===startdate){
+                $("#AttendanceHistoryStartTime_input").val(endminus30);
+            }
+        }
+        return;
+    });
+    $("#AssembleHistoryStartTime_input").change(function(){
+        //console.log("AttendanceHistoryStartTime_input changes");
+        var startdate  = $("#AssembleHistoryStartTime_input").val();
+        var enddate  = $("#AssembleHistoryEndTime_input").val();
+        var compare = date_compare_today(startdate);
+        if(startdate !==  compare){
+            $("#AssembleHistoryStartTime_input").val(compare);
+            startdate = compare;
+        }
+        if(enddate === ""){
+            $("#AssembleHistoryEndTime_input").val(startdate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+            var startplus30 = dateplus30(startdate);
+            var tempdate2 = date_compare(startplus30,enddate);
+            if(tempdate === enddate){
+                $("#AssembleHistoryEndTime_input").val(startdate);
+            }else if(tempdate2 ===startplus30){
+                $("#AssembleHistoryEndTime_input").val(startplus30);
+            }
+        }
+        return;
+    });
+    $("#AssembleHistoryEndTime_input").change(function(){
+        //console.log("AttendanceHistoryEndTime_input changes");
+        var startdate  = $("#AssembleHistoryStartTime_input").val();
+        var enddate  = $("#AssembleHistoryEndTime_input").val();
+        var compare = date_compare_today(enddate);
+        if(enddate !==  compare){
+            $("#AssembleHistoryEndTime_input").val(compare);
+            enddate = compare;
+        }
+        if(startdate === ""){
+            $("#AssembleHistoryStartTime_input").val(enddate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+
+            var endminus30 = dateminus30(enddate);
+            var tempdate2 = date_compare(endminus30,startdate);
+            if(tempdate === enddate){
+                $("#AssembleHistoryStartTime_input").val(enddate);
+            }else if(tempdate2 ===startdate){
+                $("#AssembleHistoryStartTime_input").val(endminus30);
+            }
+        }
+        return;
+    });
+
+    $("#AssembleAuditStartTime_input").change(function(){
+        //console.log("AttendanceHistoryStartTime_input changes");
+        var startdate  = $("#AssembleAuditStartTime_input").val();
+        var enddate  = $("#AssembleAuditEndTime_input").val();
+        var compare = date_compare_today(startdate);
+        if(startdate !==  compare){
+            $("#AssembleAuditStartTime_input").val(compare);
+            startdate = compare;
+        }
+        if(enddate === ""){
+            $("#AssembleAuditEndTime_input").val(startdate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+            var startplus30 = dateplus30(startdate);
+            var tempdate2 = date_compare(startplus30,enddate);
+            if(tempdate === enddate){
+                $("#AssembleAuditEndTime_input").val(startdate);
+            }else if(tempdate2 ===startplus30){
+                $("#AssembleAuditEndTime_input").val(startplus30);
+            }
+        }
+        return;
+    });
+    $("#AssembleAuditEndTime_input").change(function(){
+        //console.log("AttendanceHistoryEndTime_input changes");
+        var startdate  = $("#AssembleAuditStartTime_input").val();
+        var enddate  = $("#AssembleAuditEndTime_input").val();
+        var compare = date_compare_today(enddate);
+        if(enddate !==  compare){
+            $("#AssembleAuditEndTime_input").val(compare);
+            enddate = compare;
+        }
+        if(startdate === ""){
+            $("#AssembleAuditStartTime_input").val(enddate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+
+            var endminus30 = dateminus30(enddate);
+            var tempdate2 = date_compare(endminus30,startdate);
+            if(tempdate === enddate){
+                $("#AssembleAuditStartTime_input").val(enddate);
+            }else if(tempdate2 ===startdate){
+                $("#AssembleAuditStartTime_input").val(endminus30);
+            }
+        }
+        return;
+    });
+
+    $("#AttendanceAuditStartTime_input").change(function(){
+        //console.log("AttendanceHistoryStartTime_input changes");
+        var startdate  = $("#AttendanceAuditStartTime_input").val();
+        var enddate  = $("#AttendanceAuditEndTime_input").val();
+        var compare = date_compare_today(startdate);
+        if(startdate !==  compare){
+            $("#AttendanceAuditStartTime_input").val(compare);
+            startdate = compare;
+        }
+        if(enddate === ""){
+            $("#AttendanceAuditEndTime_input").val(startdate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+            var startplus30 = dateplus30(startdate);
+            var tempdate2 = date_compare(startplus30,enddate);
+            if(tempdate === enddate){
+                $("#AttendanceAuditEndTime_input").val(startdate);
+            }else if(tempdate2 ===startplus30){
+                $("#AttendanceAuditEndTime_input").val(startplus30);
+            }
+        }
+        return;
+    });
+    $("#AttendanceAuditEndTime_input").change(function(){
+        //console.log("AttendanceHistoryEndTime_input changes");
+        var startdate  = $("#AttendanceAuditStartTime_input").val();
+        var enddate  = $("#AttendanceAuditEndTime_input").val();
+        var compare = date_compare_today(enddate);
+        if(enddate !==  compare){
+            $("#AttendanceAuditEndTime_input").val(compare);
+            enddate = compare;
+        }
+        if(startdate === ""){
+            $("#AttendanceAuditStartTime_input").val(enddate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+
+            var endminus30 = dateminus30(enddate);
+            var tempdate2 = date_compare(endminus30,startdate);
+            if(tempdate === enddate){
+                $("#AttendanceAuditStartTime_input").val(enddate);
+            }else if(tempdate2 ===startdate){
+                $("#AttendanceAuditStartTime_input").val(endminus30);
+            }
+        }
+        return;
+    });
+
+
+
     $("#DevProjCode_choice").change(function(){
         get_proj_point_option($("#DevProjCode_choice").val(),$("#DevStatCode_choice"),"");
     });
@@ -1457,6 +1673,16 @@ $(document).ready(function() {
     });
     $("#AssembleHistoryTableFlash").on('click',function(){
         query_assemble_history();
+
+        touchcookie();
+    });
+    $("#AttendanceAuditTableFlash").on('click',function(){
+        query_attendance_audit();
+
+        touchcookie();
+    });
+    $("#AssembleAuditTableFlash").on('click',function(){
+        query_assemble_audit();
 
         touchcookie();
     });
@@ -1922,9 +2148,27 @@ function attendance_history(){
 function assemble_history(){
     clear_window();
     hide_searchbar();
-    write_title("考勤历史查询","请输入查询条件");
+    write_title("生产历史查询","请输入查询条件");
     $("#AssembleHistoryView").css("display","block");
     assemble_history_initialize();
+    //key_history_initialize();
+    //query_static_warning();
+}
+function assemble_audit(){
+    clear_window();
+    hide_searchbar();
+    write_title("生产统计查询","请输入查询条件");
+    $("#AssembleAuditView").css("display","block");
+    assemble_audit_initialize();
+    //key_history_initialize();
+    //query_static_warning();
+}
+function attendance_audit(){
+    clear_window();
+    hide_searchbar();
+    write_title("考勤统计查询","请输入查询条件");
+    $("#AttendanceAuditView").css("display","block");
+    attendance_audit_initialize();
     //key_history_initialize();
     //query_static_warning();
 }
@@ -1969,6 +2213,8 @@ function clear_window(){
     $("#ExportTableView").css("display","none");
     $("#AttendanceHistoryView").css("display","none");
     $("#AssembleHistoryView").css("display","none");
+    $("#AssembleAuditView").css("display","none");
+    $("#AttendanceAuditView").css("display","none");
 }
 
 
@@ -2023,6 +2269,34 @@ function get_staff_name_list(){
 
 
         $('#AssembleHistoryWord_Input').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1,
+                classNames: {
+                    input: 'Typeahead-input',
+                    hint: 'Typeahead-hint',
+                    selectable: 'Typeahead-selectable'
+                }
+            },
+            {
+                name: 'states',
+                source: substringMatcher(staff_name_list)
+            });
+        $('#AssembleAuditWord_Input').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1,
+                classNames: {
+                    input: 'Typeahead-input',
+                    hint: 'Typeahead-hint',
+                    selectable: 'Typeahead-selectable'
+                }
+            },
+            {
+                name: 'states',
+                source: substringMatcher(staff_name_list)
+            });
+        $('#AttendanceAuditWord_Input').typeahead({
                 hint: true,
                 highlight: true,
                 minLength: 1,
@@ -2861,7 +3135,8 @@ function new_staff(staff){
         mobile: staff.mobile,
         address: staff.address,
         gender: staff.gender,
-        memo: staff.memo
+        memo: staff.memo,
+        salary:staff.salary,
     };
 
     var map={
@@ -2901,7 +3176,8 @@ function modify_staff(staff){
         mobile: staff.mobile,
         address: staff.address,
         gender: staff.gender,
-        memo: staff.memo
+        memo: staff.memo,
+        salary: staff.salary
     };
     var map={
         action:"StaffMod",
@@ -2963,7 +3239,7 @@ function draw_staff_table_head(){
         "</li>";
     $("#Staff_Page_control").append(txt);
     table_head="<thead>"+
-        "<tr>"+"<th>序号</th>"+"<th>员工名</th>"+"<th>性别</th>"+"<th>微信昵称</th>"+"<th>岗位</th>"+"<th>手机号</th>";
+        "<tr>"+"<th>序号</th>"+"<th>员工名</th>"+"<th>性别</th>"+"<th>微信昵称</th>"+"<th>岗位</th>"+"<th>时薪</th>";
     table_head=table_head+"</tr></thread>";
     click_draw_staff_table = function(){
         draw_staff_table($(this));
@@ -3016,7 +3292,7 @@ function draw_staff_table(data){
                 txt =txt+ "<tr class='success li_menu' id='staff_table_cell"+i+"' staffid='"+staff_table[sequence+i].id+"'>";
             }else{ txt =txt+ "<tr class='li_menu' id='staff_table_cell"+i+"' staffid='"+staff_table[sequence+i].id+"'>";}
             txt = txt +"<td>" + staff_table[sequence+i].id+"</td>" +"<td>" + staff_table[sequence+i].name+"</td>" ;
-            txt = txt+"<td>"+get_staff_gender(staff_table[sequence+i].gender)+"</td>"+"<td>" + staff_table[sequence+i].nickname+"</td>"+"<td>" + staff_table[sequence+i].position+"</td>" +"<td>" + staff_table[sequence+i].mobile+"</td>";
+            txt = txt+"<td>"+get_staff_gender(staff_table[sequence+i].gender)+"</td>"+"<td>" + staff_table[sequence+i].nickname+"</td>"+"<td>" + staff_table[sequence+i].position+"</td>" +"<td>" + staff_table[sequence+i].salary+"</td>";
             txt = txt +"</tr>";
         }else{
             if(0!==i%2){
@@ -3054,12 +3330,14 @@ function Initialize_staff_detail(){
 }
 function clear_staff_detail_panel(){
     staff_selected = null;
+    //TODO::addsalary
     var txt = "<p></p><p></p>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
         "<dl >"+
         "<dt >员工名：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt >员工性别：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt >员工岗位：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>时薪：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
@@ -3067,12 +3345,11 @@ function clear_staff_detail_panel(){
         "<dt>微信昵称：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>工厂代码：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>联系电话：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>地址：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
         "<dl >"+
-
-        "<dt>地址：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>备注：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>";
@@ -3089,19 +3366,20 @@ function draw_staff_detail_panel(){
         "<dt >员工名：</dt><dd>"+staff_selected.name+"</dd>"+
         "<dt >员工性别：</dt><dd>"+staffgender+"</dd>"+
         "<dt >员工岗位：</dt><dd>"+staff_selected.position+"</dd>"+
+        "<dt>时薪：</dt><dd>"+staff_selected.salary+"</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
         "<dl >"+
 
-        "<dt>地址：</dt><dd>"+staff_selected.nickname+"</dd>"+
+        "<dt>微信昵称：</dt><dd>"+staff_selected.nickname+"</dd>"+
         "<dt>工厂代码：</dt><dd>"+staff_selected.PJcode+"</dd>"+
         "<dt>联系电话：</dt><dd>"+staff_selected.mobile+"</dd>"+
+        "<dt>地址：</dt><dd>"+staff_selected.address+"</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
         "<dl >"+
-        "<dt>地址：</dt><dd>"+staff_selected.address+"</dd>"+
         "<dt>备注：</dt><dd>"+staff_selected.memo+"</dd>"+
         "</dl>"+
         "</div>";
@@ -3112,20 +3390,22 @@ function show_new_staff_module(){
 
     $("#newStaffLabel").text("创建新员工");
     staff_module_status = true;
-    $("#newStaffname_Input").val("");
+    $("#NewStaffname_Input").val("");
     $("#NewStaffGender_choice").val("1");
     $("#NewStaffPJcode_Input").val("");
     $("#NewStaffMobile_Input").val("");
     $("#NewStaffPosition_Input").val("");
     $("#NewStaffAddress_Input").val("");
     $("#NewStaffMemo_Input").val("");
+    $("#NewStaffSalary_Input").val("");
     $("#NewStaffNickname_Input").val("");
-    $("#newStaffname_Input").attr("placeholder","员工名");
+    $("#NewStaffname_Input").attr("placeholder","员工名");
     $("#NewStaffPJcode_Input").attr("placeholder","工厂代码");
     $("#NewStaffMobile_Input").attr("placeholder","联系电话");
     $("#NewStaffPosition_Input").attr("placeholder","职位");
     $("#NewStaffAddress_Input").attr("placeholder","地址");
 
+    $("#NewStaffSalary_Input").attr("placeholder","时薪");
 
     modal_middle($('#newStaffModal'));
 
@@ -3134,7 +3414,7 @@ function show_new_staff_module(){
 }
 
 function submit_new_staff_module(){
-    var new_staff_name = $("#newStaffname_Input").val();
+    var new_staff_name = $("#NewStaffname_Input").val();
     var new_staff_gender = $("#NewStaffGender_choice").val();
     var new_staff_pjcode = $("#NewStaffPJcode_Input").val();
     var new_staff_mobile = $("#NewStaffMobile_Input").val();
@@ -3142,10 +3422,11 @@ function submit_new_staff_module(){
     var new_staff_address = $("#NewStaffAddress_Input").val();
     var new_staff_memo = $("#NewStaffMemo_Input").val();
     var new_staff_nickname = $("#NewStaffNickname_Input").val();
+    var new_staff_salary = parseInt($("#NewStaffSalary_Input").val());
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
-        $("#newStaffname_Input").attr("placeholder","员工名不能为空");
-        $("#newStaffname_Input").focus();
+        $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
+        $("#NewStaffname_Input").focus();
         return;
     }
     if(new_staff_pjcode === null || new_staff_pjcode === "" ||new_staff_pjcode.length>5){
@@ -3164,6 +3445,12 @@ function submit_new_staff_module(){
         $("#NewStaffPosition_Input").focus();
         return;
     }
+    if(isNaN(new_staff_salary) || new_staff_salary<=0){
+        $("#NewStaffSalary_Input").val("");
+        $("#NewStaffSalary_Input").attr("placeholder","请输入正确的时薪");
+        $("#NewStaffSalary_Input").focus();
+        return;
+    }
 
     var staff = {
         staffid:"",
@@ -3174,14 +3461,15 @@ function submit_new_staff_module(){
         address: new_staff_address,
         gender: new_staff_gender,
         memo: new_staff_memo,
-        nickname:new_staff_nickname
+        nickname:new_staff_nickname,
+        salary:""+new_staff_salary
     };
     new_staff(staff);
 }
 function show_mod_staff_module(staff){
     $("#newStaffLabel").text("员工信息修改");
     staff_module_status = false;
-    $("#newStaffname_Input").val(staff.name);
+    $("#NewStaffname_Input").val(staff.name);
     $("#NewStaffGender_choice").val(staff.gender);
     $("#NewStaffPJcode_Input").val(staff.PJcode);
     $("#NewStaffMobile_Input").val(staff.mobile);
@@ -3189,11 +3477,13 @@ function show_mod_staff_module(staff){
     $("#NewStaffAddress_Input").val(staff.address);
     $("#NewStaffMemo_Input").val(staff.memo);
     $("#NewStaffNickname_Input").val(staff.nickname);
-    $("#newStaffname_Input").attr("placeholder","员工名");
+    $("#NewStaffSalary_Input").val(staff.salary);
+    $("#NewStaffname_Input").attr("placeholder","员工名");
     $("#NewStaffPJcode_Input").attr("placeholder","工厂代码");
     $("#NewStaffMobile_Input").attr("placeholder","联系电话");
     $("#NewStaffPosition_Input").attr("placeholder","职位");
     $("#NewStaffAddress_Input").attr("placeholder","地址");
+    $("#NewStaffSalary_Input").attr("placeholder","时薪");
 
     modal_middle($('#newStaffModal'));
 
@@ -3209,6 +3499,7 @@ function submit_mod_staff_module(){
     var new_staff_address = $("#NewStaffAddress_Input").val();
     var new_staff_memo = $("#NewStaffMemo_Input").val();
     var new_staff_nickname = $("#NewStaffNickname_Input").val();
+    var new_staff_salary = parseInt($("#NewStaffSalary_Input").val());
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#newStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3231,6 +3522,11 @@ function submit_mod_staff_module(){
         $("#NewStaffPosition_Input").focus();
         return;
     }
+    if( isNaN(new_staff_salary)  || new_staff_salary<=0){
+        $("#NewStaffSalary_Input").attr("placeholder","请输入正确的时薪");
+        $("#NewStaffSalary_Input").focus();
+        return;
+    }
     var staff = {
         staffid: staff_selected.id,
         name: new_staff_name,
@@ -3240,7 +3536,9 @@ function submit_mod_staff_module(){
         address: new_staff_address,
         gender: new_staff_gender,
         memo: new_staff_memo,
-        nickname:new_staff_nickname
+        nickname:new_staff_nickname,
+
+        salary:new_staff_salary,
     };
     modify_staff(staff);
 }
@@ -7753,6 +8051,12 @@ function attendance_history_initialize(){
 function assemble_history_initialize(){
     Assemble_History_table_initialized = true;
 }
+function assemble_audit_initialize(){
+    Assemble_Audit_table_initialized = true;
+}
+function attendance_audit_initialize(){
+    Attendance_Audit_table_initialized = true;
+}
 function query_open_lock_history(){
     if(Key_History_table_initialized !== true) return;
     var Query_project = $("#KeyHistoryProj_choice").val();
@@ -7850,10 +8154,19 @@ function query_open_lock_history(){
 
 function query_attendance_history(){
     if(Attendance_History_table_initialized !== true) return;
-    var Query_time = $("#AttendanceHistoryTime_choice").val();
+    //var Query_time = $("#AttendanceHistoryTime_choice").val();
+    var Query_start_time = $("#AttendanceHistoryStartTime_input").val();
+    var Query_end_time = $("#AttendanceHistoryEndTime_input").val();
+    if(Query_start_time===""){
+        return;
+    }if(Query_end_time===""){
+        return;
+    }
+    //TODO
     var Query_word = $("#AttendanceHistoryWord_Input").val();
     var condition = {
-        Time:Query_time,
+        Timestart:Query_start_time,
+        Timeend:Query_end_time,
         KeyWord:Query_word
     };
     var map={
@@ -8165,10 +8478,18 @@ function del_attendance(attendanceid){
 
 function query_assemble_history(){
     if(Assemble_History_table_initialized !== true) return;
-    var Query_time = $("#AssembleHistoryTime_choice").val();
+    //var Query_time = $("#AssembleHistoryTime_choice").val();
+    var Query_start_time = $("#AssembleHistoryStartTime_input").val();
+    var Query_end_time = $("#AssembleHistoryEndTime_input").val();
     var Query_word = $("#AssembleHistoryWord_Input").val();
+    if(Query_start_time===""){
+        return;
+    }if(Query_end_time===""){
+        return;
+    }
     var condition = {
-        Time:Query_time,
+        TimeStart:Query_start_time,
+        TimeEnd:Query_end_time,
         KeyWord:Query_word
     };
     var map={
@@ -8240,16 +8561,176 @@ function query_assemble_history(){
 
 }
 
-
-
-
-function isDatetime(date){
-    var regex=/^(?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]:[0-5][0-9]$/;
-    if(!regex.test(date)){
-        return false;
+function query_assemble_audit(){
+    if(Assemble_Audit_table_initialized !== true) return;
+    //var Query_time = $("#AssembleHistoryTime_choice").val();
+    var Query_start_time = $("#AssembleAuditStartTime_input").val();
+    var Query_end_time = $("#AssembleAuditEndTime_input").val();
+    var Query_word = $("#AssembleAuditWord_Input").val();
+    if(Query_start_time===""){
+        return;
+    }if(Query_end_time===""){
+        return;
     }
-    return true;
+    var condition = {
+        TimeStart:Query_start_time,
+        TimeEnd:Query_end_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"AssembleAudit",
+        body:condition,
+        user:usr.id
+    };
+    var query_assemble_audit_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#AssembleAuditLastFlash").empty();
+        $("#AssembleAuditLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+            txt = txt +"<tr>";
+            //txt = txt +"<td><button type='button' class='btn btn-default open_btn' AttendanceCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><ul class='pagination'> <li><a href='#' class = 'video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></a> </li></ul></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
+            //console.log("StateCode="+TableData[i][0]);
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#AssembleAuditQueryTable").empty();
+        $("#AssembleAuditQueryTable").append(txt);
+        if(if_assemble_audit_table_initialize) $("#AssembleAuditQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#AssembleAuditQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        if_assemble_audit_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_assemble_audit_callback);
+
 }
+function query_attendance_audit(){
+    if(Attendance_Audit_table_initialized !== true) return;
+    //var Query_time = $("#AssembleHistoryTime_choice").val();
+    var Query_start_time = $("#AttendanceAuditStartTime_input").val();
+    var Query_end_time = $("#AttendanceAuditEndTime_input").val();
+    var Query_word = $("#AttendanceAuditWord_Input").val();
+    if(Query_start_time===""){
+        return;
+    }if(Query_end_time===""){
+        return;
+    }
+    var condition = {
+        TimeStart:Query_start_time,
+        TimeEnd:Query_end_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"AttendanceAudit",
+        body:condition,
+        user:usr.id
+    };
+    var query_attendance_audit_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#AttendanceAuditLastFlash").empty();
+        $("#AttendanceAuditLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+            txt = txt +"<tr>";
+            //txt = txt +"<td><button type='button' class='btn btn-default open_btn' AttendanceCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><ul class='pagination'> <li><a href='#' class = 'video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></a> </li></ul></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
+            //console.log("StateCode="+TableData[i][0]);
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#AttendanceAuditQueryTable").empty();
+        $("#AttendanceAuditQueryTable").append(txt);
+        if(if_attendance_audit_table_initialize) $("#AttendanceAuditQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#AttendanceAuditQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        if_attendance_audit_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_attendance_audit_callback);
+
+}
+
+
 //Alarm
 function get_alarm_type_list(){
     var map={
