@@ -2025,7 +2025,12 @@ function get_staff_name_list(){
         $('#AssembleHistoryWord_Input').typeahead({
                 hint: true,
                 highlight: true,
-                minLength: 1
+                minLength: 1,
+                classNames: {
+                    input: 'Typeahead-input',
+                    hint: 'Typeahead-hint',
+                    selectable: 'Typeahead-selectable'
+                }
             },
             {
                 name: 'states',
@@ -2034,7 +2039,12 @@ function get_staff_name_list(){
         $('#AttendanceHistoryWord_Input').typeahead({
                 hint: true,
                 highlight: true,
-                minLength: 1
+                minLength: 1,
+                classNames: {
+                    input: 'Typeahead-input',
+                    hint: 'Typeahead-hint',
+                    selectable: 'Typeahead-selectable'
+                }
             },
             {
                 name: 'states',
@@ -2044,7 +2054,12 @@ function get_staff_name_list(){
         $('#NewAttendanceName_Input').typeahead({
                 hint: true,
                 highlight: true,
-                minLength: 1
+                minLength: 1,
+                classNames: {
+                    input: 'Typeahead-input',
+                    hint: 'Typeahead-hint',
+                    selectable: 'Typeahead-selectable'
+                }
             },
             {
                 name: 'states',
