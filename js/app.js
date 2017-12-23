@@ -8001,6 +8001,16 @@ function new_attendance_submit(){
         $("#AttendanceDate_Input").val("");
         return;
     }
+    if(starttime!== ""&& (!isDatetime(starttime))){
+        $("#NewAttendanceStartTime_Input").val("");
+        $("#NewAttendanceStartTime_Input").focus();
+        return;
+    }
+    if(leavetime!== ""&& (!isDatetime(leavetime))){
+        $("#NewAttendanceEndTime_Input").val("");
+        $("#NewAttendanceEndTime_Input").focus();
+        return;
+    }
     var attendance = {
         PJcode: PJcode,
         name: name,
@@ -8048,6 +8058,17 @@ function mod_attendance_submit(){
     var starttime = $("#NewAttendanceStartTime_Input").val();
     var leavetime = $("#NewAttendanceEndTime_Input").val();
     var date = $("#AttendanceDate_Input").val();
+
+    if(starttime!== ""&& (!isDatetime(starttime))){
+        $("#NewAttendanceStartTime_Input").val("");
+        $("#NewAttendanceStartTime_Input").focus();
+        return;
+    }
+    if(leavetime!== ""&& (!isDatetime(leavetime))){
+        $("#NewAttendanceEndTime_Input").val("");
+        $("#NewAttendanceEndTime_Input").focus();
+        return;
+    }
     var attendance = {
         PJcode: PJcode,
         name: name,
