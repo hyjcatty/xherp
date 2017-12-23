@@ -52,17 +52,21 @@ a{font-size:14px;text-decoration:none;outline:0;}
     cursor: pointer;
 }
 .Typeahead-selectable{
-    padding-top:6px;
-    padding-bottom:6px;
-    padding-left:12px;
-    padding-right:12px;
-    min-height:34px;
-    margin-top:-1px;
-    background:#ffffff;
-    border-top:solid 1px #ffffff;
-    border-left:solid 1px rgb(30,144,255);
-    border-right:solid 1px rgb(30,144,255);
-    border-bottom:solid 1px rgb(30,144,255);
+     padding-top:6px;
+     padding-bottom:6px;
+     padding-left:12px;
+     padding-right:12px;
+     min-height:34px;
+     margin-top:-1px;
+     background:#ffffff;
+     border-top:solid 1px #ffffff;
+     border-left:solid 1px rgb(30,144,255);
+     border-right:solid 1px rgb(30,144,255);
+     border-bottom:solid 1px rgb(30,144,255);
+ }
+.Typeahead-selectable:hover{
+    background:rgb(30,144,255);
+    color:#ffffff;
 }
 .tt-memu{
     width:100%
