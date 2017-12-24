@@ -8254,6 +8254,8 @@ function query_attendance_history(){
         $("#AttendanceHistoryQueryTable").on('draw.dt',function(){
             $(".open_btn").unbind();
             $(".open_btn").on('click',Openpicture_btn_click);
+            $(".mod_btn").unbind();
+            $(".mod_btn").on('click',Modstaff_btn_click);
         });
         if_attendance_history_table_initialize = true;
     };
@@ -8266,6 +8268,8 @@ function show_new_attendance_module(){
     $("#NewAttendanceName_Input").val("");
     $("#NewAttendanceStartTime_Input").val("");
     $("#NewAttendanceEndTime_Input").val("");
+
+    $("#NewAttendanceLeaveHour_Input").val("0");
     $("#AttendanceDate_Input").val("");
     $("#NewAttendancePJcode_Input").attr("disabled",false);
     $("#NewAttendanceName_Input").attr("disabled",false);
@@ -8279,6 +8283,8 @@ function show_mod_attendance_module(attendance){
     $("#NewAttendanceName_Input").val(attendance.name);
     $("#NewAttendanceStartTime_Input").val(attendance.arrivetime);
     $("#NewAttendanceEndTime_Input").val(attendance.leavetime);
+
+    $("#NewAttendanceLeaveHour_Input").val(attendance.leavehour);
     $("#AttendanceDate_Input").val(attendance.date);
     $("#NewAttendancePJcode_Input").attr("disabled",true);
     $("#NewAttendanceName_Input").attr("disabled",true);
@@ -8302,6 +8308,7 @@ function new_attendance_submit(){
     var starttime = $("#NewAttendanceStartTime_Input").val();
     var leavetime = $("#NewAttendanceEndTime_Input").val();
     var date = $("#AttendanceDate_Input").val();
+    var leavehour = parseInt($("#NewAttendanceLeaveHour_Input").val());
     if(PJcode===""||PJcode.length>5){
         $("#NewAttendancePJcode_Input").val("");
         return;
@@ -8324,12 +8331,18 @@ function new_attendance_submit(){
         $("#NewAttendanceEndTime_Input").focus();
         return;
     }
+    if( isNaN(leavehour)  || leavehour<0 || leavehour>12){
+        $("#NewAttendanceLeaveHour_Input").val("");
+        $("#NewAttendanceLeaveHour_Input").focus();
+        return;
+    }
     var attendance = {
         PJcode: PJcode,
         name: name,
         arrivetime: starttime,
         leavetime: leavetime,
-        date: date
+        date: date,
+        leavehour:""+leavehour
     };
     new_attendance(attendance);
 }
@@ -8340,7 +8353,8 @@ function new_attendance(attendance){
         name: attendance.name,
         arrivetime: attendance.arrivetime,
         leavetime: attendance.leavetime,
-        date: attendance.date
+        date: attendance.date,
+        leavehour:attendance.leavehour
     };
 
     var map={
@@ -8371,6 +8385,7 @@ function mod_attendance_submit(){
     var starttime = $("#NewAttendanceStartTime_Input").val();
     var leavetime = $("#NewAttendanceEndTime_Input").val();
     var date = $("#AttendanceDate_Input").val();
+    var leavehour = parseInt($("#NewAttendanceLeaveHour_Input").val());
 
     if(starttime!== ""&& (!isDatetime(starttime))){
         $("#NewAttendanceStartTime_Input").val("");
@@ -8382,12 +8397,18 @@ function mod_attendance_submit(){
         $("#NewAttendanceEndTime_Input").focus();
         return;
     }
+    if( isNaN(leavehour)  || leavehour<0 || leavehour>12){
+        $("#NewAttendanceLeaveHour_Input").val("");
+        $("#NewAttendanceLeaveHour_Input").focus();
+        return;
+    }
     var attendance = {
         PJcode: PJcode,
         name: name,
         arrivetime: starttime,
         leavetime: leavetime,
-        date: date
+        date: date,
+        leavehour:""+leavehour
     };
     mod_attendance(attendance);
 }
@@ -8399,7 +8420,8 @@ function mod_attendance(attendance){
         name: attendance.name,
         arrivetime: attendance.arrivetime,
         leavetime: attendance.leavetime,
-        date: attendance.date
+        date: attendance.date,
+        leavehour:attendance.leavehour
     };
 
     var map={

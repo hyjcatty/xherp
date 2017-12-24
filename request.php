@@ -4246,7 +4246,8 @@ $retval=array(
             'name'=> "name1234",
             'arrivetime'=> "12:34:56",
             'leavetime'=> "02:04:06",
-            'date'=> "2017-12-13"
+            'date'=> "2017-12-13",
+            'leavehour'=>0
     );
 	$retval=array(
 		'status'=>'true',
