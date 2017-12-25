@@ -7,9 +7,11 @@
         return "12345678901234567890123456789012345678901234567890";
     }
     function buildqrcode($session,$filepath,$url){
+
+        //Final url should be www.xxx.com/xxxx/xxx.html?xhsession=[session]#xxxxxcode=[wecharid]&xxxxxx
         $tempDir = $filepath;
 
-        $codeContents = $url.$session;
+        $codeContents = $url."?xhsession=".$session."#";
         $fileName = $session.'.png';
 
         $pngAbsoluteFilePath = $tempDir.$fileName;
