@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>工厂智能管理系统-二维码登陆</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./resource/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/Login.css" rel="stylesheet">
+    <script src="./resource/js/jquery.min.js"></script>
+    <script src="./resource/js/bootstrap.min.js"></script>
+    <script src="./js/hcu_util.js"></script>
+    <script src="./js/qrcode.js"></script>
+</head>
+<body>
+<div class="logo-header">
+    <!--img src="./svg/logo.png" id="logo" class="logo" -->
+</div>
+<div class="web-header">
+    <img src="./svg/erphead.png" id="webhead" style="position:absolute;right:0;height:100px;top:0;z-index: -1">
+</div>
+<div class="container">
+    <div class="leaderboard">
+        <div class="panel panel-default" id="kuang" style="z-index: 99">
+            <div class="panel-heading">
+                <h3 class="panel-title">请扫描二维码登录</h3>
+            </div>
+            <div class="panel-body" >
+                <div class="input-group" id="QRbody" session="SESSION_REPLACE_TAG" style="width:100%">
+                    <img src="QRCODE_REPLACE_TAG" style="width:150px;height:150px;margin:0 auto">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="UserAlarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="UserAlertModalLabel">警告</h4>
+            </div>
+            <div class="modal-body" id="UserAlertModalContent">
+                <strong>警告！</strong>二维码有效期超时，点击确认或刷新页面重新获得二维码！
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="TimeoutFlash">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

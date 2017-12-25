@@ -102,6 +102,74 @@ RESPONSE:
     }
     $jsonencode = json_encode($usrinfo);
 	echo $jsonencode; break;
+case "check_session_active":
+/*
+REQUEST:
+    var body={
+        session:session
+    };
+    var map={
+        action:"check_session_active",
+        body:body,
+        type:"query",
+        user:null
+    };
+RESPONSE:
+    $body = array(
+        'active'=>"false",
+        'key'=> '1234567',
+        'admin'=> 'true'
+    );
+    $usrinfo=array(
+        'status'=>'true',
+        'auth'=>'true',
+        'ret'=>$body,
+        'msg'=>'login successfully'
+    );
+*/
+    $key = rand(1,20);
+    $usrinfo;
+    if($key<3){
+        $body = array(
+            'active'=>"timeout",
+            'key'=> '1234567',
+            'admin'=> 'true'
+        );
+        $usrinfo=array(
+            'status'=>'true',
+            'auth'=>'true',
+            'ret'=>$body,
+            'msg'=>''
+        );
+    }else if($key>15){
+        $body = array(
+            'active'=>"true",
+            'key'=> '1234567',
+            'admin'=> 'true'
+        );
+        $usrinfo=array(
+            'status'=>'true',
+            'auth'=>'true',
+            'ret'=>$body,
+            'msg'=>''
+        );
+    }else{
+        $body = array(
+            'active'=>"false",
+            'key'=> '1234567',
+            'admin'=> 'true'
+        );
+        $usrinfo=array(
+            'status'=>'true',
+            'auth'=>'true',
+            'ret'=>$body,
+            'msg'=>''
+        );
+    }
+
+
+    $jsonencode = json_encode($usrinfo);
+	echo $jsonencode; break;
 
 		
 case "UserInfo":

@@ -74,8 +74,11 @@ gulp.task("resourcecopy",function(){
         .pipe(gulp.dest(option.buildPath+"/video/"));
     gulp.src("./screensaver/**/*")
         .pipe(gulp.dest(option.buildPath+"/screensaver/"));
-
+    gulp.src("./PHPresource/**/*")
+        .pipe(gulp.dest(option.buildPath+"/PHPresource/"));
     gulp.src("./jump.php")
+        .pipe(gulp.dest(option.buildPath+"/"));
+    gulp.src("./qrcode.php")
         .pipe(gulp.dest(option.buildPath+"/"));
     gulp.src("./request.php")
         .pipe(replace(/_INSTALL_PATH_/,replace_install))
@@ -101,6 +104,7 @@ gulp.task("resourcecopy",function(){
     mkdirp.sync(option.buildPath+"/upload/");
     mkdirp.sync(option.admin_tools_path+"/upload/");
     mkdirp.sync(option.buildPath+"/usr_img/");
+    mkdirp.sync(option.buildPath+"/qrcode/temp/");
 })
 
 // �ϲ���ѹ���ļ�
@@ -130,7 +134,12 @@ gulp.task('scripts', function() {
         .pipe(rename('nprogress.js'))
         .pipe(uglify())
         .pipe(gulp.dest(option.buildPath+"/js/"));
-
+    gulp.src('./js/qrcode.js')
+        .pipe(concat('qrcode.js'))
+        //.pipe(gulp.dest('./dist/js'))
+        .pipe(rename('qrcode.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest(option.buildPath+"/js/"));
 
     gulp.src('./js/hcu_util.js')
         .pipe(concat('hcu_util.js'))
@@ -189,7 +198,9 @@ gulp.task('scripts', function() {
     gulp.src('./scope.html')
         .pipe(htmlmin(option_html))
         .pipe(gulp.dest(option.buildPath));
-
+    gulp.src('./qrcodelogin.html')
+        .pipe(htmlmin(option_html))
+        .pipe(gulp.dest(option.buildPath));
     gulp.src('./admintools/js/admintools.js')
         .pipe(replace(/_INSTALL_PATH_/,replace_install))
         //.pipe(concat('admintools.js'))

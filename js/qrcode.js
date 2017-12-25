@@ -1,4 +1,22 @@
-﻿
+/**
+ * Created by Huang Yuanjie on 2017/12/25.
+ */
+//var request_head= ".request";
+//var jump_url = ".jump";
+var basic_address = getRelativeURL()+"/";
+var request_head= basic_address+"request.php";
+var jump_url = basic_address+"jump.php";
+var login_url = basic_address+"Login.html";
+var lost_url = basic_address+"LostPassword.html";
+var winHeight=800;
+var winWidth=800;
+var logoHeight=100;
+var headHeight=100;
+var tempInterval=0;
+
+
+
+
 //var request_head= ".request";
 //var jump_url = ".jump";
 var basic_address = getRelativeURL()+"/";
@@ -43,7 +61,7 @@ function setCookie(name,value,time)
 function getCookie(name)
 {
     var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-	arr=document.cookie.match(reg);
+    arr=document.cookie.match(reg);
     if(arr=== true)
         return unescape(arr[2]);
     else
@@ -60,54 +78,14 @@ $(document).ready(function() {
     if((window.screen.availHeight -600)/2>basic_min_height) basic_min_height = (window.screen.availHeight -600)/2;
     $(".leaderboard").css("padding-top",basic_min_height+"px");
     console.log( $(".leaderboard").css("padding-top"));
-    $("#Login_Comfirm").on('click',function(){
-        if($("#Username_Input").val() === ""){
-            $("#Username_Input").focus();
-            return;
-        }
-        if($("#Password_Input").val() === ""){
-            $("#Password_Input").focus();
-            return;
-        }
-        setCookie("Environmental.inspection.usrname",$("#Username_Input").val(),"d30");
-        var map={
-            action:"login",
-            name:$("#Username_Input").val(),
-            password:b64_sha1($("#Password_Input").val())
-        };
-        var callback=function(result){
-            if(result.status!="true"){
-                $("#UserAlertModalLabel").text = "警告";
-                $("#UserAlertModalContent").empty();
-                $("#UserAlertModalContent").append("<strong>警告！</strong>"+result.msg);
-                modal_middle($('#UserAlarm'));
-                $('#UserAlarm').modal('show') ;
-            }else{
-                setCookie("Environmental.inspection.session",result.ret.key,"m10");
-                jump(result.ret.key);
-            }
-        };
-        JQ_get(request_head,map,callback);
-
+    $("#TimeoutFlash").on('click',function(){
+        window.location.reload(true);
     });
-    $("#Forget_Password").on('click',function(){
-        jump_to_password_change();
-    });
-    $("#back_to_Login").on('click',function(){
-        jump_to_login();
-    });
-    $("#Send_SMS").on('click',function(){
-        var username = $("#Username_Input").val();
-        if(username === ""){
-            $("#Username_Input").focus();
-            return;
-        }else{
-            send_authcode(username);
-        }
-    });
-    $("#NewPassword_Comfirm").on('click',function(){
-       passwordchange();
-    });
+    var session_id = $("#QRbody").attr("session");
+    console.log("session ="+session_id);
+    tempInterval = setInterval(function() {
+        check_session_active(session_id);
+    }, 2000);
 });
 
 window.onload = function(){
@@ -120,13 +98,13 @@ window.onload = function(){
     });
     var usrname = getCookie("Environmental.inspection.usrname");
     if(null!==usrname) $("#Username_Input").val(usrname);
-
+    /*
     var session = getCookie("Environmental.inspection.session");
     log("check cookie: username["+usrname+"]session["+session+"]");
     if(null!==session&&session.length>0){
         jump(session);
 
-    }
+    }*/
 };
 
 function modal_middle(modal){
@@ -173,104 +151,45 @@ function JQ_get(url,request,callback){
         callback(result);
     });
 }
-function jump_to_password_change(){
-    window.location="http://"+window.location.host+lost_url;
-}
-function jump_to_login(){
-    window.location="http://"+window.location.host+login_url;
-}
-function send_authcode(username){
+function check_session_active(session){
     var body={
-        name:username
+        session:session
     };
     var map={
-        action:"Get_user_auth_code",
+        action:"check_session_active",
         body:body,
         type:"query",
         user:null
     };
     var callback=function(result){
+        //console.log("check session back:");
+        //console.log(result);
         if(result.status!="true"){
+            clearInterval(tempInterval);
             $("#UserAlertModalLabel").text = "警告";
             $("#UserAlertModalContent").empty();
             $("#UserAlertModalContent").append("<strong>警告！</strong>"+result.msg);
             modal_middle($('#UserAlarm'));
             $('#UserAlarm').modal('show') ;
+
         }else{
-            sms_buffer();
+            var content = result.ret;
+            if(content.active === "timeout"){
+                clearInterval(tempInterval);
+                $("#UserAlertModalLabel").text = "警告";
+                $("#UserAlertModalContent").empty();
+                $("#UserAlertModalContent").append("<strong>警告！</strong>二维码有效期超时，点击确认或刷新页面重新获得二维码！");
+                modal_middle($('#UserAlarm'));
+                $('#UserAlarm').modal('show') ;
+            }else if(content.active === "true"){
+                clearInterval(tempInterval);
+                //console.log("prepare jump");
+                jump(result.ret.key);
+            }else{
+                return;
+            }
+
         }
     };
     JQ_get(request_head,map,callback);
-}
-function sms_buffer(){
-    $("#Send_SMS").attr("disabled","disabled");
-    $("#Send_SMS").attr("data-cycle","0");
-    cycle_action = function(){
-        cyclenumber = parseInt( $("#Send_SMS").attr("data-cycle"));
-        console.log(cyclenumber);
-        if(cyclenumber+1 == 60){
-            $("#Send_SMS").attr("disabled",false);
-            $("#Send_SMS").attr("data-cycle","0");
-            $("#Send_SMS").text("发送验证码");
-            window.clearInterval(tempInterval);
-        }else{
-            $("#Send_SMS").attr("data-cycle",(cyclenumber+1));
-            $("#Send_SMS").text("请等待"+(60-cyclenumber)+"秒");
-        }
-    };
-    tempInterval = setInterval(cycle_action, 1000);
-}
-function passwordchange(){
-    var username = $("#Username_Input").val();
-    var authcode = $("#Authcode_Input").val();
-    var password = $("#NewPassword_Input").val();
-    var repassword = $("#reNewPassword_Input").val();
-    if(username === ""){
-        $("#Username_Input").focus();
-        return;
-    }
-    if(authcode === ""){
-        $("#Authcode_Input").focus();
-        return;
-    }
-    if(password === ""){
-        $("#NewPassword_Input").focus();
-        return;
-    }
-    if(repassword === ""){
-        $("#reNewPassword_Input").focus();
-        return;
-    }
-    if(password != repassword ){
-        $("#NewPassword_Input").val("");
-        $("#reNewPassword_Input").val("");
-        $("#NewPassword_Input").attr("placeholder","两个密码不相同");
-        $("#reNewPassword_Input").attr("placeholder","两个密码不相同");
-        $("#NewPassword_Input").focus();
-        return;
-    }
-    var body={
-        name:username,
-        code:authcode,
-        password:b64_sha1(password)
-    };
-    var map={
-        action:"Reset_password",
-        body:body,
-        type:"query",
-        user:null
-    };
-    var passwordresetcallback=function(result){
-        if(result.status!="true"){
-            $("#UserAlertModalLabel").text = "警告";
-            $("#UserAlertModalContent").empty();
-            $("#UserAlertModalContent").append("<strong>警告！</strong>"+result.msg);
-            modal_middle($('#UserAlarm'));
-            $('#UserAlarm').modal('show') ;
-        }else{
-            setCookie("Environmental.inspection.session",result.ret.key,"m10");
-            jump(result.ret.key);
-        }
-    };
-    JQ_get(request_head,map,passwordresetcallback);
 }
