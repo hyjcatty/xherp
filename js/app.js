@@ -3491,7 +3491,7 @@ function show_mod_staff_module(staff){
 }
 
 function submit_mod_staff_module(){
-    var new_staff_name = $("#newStaffname_Input").val();
+    var new_staff_name = $("#NewStaffname_Input").val();
     var new_staff_gender = $("#NewStaffGender_choice").val();
     var new_staff_pjcode = $("#NewStaffPJcode_Input").val();
     var new_staff_mobile = $("#NewStaffMobile_Input").val();
@@ -3502,8 +3502,8 @@ function submit_mod_staff_module(){
     var new_staff_salary = parseInt($("#NewStaffSalary_Input").val());
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
-        $("#newStaffname_Input").attr("placeholder","员工名不能为空");
-        $("#newStaffname_Input").focus();
+        $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
+        $("#NewStaffname_Input").focus();
         return;
     }
     if(new_staff_pjcode === null || new_staff_pjcode === "" ||new_staff_pjcode.length>5){
@@ -8263,6 +8263,7 @@ function query_attendance_history(){
 
 }
 function show_new_attendance_module(){
+    $("#newAttendanceLabel").text("创建考勤记录");
     attendance_module_status=true;
     $("#NewAttendancePJcode_Input").val("");
     $("#NewAttendanceName_Input").val("");
@@ -8271,13 +8272,14 @@ function show_new_attendance_module(){
 
     $("#NewAttendanceLeaveHour_Input").val("0");
     $("#AttendanceDate_Input").val("");
-    $("#NewAttendancePJcode_Input").attr("disabled",false);
+    $("#NewAttendancePJcode_Input").attr("disabled",true);
     $("#NewAttendanceName_Input").attr("disabled",false);
     $("#AttendanceDate_Input").attr("disabled",false);
     modal_middle($('#newAttendanceModal'));
     $('#newAttendanceModal').modal('show');
 }
 function show_mod_attendance_module(attendance){
+    $("#newAttendanceLabel").text("修改考勤记录");
     attendance_module_status=false;
     $("#NewAttendancePJcode_Input").val(attendance.PJcode);
     $("#NewAttendanceName_Input").val(attendance.name);
@@ -8309,10 +8311,10 @@ function new_attendance_submit(){
     var leavetime = $("#NewAttendanceEndTime_Input").val();
     var date = $("#AttendanceDate_Input").val();
     var leavehour = parseInt($("#NewAttendanceLeaveHour_Input").val());
-    if(PJcode===""||PJcode.length>5){
+    /*if(PJcode===""||PJcode.length>5){
         $("#NewAttendancePJcode_Input").val("");
         return;
-    }
+    }*/
     if(name===""){
         $("#NewAttendanceName_Input").val("");
         return;
