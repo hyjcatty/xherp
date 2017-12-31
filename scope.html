@@ -703,6 +703,11 @@
                                                                         </div>
                                                                         <p></p>
                                                                         <div class="input-group">
+                                                                            <span class="input-group-addon" id="NewStaffKPI" style="min-width: 100px">绩效标准</span>
+                                                                            <input type="text" class="form-control" placeholder="绩效标准" aria-describedby="basic-addon1" id="NewStaffKPI_Input"/>
+                                                                        </div>
+                                                                        <p></p>
+                                                                        <div class="input-group">
                                                                             <span class="input-group-addon" id="NewStaffSalary" style="min-width: 100px">时薪</span>
                                                                             <input type="text" class="form-control" placeholder="时薪" aria-describedby="basic-addon1"  id="NewStaffSalary_Input"/>
                                                                         </div>
@@ -719,17 +724,18 @@
                                                                         </div>
                                                                         <p></p>
                                                                         <div class="input-group">
+                                                                            <span class="input-group-addon" id="NewStaffNickname" style="min-width: 100px">微信昵称</span>
+                                                                            <input type="text" class="form-control" placeholder="微信绑定后自动填入" aria-describedby="basic-addon1" disabled="disabled" id="NewStaffNickname_Input"/>
+                                                                        </div>
+                                                                        <p></p>
+                                                                        <div class="input-group">
                                                                             <span class="input-group-addon" id="NewStaffPosition" style="min-width: 100px">工种</span>
                                                                             <input type="text" class="form-control" placeholder="工种" aria-describedby="basic-addon1" id="NewStaffPosition_Input"/>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12">
 
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon" id="NewStaffNickname" style="min-width: 100px">微信昵称</span>
-                                                                            <input type="text" class="form-control" placeholder="微信绑定后自动填入" aria-describedby="basic-addon1" disabled="disabled" id="NewStaffNickname_Input"/>
-                                                                        </div>
-                                                                        <p></p>
+
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon" id="NewStaffAddress" style="min-width: 100px">地址</span>
                                                                             <input type="text" class="form-control" placeholder="地址" aria-describedby="basic-addon1" id="NewStaffAddress_Input"/>
@@ -914,6 +920,542 @@
                                             </div>
 
                                         </div>
+
+                                        <div class="row clearfix" id="FactoryManageView">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 column" id="FactoryRightWindow1">
+                                            <ul class="pagination" id="Factory_Page_control">
+                                                <li>
+                                                    <a href="#">Prev</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">1</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">2</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">3</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">4</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">5</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Next</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6" id="FactoryRightWindow2">
+                                            <ul class="pagination pull-right" id="Factory-item-modify">
+                                                <li>
+                                                    <a href="#" id="FactoryfreshButton" data-toggle="modal"><em class="glyphicon glyphicon-refresh" aria-hidden="true"></em></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" id="FactoryNewButton" data-toggle="modal"><em class="glyphicon glyphicon-plus" aria-hidden="true"></em></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" id="FactoryDelButton" data-toggle="modal"><em class="glyphicon glyphicon-trash" aria-hidden="true"></em></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" id="FactoryModifyButton" data-toggle="modal"><em class="glyphicon glyphicon-pencil" aria-hidden="true"></em></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" id="FactoryExportButton"><em class="glyphicon glyphicon-print" aria-hidden="true"></em></a>
+                                                </li>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="newFactoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                <h4 class="modal-title" id="newFactoryLabel">创建新工厂</h4>
+                                                            </div>
+                                                            <div class="modal-body" style="min-height:520px">
+                                                                <div class="col-md-6">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewFactoryCode" style="min-width: 100px">工厂代码</span>
+                                                                        <input type="text" class="form-control" placeholder="工厂代码" aria-describedby="basic-addon1" id="NewFactoryCode_Input"/>
+                                                                    </div>
+                                                                    <p></p>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewFactoryDutyDay" style="min-width: 100px">全勤天数</span>
+                                                                        <input type="text" class="form-control" placeholder="全勤天数" aria-describedby="basic-addon1" id="NewFactoryDutyDay_Input"/>
+                                                                    </div>
+                                                                    <p></p>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewFactoryLongitude" style="min-width: 100px">经度</span>
+                                                                        <input type="text" class="form-control" placeholder="经度" aria-describedby="basic-addon1" id="NewFactoryLongitude_Input"/>
+                                                                    </div>
+                                                                    <p></p>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewFactoryLatitude " style="min-width: 100px">纬度</span>
+                                                                        <input type="text" class="form-control" placeholder="纬度" aria-describedby="basic-addon1" id="NewFactoryLatitude_Input"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewFactoryWorkStartTime" style="min-width: 100px">上班时间</span>
+                                                                        <input type="text" class="form-control" placeholder="上班时间" aria-describedby="basic-addon1" id="NewFactoryWorkStartTime_Input"/>
+                                                                    </div>
+                                                                    <p></p>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewFactoryWorkEndTime" style="min-width: 100px">下班时间</span>
+                                                                        <input type="text" class="form-control" placeholder="下班时间" aria-describedby="basic-addon1" id="NewFactoryWorkEndTime_Input"/>
+                                                                    </div>
+                                                                    <p></p>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewFactoryLaunchStartTime" style="min-width: 100px">午休开始时间</span>
+                                                                        <input type="text" class="form-control" placeholder="午休开始时间" aria-describedby="basic-addon1" id="NewFactoryLaunchStartTime_Input"/>
+                                                                    </div>
+                                                                    <p></p>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewFactoryLaunchEndTime" style="min-width: 100px">午休结束时间</span>
+                                                                        <input type="text" class="form-control" placeholder="午休结束时间" aria-describedby="basic-addon1" id="NewFactoryLaunchEndTime_Input"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+
+
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewFactoryAddress" style="min-width: 100px">地址</span>
+                                                                        <input type="text" class="form-control" placeholder="地址" aria-describedby="basic-addon1" id="NewFactoryAddress_Input"/>
+                                                                    </div>
+                                                                    <p></p>
+                                                                    <div class="panel panel-default">
+                                                                        <div class="panel-heading">
+                                                                            <h3 class="panel-title">备注</h3>
+                                                                        </div>
+                                                                        <div class="panel-body">
+                                                                            <input type="text" id="NewFactoryMemo_Input" class="form-control"  aria-describedby="basic-addon2">
+                                                                        </div>
+                                                                    </div>
+                                                                    <p></p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                                                                <button type="button" class="btn btn-primary" id="newFactoryCommit">确认</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal fade" id="FactoryDelAlarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                <h4 class="modal-title" id="FactoryDelAlertModalLabel">确认删除</h4>
+                                                            </div>
+                                                            <div class="modal-body" >
+                                                                <strong>警告！</strong>您确定要删除此用户么？
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                                                                <button type="button" class="btn btn-primary" id="delFactoryCommit">确认</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 column" id="FactoryRightMainWindow">
+                                            <div class="row clearfix">
+                                                <table data-toggle="table" class="table table-hover" id="Table_Factory" data-click-to-select="true">
+                                                    <thead>
+                                                    <tr>
+                                                        <th data-field="state" data-radio="true"></th>
+                                                        <th>
+                                                            编号
+                                                        </th>
+                                                        <th>
+                                                            用户名
+                                                        </th>
+                                                        <th>
+                                                            分组
+                                                        </th>
+                                                        <th>
+                                                            备注
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            1
+                                                        </td>
+                                                        <td>
+                                                            admin
+                                                        </td>
+                                                        <td>
+                                                            admin
+                                                        </td>
+                                                        <td>
+                                                            Default
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="success">
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            2
+                                                        </td>
+                                                        <td>
+                                                            user
+                                                        </td>
+                                                        <td>
+                                                            user
+                                                        </td>
+                                                        <td>
+                                                            留白
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="error">
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            3
+                                                        </td>
+                                                        <td>
+                                                            temp
+                                                        </td>
+                                                        <td>
+                                                            user
+                                                        </td>
+                                                        <td>
+                                                            Declined
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="warning">
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            4
+                                                            <span class="badge">★</span>
+                                                        </td>
+                                                        <td>
+                                                            laoliu
+                                                        </td>
+                                                        <td>
+                                                            user
+                                                        </td>
+                                                        <td>
+                                                            Pending
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            5
+                                                        </td>
+                                                        <td>
+                                                            laozhang
+                                                        </td>
+                                                        <td>
+                                                            user
+                                                        </td>
+                                                        <td>
+                                                            Call in to confirm
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <span class="section">用户信息</span>
+                                                <div id="Factory_card" style="min-height: 250px">
+                                                    <!--div class="panel-body"-->
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 column">
+                                                        <!--div style="max-height: 210px;overflow:scroll;overflow-x:hidden" id="Label_user_detail"-->
+                                                        <div id="Label_factory_detail">
+                                                            <p></p><p></p>
+                                                            <div class='col-md-6 col-sm-6 col-xs-12 column'>
+                                                                <dl>
+                                                                    <dt>用户名：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                    <dt>用户类型：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                    <dt>联系方式：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                </dl>
+                                                            </div>
+                                                            <div class='col-md-6 col-sm-6 col-xs-12 column'>
+                                                                <dl >
+                                                                    <dt>用户昵称：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                    <dt>修改日期：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                    <dt>邮箱：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                </dl>
+                                                            </div>
+                                                            <div class='col-md-12 col-sm-12 col-xs-12 column'>
+                                                                <dl>
+                                                                    <dt>备注：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                </dl>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row clearfix" id="SpecificationManageView">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 column" id="SpecificationRightWindow1">
+                                            <ul class="pagination" id="Specification_Page_control">
+                                                <li>
+                                                    <a href="#">Prev</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">1</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">2</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">3</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">4</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">5</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Next</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6" id="SpecificationRightWindow2">
+                                            <ul class="pagination pull-right" id="Specification-item-modify">
+                                                <li>
+                                                    <a href="#" id="SpecificationfreshButton" data-toggle="modal"><em class="glyphicon glyphicon-refresh" aria-hidden="true"></em></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" id="SpecificationNewButton" data-toggle="modal"><em class="glyphicon glyphicon-plus" aria-hidden="true"></em></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" id="SpecificationDelButton" data-toggle="modal"><em class="glyphicon glyphicon-trash" aria-hidden="true"></em></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" id="SpecificationModifyButton" data-toggle="modal"><em class="glyphicon glyphicon-pencil" aria-hidden="true"></em></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" id="SpecificationExportButton"><em class="glyphicon glyphicon-print" aria-hidden="true"></em></a>
+                                                </li>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="newSpecificationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                <h4 class="modal-title" id="newSpecificationLabel">创建新产品规格</h4>
+                                                            </div>
+                                                            <div class="modal-body" style="min-height:520px">
+                                                                <div class="col-md-6">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewSpecificationCode" style="min-width: 100px">规格代码</span>
+                                                                        <input type="text" class="form-control" placeholder="产品规格代码" aria-describedby="basic-addon1" id="NewSpecificationCode_Input"/>
+                                                                    </div>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewSpecificationLevel" style="min-width: 100px">等级</span>
+                                                                        <input type="text" class="form-control" placeholder="产品等级" aria-describedby="basic-addon1"  id="NewSpecificationLevel_Input"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewSpecificationNumber" style="min-width: 100px">粒数</span>
+                                                                        <input type="text" class="form-control" placeholder="粒数" aria-describedby="basic-addon1" id="NewSpecificationNumber_Input"/>
+                                                                    </div>
+                                                                    <p></p>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="NewSpecificationWeight" style="min-width: 100px">重量</span>
+                                                                        <input type="text" class="form-control" placeholder="重量" aria-describedby="basic-addon1" id="NewSpecificationWeight_Input"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="panel panel-default">
+                                                                        <div class="panel-heading">
+                                                                            <h3 class="panel-title">备注</h3>
+                                                                        </div>
+                                                                        <div class="panel-body">
+                                                                            <input type="text" id="NewSpecificationMemo_Input" class="form-control"  aria-describedby="basic-addon2">
+                                                                        </div>
+                                                                    </div>
+                                                                    <p></p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                                                                <button type="button" class="btn btn-primary" id="newSpecificationCommit">确认</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal fade" id="SpecificationDelAlarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                <h4 class="modal-title" id="SpecificationDelAlertModalLabel">确认删除</h4>
+                                                            </div>
+                                                            <div class="modal-body" >
+                                                                <strong>警告！</strong>您确定要删除此用户么？
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                                                                <button type="button" class="btn btn-primary" id="delSpecificationCommit">确认</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 column" id="SpecificationRightMainWindow">
+                                            <div class="row clearfix">
+                                                <table data-toggle="table" class="table table-hover" id="Table_specification" data-click-to-select="true">
+                                                    <thead>
+                                                    <tr>
+                                                        <th data-field="state" data-radio="true"></th>
+                                                        <th>
+                                                            编号
+                                                        </th>
+                                                        <th>
+                                                            用户名
+                                                        </th>
+                                                        <th>
+                                                            分组
+                                                        </th>
+                                                        <th>
+                                                            备注
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            1
+                                                        </td>
+                                                        <td>
+                                                            admin
+                                                        </td>
+                                                        <td>
+                                                            admin
+                                                        </td>
+                                                        <td>
+                                                            Default
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="success">
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            2
+                                                        </td>
+                                                        <td>
+                                                            user
+                                                        </td>
+                                                        <td>
+                                                            user
+                                                        </td>
+                                                        <td>
+                                                            留白
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="error">
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            3
+                                                        </td>
+                                                        <td>
+                                                            temp
+                                                        </td>
+                                                        <td>
+                                                            user
+                                                        </td>
+                                                        <td>
+                                                            Declined
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="warning">
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            4
+                                                            <span class="badge">★</span>
+                                                        </td>
+                                                        <td>
+                                                            laoliu
+                                                        </td>
+                                                        <td>
+                                                            user
+                                                        </td>
+                                                        <td>
+                                                            Pending
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            5
+                                                        </td>
+                                                        <td>
+                                                            laozhang
+                                                        </td>
+                                                        <td>
+                                                            user
+                                                        </td>
+                                                        <td>
+                                                            Call in to confirm
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <span class="section">用户信息</span>
+                                                <div id="Specification_card" style="min-height: 250px">
+                                                    <!--div class="panel-body"-->
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 column">
+                                                        <!--div style="max-height: 210px;overflow:scroll;overflow-x:hidden" id="Label_user_detail"-->
+                                                        <div id="Label_specification_detail">
+                                                            <p></p><p></p>
+                                                            <div class='col-md-6 col-sm-6 col-xs-12 column'>
+                                                                <dl>
+                                                                    <dt>用户名：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                    <dt>用户类型：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                    <dt>联系方式：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                </dl>
+                                                            </div>
+                                                            <div class='col-md-6 col-sm-6 col-xs-12 column'>
+                                                                <dl >
+                                                                    <dt>用户昵称：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                    <dt>修改日期：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                    <dt>邮箱：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                </dl>
+                                                            </div>
+                                                            <div class='col-md-12 col-sm-12 col-xs-12 column'>
+                                                                <dl>
+                                                                    <dt>备注：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>
+                                                                </dl>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
                                         <div class="row clearfix" id="AttendanceHistoryView">
                                             <div class="col-md-12 column">
                                                 <div class="col-md-4 col-sm-12 col-xs-12">

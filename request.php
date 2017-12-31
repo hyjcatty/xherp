@@ -369,6 +369,7 @@ $retval=array(
 	);
 	$jsonencode = _encode($retval);
 	echo $jsonencode; break;
+
 case "StaffnameList":
 /*
 REQUEST:
@@ -403,6 +404,43 @@ for($i=0;$i<14;$i++){
 	$retval=array(
 		'status'=>'true',
 		'ret'=>$staff_name_list,
+		'auth'=>'true',
+		'msg'=>''
+	);
+	$jsonencode = _encode($retval);
+	echo $jsonencode; break;
+case "FactoryCodeList":
+/*
+REQUEST:
+var map={
+	action:"FactoryCodeList",
+	type:"query",
+	user:usr.id
+};
+RESPONSE:
+for($i=0;$i<14;$i++){
+		$temp = array(
+			'id'=>"f".(string)$i
+		);
+		array_push($staff_name_list,$temp);
+	}
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$staff_name_list,
+		'auth'=>'true',
+		'msg'=>''
+	);
+*/
+    $factory_code_list=array();
+	for($i=0;$i<14;$i++){
+		$temp = array(
+			'id'=>"f".(string)$i，
+		);
+		array_push($factory_code_list,$temp);
+	}
+	$retval=array(
+		'status'=>'true',
+		'ret'=>$factory_code_list,
 		'auth'=>'true',
 		'msg'=>''
 	);
@@ -774,6 +812,7 @@ $retval=array(
     			'gender'=>(string)$type,
     			'address'=>"address".(string)($start+$i),
     			'salary'=>rand(100,500),
+    			'KPI'=>rand(1000,7000),
     			'position'=>"DDDDDDD",
     			'memo'=>"备注".(string)($start+$i)
     		);
@@ -784,6 +823,359 @@ $retval=array(
     		'total'=> (string)$total,
     		'length'=>(string)$query_length,
     		'stafftable'=> $stafftable
+    	);
+    	$retval=array(
+    		'status'=>'true',
+    		'ret'=> $body,
+    		'msg'=>'success',
+    		'auth'=>'true'
+    	);
+    	$jsonencode = _encode($retval);
+    	echo $jsonencode; break;
+
+
+
+
+
+case "SpecificationNew":
+    /*
+    REQUEST:
+    var body = {
+        specificationid:"",
+        specificationcode: user.specificationcode,
+        specificationlevel: user.specificationlevel,
+        specificationnumber: user.specificationnumber,
+        specificationweight: user.specificationweight,
+        specificationmemo: user.specificationmemo
+    };
+
+    var map={
+        action:"SpecificationNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    RESPONSE:
+    $retval=array(
+    	'status'=>'true',
+    	'msg'=>'success',
+    	'auth'=>'true'
+    );
+    */
+    	$body= $_GET['body'];
+    	$auth = array() ;
+        if(isset($_GET['auth'])) $auth= $body['auth'];
+    	$retval=array(
+    		'status'=>'true',
+    		'msg'=>'success',
+    		'auth'=>'true'
+    	);
+        $jsonencode = _encode($retval);
+    	echo $jsonencode; break;
+
+    case "SpecificationMod":
+    /*
+    REQUEST:
+    var body = {
+            specificationid:user.specificationid,
+            specificationcode: user.specificationcode,
+            specificationlevel: user.specificationlevel,
+            specificationnumber: user.specificationnumber,
+            specificationweight: user.specificationweight,
+            specificationmemo: user.specificationmemo
+        };
+    var map={
+        action:"SpecificationMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    RESPONSE:
+    $retval=array(
+    	'status'=>'true',
+    	'msg'=>'success',
+    	'auth'=>'true'
+    );
+    */
+    	$retval=array(
+    		'status'=>'true',
+    		'msg'=>'success',
+    		'auth'=>'true'
+    	);
+        $jsonencode = _encode($retval);
+    	echo $jsonencode; break;
+    case "SpecificationDel":
+    /*
+    var body = {
+            specificationid: id
+        };
+        var map={
+            action:"SpecificationDel",
+            type:"mod",
+            body: body,
+            user:usr.id
+        };
+    RESPONSE:
+    $retval=array(
+    	'status'=>'true',
+    	'msg'=>'success',
+    	'auth'=>'true'
+    );
+    */
+    	$retval=array(
+    		'status'=>'true',
+    		'msg'=>'success',
+    		'auth'=>'true'
+    	);
+        $jsonencode = _encode($retval);
+    	echo $jsonencode; break;
+    case "SpecificationTable":
+    /*
+    var body = {
+            startseq: start,
+            length:length,
+            keyword: global_key_word
+        };
+        var map={
+            action:"SpecificationTable",
+            type:"query",
+            body: body,
+            user:usr.id
+        };
+    RESPONSE:
+    $temp = array(
+    	specificationid:user.specificationid,
+                    specificationcode: user.specificationcode,
+                    specificationlevel: user.specificationlevel,
+                    specificationnumber: user.specificationnumber,
+                    specificationweight: user.specificationweight,
+                    specificationmemo: user.specificationmemo
+    );
+    array_push($stafftable,$temp);
+    $body=array{
+    	'start'=> (string)$start,
+    	'total'=> (string)$total,
+    	'length'=>(string)$query_length,
+    	'stafftable'=> $stafftable
+    };
+    $retval=array(
+    	'status'=>'true',
+    	'ret'=> $body,
+    	'msg'=>'success',
+    	'auth'=>'true'
+    );
+    */
+    	$total = 94;
+    	$body_in =$_GET['body'];
+        $query_length = (int)($body_in['length']);
+        $start = (int)($body_in['startseq']);
+        if($query_length> $total-$start){$query_length = $total-$start;}
+        $specificationtable = array();
+        for($i=0;$i<$query_length;$i++){
+            //$type="false";
+            //if(($i%7)==0) $type= "true";
+    		$type = $i%2+1;
+    		$temp = array(
+                'specificationid'=>(string)($start+($i+1)),
+                'specificationcode'=> "specification".(string)($start+$i),
+                'specificationlevel'=> rand(1,5),
+                'specificationnumber'=> rand(30,50),
+                'specificationweight'=> rand(1000,5000),
+                'specificationmemo'=> "备注".(string)($start+$i)
+    		);
+    		array_push($specificationtable,$temp);
+        }
+    	$body=array(
+    		'start'=> (string)$start,
+    		'total'=> (string)$total,
+    		'length'=>(string)$query_length,
+    		'specificationtable'=> $specificationtable
+    	);
+    	$retval=array(
+    		'status'=>'true',
+    		'ret'=> $body,
+    		'msg'=>'success',
+    		'auth'=>'true'
+    	);
+    	$jsonencode = _encode($retval);
+    	echo $jsonencode; break;
+
+
+
+
+
+case "FactoryNew":
+    /*
+    REQUEST:
+    var body = {
+
+        factoryid: "",
+        factorycode: user.factorycode,
+        factorydutyday: user.factorydutyday,
+        factorylongitude: user.factorylongitude,
+        factorylatitude: user.factorylatitude,
+        factoryworkstarttime: user.factoryworkstarttime,
+        factoryworkendtime: user.factoryworkendtime,
+        factorylaunchstarttime: user.factorylaunchstarttime,
+        factorylaunchendtime: user.factorylaunchendtime,
+        factoryaddress:user.factoryaddress,
+        factorymemo:user.factorymemo
+    };
+
+    var map={
+        action:"FactoryNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    RESPONSE:
+    $retval=array(
+    	'status'=>'true',
+    	'msg'=>'success',
+    	'auth'=>'true'
+    );
+    */
+    	$body= $_GET['body'];
+    	$auth = array() ;
+        if(isset($_GET['auth'])) $auth= $body['auth'];
+    	$retval=array(
+    		'status'=>'true',
+    		'msg'=>'success',
+    		'auth'=>'true'
+    	);
+        $jsonencode = _encode($retval);
+    	echo $jsonencode; break;
+
+    case "FactoryMod":
+    /*
+    REQUEST:
+    var body={
+        factoryid: user.factoryid,
+        factorycode: user.factorycode,
+        factorydutyday: user.factorydutyday,
+        factorylongitude: user.factorylongitude,
+        factorylatitude: user.factorylatitude,
+        factoryworkstarttime: user.factoryworkstarttime,
+        factoryworkendtime: user.factoryworkendtime,
+        factorylaunchstarttime: user.factorylaunchstarttime,
+        factorylaunchendtime: user.factorylaunchendtime,
+        factoryaddress:user.factoryaddress,
+        factorymemo:user.factorymemo
+    };
+    var map={
+        action:"FactoryMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    RESPONSE:
+    $retval=array(
+    	'status'=>'true',
+    	'msg'=>'success',
+    	'auth'=>'true'
+    );
+    */
+    	$retval=array(
+    		'status'=>'true',
+    		'msg'=>'success',
+    		'auth'=>'true'
+    	);
+        $jsonencode = _encode($retval);
+    	echo $jsonencode; break;
+    case "FactoryDel":
+    /*
+    var body = {
+            factoryid: id
+        };
+        var map={
+            action:"FactoryDel",
+            type:"mod",
+            body: body,
+            user:usr.id
+        };
+    RESPONSE:
+    $retval=array(
+    	'status'=>'true',
+    	'msg'=>'success',
+    	'auth'=>'true'
+    );
+    */
+    	$retval=array(
+    		'status'=>'true',
+    		'msg'=>'success',
+    		'auth'=>'true'
+    	);
+        $jsonencode = _encode($retval);
+    	echo $jsonencode; break;
+    case "FactoryTable":
+    /*
+    var body = {
+            startseq: start,
+            length:length,
+            keyword: global_key_word
+        };
+        var map={
+            action:"FactoryTable",
+            type:"query",
+            body: body,
+            user:usr.id
+        };
+    RESPONSE:
+    $temp = array(
+    	id:user.staffid,
+        name: user.name,
+        position: user.position,
+        PJcode: user.PJcode,
+        mobile: user.mobile,
+        address: user.address,
+        gender: user.gender,
+        memo: user.memo
+        nickname: user.nickname
+    );
+    array_push($stafftable,$temp);
+    $body=array{
+    	'start'=> (string)$start,
+    	'total'=> (string)$total,
+    	'length'=>(string)$query_length,
+    	'stafftable'=> $stafftable
+    };
+    $retval=array(
+    	'status'=>'true',
+    	'ret'=> $body,
+    	'msg'=>'success',
+    	'auth'=>'true'
+    );
+    */
+    	$total = 94;
+    	$body_in =$_GET['body'];
+        $query_length = (int)($body_in['length']);
+        $start = (int)($body_in['startseq']);
+        if($query_length> $total-$start){$query_length = $total-$start;}
+        $factorytable = array();
+        for($i=0;$i<$query_length;$i++){
+            //$type="false";
+            //if(($i%7)==0) $type= "true";
+    		$type = $i%2+1;
+    		$temp = array(
+                'factoryid'=>(string)($start+($i+1)),
+                'factorycode'=>"f".(string)($start+($i+1)),
+                'factorydutyday'=> rand(22,28),
+                'factorylongitude'=> "12.345678",
+                'factorylatitude'=> "87.654321",
+                'factoryworkstarttime'=> "12:34:56",
+                'factoryworkendtime'=> "11:22:33",
+                'factorylaunchstarttime'=> "22:33:44",
+                'factorylaunchendtime'=> "10:20:30",
+                'factoryaddress'=>"DDDDDDD",
+                'factorymemo'=>"备注".(string)($start+$i)
+    		);
+    		array_push($factorytable,$temp);
+        }
+    	$body=array(
+    		'start'=> (string)$start,
+    		'total'=> (string)$total,
+    		'length'=>(string)$query_length,
+    		'factorytable'=> $factorytable
     	);
     	$retval=array(
     		'status'=>'true',

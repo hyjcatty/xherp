@@ -3136,7 +3136,9 @@ function new_staff(staff){
         address: staff.address,
         gender: staff.gender,
         memo: staff.memo,
+        nickname: staff.nickname,
         salary:staff.salary,
+        KPI:staff.KPI
     };
 
     var map={
@@ -3177,7 +3179,10 @@ function modify_staff(staff){
         address: staff.address,
         gender: staff.gender,
         memo: staff.memo,
-        salary: staff.salary
+
+        nickname: staff.nickname,
+        salary: staff.salary,
+        KPI:staff.KPI
     };
     var map={
         action:"StaffMod",
@@ -3276,7 +3281,7 @@ function draw_staff_table_head(){
 function get_staff_gender(gender){
     if (gender =="1") return "男";
     if (gender =="2") return "女";
-    return "未知级别";
+    return "泰国人妖";
 }
 function draw_staff_table(data){
 
@@ -3330,7 +3335,6 @@ function Initialize_staff_detail(){
 }
 function clear_staff_detail_panel(){
     staff_selected = null;
-    //TODO::addsalary
     var txt = "<p></p><p></p>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
         "<dl >"+
@@ -3345,11 +3349,13 @@ function clear_staff_detail_panel(){
         "<dt>微信昵称：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>工厂代码：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>联系电话：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
-        "<dt>地址：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>绩效标准：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
         "<dl >"+
+
+        "<dt>地址：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>备注：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>";
@@ -3375,11 +3381,12 @@ function draw_staff_detail_panel(){
         "<dt>微信昵称：</dt><dd>"+staff_selected.nickname+"</dd>"+
         "<dt>工厂代码：</dt><dd>"+staff_selected.PJcode+"</dd>"+
         "<dt>联系电话：</dt><dd>"+staff_selected.mobile+"</dd>"+
-        "<dt>地址：</dt><dd>"+staff_selected.address+"</dd>"+
+        "<dt>绩效标准：</dt><dd>"+staff_selected.KPI+"</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
         "<dl >"+
+        "<dt>地址：</dt><dd>"+staff_selected.address+"</dd>"+
         "<dt>备注：</dt><dd>"+staff_selected.memo+"</dd>"+
         "</dl>"+
         "</div>";
@@ -3399,12 +3406,15 @@ function show_new_staff_module(){
     $("#NewStaffMemo_Input").val("");
     $("#NewStaffSalary_Input").val("");
     $("#NewStaffNickname_Input").val("");
+    $("#NewStaffKPI_Input").val(0);
+
+    $('#NewStaffNickname_Input').attr("disabled",true);
     $("#NewStaffname_Input").attr("placeholder","员工名");
     $("#NewStaffPJcode_Input").attr("placeholder","工厂代码");
     $("#NewStaffMobile_Input").attr("placeholder","联系电话");
     $("#NewStaffPosition_Input").attr("placeholder","职位");
     $("#NewStaffAddress_Input").attr("placeholder","地址");
-
+    $("#NewStaffKPI_Input").attr("placeholder","月绩效标准");
     $("#NewStaffSalary_Input").attr("placeholder","时薪");
 
     modal_middle($('#newStaffModal'));
@@ -3423,6 +3433,7 @@ function submit_new_staff_module(){
     var new_staff_memo = $("#NewStaffMemo_Input").val();
     var new_staff_nickname = $("#NewStaffNickname_Input").val();
     var new_staff_salary = parseInt($("#NewStaffSalary_Input").val());
+    var new_staff_KPI = parseInt($("#NewStaffKPI_Input").val());
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3451,6 +3462,12 @@ function submit_new_staff_module(){
         $("#NewStaffSalary_Input").focus();
         return;
     }
+    if(isNaN(new_staff_KPI) || new_staff_KPI<=0){
+        $("#NewStaffKPI_Input").val("");
+        $("#NewStaffKPI_Input").attr("placeholder","请输入正确的月绩效");
+        $("#NewStaffKPI_Input").focus();
+        return;
+    }
 
     var staff = {
         staffid:"",
@@ -3462,7 +3479,8 @@ function submit_new_staff_module(){
         gender: new_staff_gender,
         memo: new_staff_memo,
         nickname:new_staff_nickname,
-        salary:""+new_staff_salary
+        salary:""+new_staff_salary,
+        KPI:""+new_staff_KPI
     };
     new_staff(staff);
 }
@@ -3478,6 +3496,7 @@ function show_mod_staff_module(staff){
     $("#NewStaffMemo_Input").val(staff.memo);
     $("#NewStaffNickname_Input").val(staff.nickname);
     $("#NewStaffSalary_Input").val(staff.salary);
+    $("#NewStaffKPI_Input").val(staff.KPI);
     $("#NewStaffname_Input").attr("placeholder","员工名");
     $("#NewStaffPJcode_Input").attr("placeholder","工厂代码");
     $("#NewStaffMobile_Input").attr("placeholder","联系电话");
@@ -3485,6 +3504,8 @@ function show_mod_staff_module(staff){
     $("#NewStaffAddress_Input").attr("placeholder","地址");
     $("#NewStaffSalary_Input").attr("placeholder","时薪");
 
+    $("#NewStaffKPI_Input").attr("placeholder","月绩效标准");
+    $('#NewStaffNickname_Input').attr("disabled",false);
     modal_middle($('#newStaffModal'));
 
     $('#newStaffModal').modal('show');
@@ -3500,6 +3521,7 @@ function submit_mod_staff_module(){
     var new_staff_memo = $("#NewStaffMemo_Input").val();
     var new_staff_nickname = $("#NewStaffNickname_Input").val();
     var new_staff_salary = parseInt($("#NewStaffSalary_Input").val());
+    var new_staff_KPI = parseInt($("#NewStaffKPI_Input").val());
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3527,6 +3549,17 @@ function submit_mod_staff_module(){
         $("#NewStaffSalary_Input").focus();
         return;
     }
+    if(new_staff_nickname === null || new_staff_nickname === ""){
+        $("#NewStaffNickname_Input").attr("placeholder","微信昵称不能为空");
+        $("#NewStaffNickname_Input").focus();
+        return;
+    }
+    if(isNaN(new_staff_KPI) || new_staff_KPI<=0){
+        $("#NewStaffKPI_Input").val("");
+        $("#NewStaffKPI_Input").attr("placeholder","请输入正确的月绩效");
+        $("#NewStaffKPI_Input").focus();
+        return;
+    }
     var staff = {
         staffid: staff_selected.id,
         name: new_staff_name,
@@ -3538,7 +3571,8 @@ function submit_mod_staff_module(){
         memo: new_staff_memo,
         nickname:new_staff_nickname,
 
-        salary:new_staff_salary,
+        salary:""+new_staff_salary,
+        KPI:""+new_staff_KPI
     };
     modify_staff(staff);
 }
@@ -8310,7 +8344,7 @@ function new_attendance_submit(){
     var starttime = $("#NewAttendanceStartTime_Input").val();
     var leavetime = $("#NewAttendanceEndTime_Input").val();
     var date = $("#AttendanceDate_Input").val();
-    var leavehour = parseInt($("#NewAttendanceLeaveHour_Input").val());
+    var leavehour = parseFloat($("#NewAttendanceLeaveHour_Input").val());
     /*if(PJcode===""||PJcode.length>5){
         $("#NewAttendancePJcode_Input").val("");
         return;
@@ -8387,7 +8421,7 @@ function mod_attendance_submit(){
     var starttime = $("#NewAttendanceStartTime_Input").val();
     var leavetime = $("#NewAttendanceEndTime_Input").val();
     var date = $("#AttendanceDate_Input").val();
-    var leavehour = parseInt($("#NewAttendanceLeaveHour_Input").val());
+    var leavehour = parseFloat($("#NewAttendanceLeaveHour_Input").val());
 
     if(starttime!== ""&& (!isDatetime(starttime))){
         $("#NewAttendanceStartTime_Input").val("");
