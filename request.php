@@ -420,7 +420,7 @@ var map={
 RESPONSE:
 for($i=0;$i<14;$i++){
 		$temp = array(
-			'id'=>"f".(string)$i
+			'id'=>"f".(string)($i)
 		);
 		array_push($staff_name_list,$temp);
 	}
@@ -434,7 +434,7 @@ for($i=0;$i<14;$i++){
     $factory_code_list=array();
 	for($i=0;$i<14;$i++){
 		$temp = array(
-			'id'=>"f".(string)$i，
+			'id'=>"f".(string)($i)
 		);
 		array_push($factory_code_list,$temp);
 	}

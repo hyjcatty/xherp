@@ -83,6 +83,21 @@ var staff_total=0;
 var staff_table=null;
 var staff_selected;
 var staff_module_status;
+// factory table control
+var factory_initial = false;
+var factory_start=0;
+var factory_total=0;
+var factory_table=null;
+var factory_selected;
+var factory_module_status;
+var factory_list=null;
+// specification table control
+var specification_initial = false;
+var specification_start=0;
+var specification_total=0;
+var specification_table=null;
+var specification_selected;
+var specification_module_status;
 var attendance_module_status;
 var select_attendance_ID=null;
 // pg table control
@@ -498,7 +513,7 @@ function get_user_information(){
             get_user_image();
 
             nav_check();
-
+            get_factory_list();
             get_sensor_list();
             get_camera_unit();
             get_project_list();
@@ -604,6 +619,20 @@ $(document).ready(function() {
         active_menu("StaffManage");
         touchcookie();
         staff_manager();
+
+    });
+    $("#FactoryManage").on('click',function(){
+        CURRENT_URL = "FactoryManage";
+        active_menu("FactoryManage");
+        touchcookie();
+        factory_manager();
+
+    });
+    $("#SpecificationManage").on('click',function(){
+        CURRENT_URL = "SpecificationManage";
+        active_menu("SpecificationManage");
+        touchcookie();
+        specification_manager();
 
     });
     $("#AttendanceManage").on('click',function(){
@@ -1005,6 +1034,90 @@ $(document).ready(function() {
             touchcookie();
         }
     });
+
+    $("#FactoryNewButton").on('click',function(){
+        touchcookie();
+        show_new_factory_module();
+    });
+    $("#FactoryDelButton").on('click',function(){
+        touchcookie();
+        if(factory_selected === null){
+            show_alarm_module(true,"请选择一个用户",null);
+        }else{
+            modal_middle($('#FactoryDelAlarm'));
+            $('#FactoryDelAlarm').modal('show');
+        }
+    });
+    $("#FactoryModifyButton").on('click',function(){
+        touchcookie();
+        if(factory_selected === null){
+            show_alarm_module(true,"请选择一个用户",null);
+        }else{
+            show_mod_factory_module(factory_selected);
+        }
+    });
+    $("#delFactoryCommit").on('click',function(){
+        //发送请求并且告知成功失败
+        //刷新表格
+        del_factory(factory_selected.factoryid);
+        touchcookie();
+    });
+    $("#newFactoryCommit").on('click',function(){
+        //检查输入项目
+        //发送请求
+        //刷新表格
+        if(factory_module_status){
+            submit_new_factory_module();
+            touchcookie();
+        }else{
+            submit_mod_factory_module();
+            touchcookie();
+        }
+    });
+
+    $("#SpecificationNewButton").on('click',function(){
+        touchcookie();
+        show_new_specification_module();
+    });
+    $("#SpecificationDelButton").on('click',function(){
+        touchcookie();
+        if(specification_selected === null){
+            show_alarm_module(true,"请选择一个用户",null);
+        }else{
+            modal_middle($('#SpecificationDelAlarm'));
+            $('#SpecificationDelAlarm').modal('show');
+        }
+    });
+    $("#SpecificationModifyButton").on('click',function(){
+        touchcookie();
+        if(specification_selected === null){
+            show_alarm_module(true,"请选择一个用户",null);
+        }else{
+            show_mod_specification_module(specification_selected);
+        }
+    });
+    $("#delSpecificationCommit").on('click',function(){
+        //发送请求并且告知成功失败
+        //刷新表格
+        del_specification(specification_selected.specificationid);
+        touchcookie();
+    });
+    $("#newSpecificationCommit").on('click',function(){
+        //检查输入项目
+        //发送请求
+        //刷新表格
+        if(specification_module_status){
+            submit_new_specification_module();
+            touchcookie();
+        }else{
+            submit_mod_specification_module();
+            touchcookie();
+        }
+    });
+
+
+
+
     //pg view buttons
     $("#PGfreshButton").on('click',function(){
         touchcookie();
@@ -1758,6 +1871,12 @@ $(document).ready(function() {
             case "StaffManage":
                 staff_intialize(0);
                 break;
+            case "FactoryManage":
+                factory_intialize(0);
+                break;
+            case "SpecificationManage":
+                specification_intialize(0);
+                break;
             case "KeyManage":
                 key_intialize(0);
                 break;
@@ -1795,6 +1914,8 @@ $(document).ready(function() {
     calculate_row();
     clear_user_detail_panel();
     clear_staff_detail_panel();
+    clear_factory_detail_panel();
+    clear_specification_detail_panel();
     clear_proj_detail_panel();
 
 
@@ -1855,6 +1976,26 @@ function staff_manager(){
     show_searchbar("查询员工名或手机关键字...");
     //if(!user_initial){ user_intialize(0);}
     staff_intialize(0);
+}
+function factory_manager(){
+    //alert($(document).height());
+    //alert($(document).width());
+    clear_window();
+    write_title("工厂管理","根据您的权限对用户进行添加/删除/修改等操作");
+    $("#FactoryManageView").css("display","block");
+    show_searchbar("查询工厂代码");
+    //if(!user_initial){ user_intialize(0);}
+    factory_intialize(0);
+}
+function specification_manager(){
+    //alert($(document).height());
+    //alert($(document).width());
+    clear_window();
+    write_title("员工管理","根据您的权限对用户进行添加/删除/修改等操作");
+    $("#SpecificationManageView").css("display","block");
+    show_searchbar("查询员工名或手机关键字...");
+    //if(!user_initial){ user_intialize(0);}
+    specification_intialize(0);
 }
 function pg_manage(){
     clear_window();
@@ -2191,6 +2332,8 @@ function export_table(){
 function clear_window(){
     $("#UserManageView").css("display","none");
     $("#StaffManageView").css("display","none");
+    $("#FactoryManageView").css("display","none");
+    $("#SpecificationManageView").css("display","none");
     $("#PGManageView").css("display","none");
     $("#ProjManageView").css("display","none");
     $("#ParaManageView").css("display","none");
@@ -3398,8 +3541,8 @@ function show_new_staff_module(){
     $("#newStaffLabel").text("创建新员工");
     staff_module_status = true;
     $("#NewStaffname_Input").val("");
-    $("#NewStaffGender_choice").val("1");
-    $("#NewStaffPJcode_Input").val("");
+    $("#NewStaffGender_Choice").val("1");
+    $("#NewStaffPJcode_Choice").val("");
     $("#NewStaffMobile_Input").val("");
     $("#NewStaffPosition_Input").val("");
     $("#NewStaffAddress_Input").val("");
@@ -3410,7 +3553,7 @@ function show_new_staff_module(){
 
     $('#NewStaffNickname_Input').attr("disabled",true);
     $("#NewStaffname_Input").attr("placeholder","员工名");
-    $("#NewStaffPJcode_Input").attr("placeholder","工厂代码");
+    $("#NewStaffPJcode_Choice").attr("placeholder","工厂代码");
     $("#NewStaffMobile_Input").attr("placeholder","联系电话");
     $("#NewStaffPosition_Input").attr("placeholder","职位");
     $("#NewStaffAddress_Input").attr("placeholder","地址");
@@ -3425,8 +3568,8 @@ function show_new_staff_module(){
 
 function submit_new_staff_module(){
     var new_staff_name = $("#NewStaffname_Input").val();
-    var new_staff_gender = $("#NewStaffGender_choice").val();
-    var new_staff_pjcode = $("#NewStaffPJcode_Input").val();
+    var new_staff_gender = $("#NewStaffGender_Choice").val();
+    var new_staff_pjcode = $("#NewStaffPJcode_Choice").val();
     var new_staff_mobile = $("#NewStaffMobile_Input").val();
     var new_staff_possion = $("#NewStaffPosition_Input").val();
     var new_staff_address = $("#NewStaffAddress_Input").val();
@@ -3439,13 +3582,13 @@ function submit_new_staff_module(){
         $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
         $("#NewStaffname_Input").focus();
         return;
-    }
+    }/*
     if(new_staff_pjcode === null || new_staff_pjcode === "" ||new_staff_pjcode.length>5){
         $("#NewStaffPJcode_Input").attr("placeholder","工厂代码必须小于5位");
         $("#NewStaffPJcode_Input").val("");
         $("#NewStaffPJcode_Input").focus();
         return;
-    }
+    }*/
     if(new_staff_mobile === null || new_staff_mobile === ""){
         $("#NewStaffMobile_Input").attr("placeholder","手机号不能为空");
         $("#NewStaffMobile_Input").focus();
@@ -3488,8 +3631,8 @@ function show_mod_staff_module(staff){
     $("#newStaffLabel").text("员工信息修改");
     staff_module_status = false;
     $("#NewStaffname_Input").val(staff.name);
-    $("#NewStaffGender_choice").val(staff.gender);
-    $("#NewStaffPJcode_Input").val(staff.PJcode);
+    $("#NewStaffGender_Choice").val(staff.gender);
+    $("#NewStaffPJcode_Choice").val(staff.PJcode);
     $("#NewStaffMobile_Input").val(staff.mobile);
     $("#NewStaffPosition_Input").val(staff.position);
     $("#NewStaffAddress_Input").val(staff.address);
@@ -3513,8 +3656,8 @@ function show_mod_staff_module(staff){
 
 function submit_mod_staff_module(){
     var new_staff_name = $("#NewStaffname_Input").val();
-    var new_staff_gender = $("#NewStaffGender_choice").val();
-    var new_staff_pjcode = $("#NewStaffPJcode_Input").val();
+    var new_staff_gender = $("#NewStaffGender_Choice").val();
+    var new_staff_pjcode = $("#NewStaffPJcode_Choice").val();
     var new_staff_mobile = $("#NewStaffMobile_Input").val();
     var new_staff_possion = $("#NewStaffPosition_Input").val();
     var new_staff_address = $("#NewStaffAddress_Input").val();
@@ -3527,13 +3670,13 @@ function submit_mod_staff_module(){
         $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
         $("#NewStaffname_Input").focus();
         return;
-    }
+    }/*
     if(new_staff_pjcode === null || new_staff_pjcode === "" ||new_staff_pjcode.length>5){
         $("#NewStaffPJcode_Input").attr("placeholder","工厂代码小于5位");
         $("#NewStaffPJcode_Input").val();
         $("#NewStaffPJcode_Input").focus();
         return;
-    }
+    }*/
     if(new_staff_mobile === null || new_staff_mobile === ""){
         $("#NewStaffMobile_Input").attr("placeholder","手机号不能为空");
         $("#NewStaffMobile_Input").focus();
@@ -3577,12 +3720,968 @@ function submit_mod_staff_module(){
     modify_staff(staff);
 }
 
+/************************************************************************/
+function get_factory_list(){
+    var map={
+        action:"FactoryCodeList",
+        type:"query",
+        user:usr.id
+    };
+    var get_factory_list_callback=function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        if(result.auth == "false"){
+            show_expiredModule();
+            return;
+        }
+        factory_list = result.ret;
+        var temptxt = "";
+        for(var i=0;i<factory_list.length;i++){
+            temptxt = temptxt+"<option value='"+factory_list[i].id+"'>"+factory_list[i].id+"</option>";
+        }
+        $("#NewStaffPJcode_Choice").empty();
+        $("#NewStaffPJcode_Choice").append(temptxt);
+    };
+    JQ_get(request_head,map,get_factory_list_callback);
+}
+/*factory add/send/del */
+function get_factory_table(start,length){
+    var body = {
+        startseq: start,
+        length:length,
+        keyword: global_key_word
+    };
+    var map={
+        action:"FactoryTable",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+    var get_factory_table_callback=function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        factory_table = result.ret.factorytable;
+
+        factory_start = parseInt(result.ret.start);
+        factory_total = parseInt(result.ret.total);
+
+        //HYj add for server slow
+        draw_factory_table_head();
+    };
+    JQ_get(request_head,map,get_factory_table_callback);
+}
+
+function del_factory(id){
+    var body = {
+        factoryid: id
+    };
+    var map={
+        action:"FactoryDel",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var del_factory_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            del_factory_flash = function(){
+
+                //console.log("test 12345");
+                clear_factory_detail_panel();
+                factory_intialize(0);
+                get_factory_list();
+            };
+
+            setTimeout(function(){
+                show_alarm_module(false,"删除成功！",del_factory_flash);
+            },500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"删除失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,del_factory_callback);
+
+    $("#FactoryDelAlarm").modal('hide');
+
+}
+function new_factory(factory){
+    var body = {
+        factoryid: "",
+        factorycode: factory.factorycode,
+        factorydutyday: factory.factorydutyday,
+        factorylongitude: factory.factorylongitude,
+        factorylatitude: factory.factorylatitude,
+        factoryworkstarttime: factory.factoryworkstarttime,
+        factoryworkendtime: factory.factoryworkendtime,
+        factorylaunchstarttime: factory.factorylaunchstarttime,
+        factorylaunchendtime: factory.factorylaunchendtime,
+        factoryaddress:factory.factoryaddress,
+        factorymemo:factory.factorymemo
+    };
+
+    var map={
+        action:"FactoryNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    //console.log(map);
+    //console.log(JSON.stringify(map));
+    var new_factory_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+
+            $('#newFactoryModal').modal('hide');
+            create_factory_flash = function(){
 
 
+                clear_factory_detail_panel();
+                factory_intialize(0);
+
+                get_factory_list();
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"创建成功！",create_factory_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"创建失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,new_factory_callback);
+}
+function modify_factory(factory){
+    var body={
+        factoryid: factory.factoryid,
+        factorycode: factory.factorycode,
+        factorydutyday: factory.factorydutyday,
+        factorylongitude: factory.factorylongitude,
+        factorylatitude: factory.factorylatitude,
+        factoryworkstarttime: factory.factoryworkstarttime,
+        factoryworkendtime: factory.factoryworkendtime,
+        factorylaunchstarttime: factory.factorylaunchstarttime,
+        factorylaunchendtime: factory.factorylaunchendtime,
+        factoryaddress:factory.factoryaddress,
+        factorymemo:factory.factorymemo
+    };
+    var map={
+        action:"FactoryMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var modify_factory_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+
+            $('#newFactoryModal').modal('hide');
+            mod_factory_flash = function(){
+
+                clear_factory_detail_panel();
+                factory_intialize(0);
+
+                get_factory_list();
+            };
+
+            setTimeout(function() {
+                show_alarm_module(false, "修改成功！", mod_factory_flash);
+            },500);
+        }else{
+
+            setTimeout(function() {
+                show_alarm_module(true, "修改失败！" + result.msg, null);
+            },500);
+        }
+    };
+    JQ_get(request_head,map,modify_factory_callback);
+
+}
 
 
+function factory_intialize(start) {
+    factory_initial = true;
+    factory_table = null;
+    get_factory_table(start, table_row * 5);
+    //window.setTimeout(draw_user_table_head, wait_time_middle);
+}
+
+//WORK TEMP STOP HERE
+function draw_factory_table_head(){
+    if(null === factory_table)return;
+    var page_number = Math.ceil((factory_table.length)/table_row);
+
+    $("#Factory_Page_control").empty();
+    var txt = "<li>"+
+        "<a href='#' id='factory_page_prev'>Prev</a>"+
+        "</li>";
+    var page_start_number = Math.ceil(factory_start/table_row);
+    var i;
+    for(i=0;i<page_number;i++){
+        txt=txt+ "<li>"+
+            "<a href='#' id='factory_page_"+i+"'>"+(i+page_start_number+1)+"</a>"+
+            "</li>";
+    }
+    txt=txt+"<li>"+
+        "<a href='#' id='factory_page_next'>Next</a>"+
+        "</li>";
+    $("#Factory_Page_control").append(txt);
+    table_head="<thead>"+
+        "<tr>"+"<th>序号</th>"+"<th>工厂代码</th>"+"<th>全勤天数</th>"+"<th>上班时间</th>"+"<th>下班时间</th>";
+    table_head=table_head+"</tr></thread>";
+    click_draw_factory_table = function(){
+        draw_factory_table($(this));
+    };
+    for(i=0;i<page_number;i++){
+        /*
+         $("#user_page_"+i).on('click',function(){
+         draw_user_table($(this));
+         });*/
+        $("#factory_page_"+i).on('click',click_draw_factory_table);
+    }
+    if(factory_start<=0){
+        $("#factory_page_prev").css("display","none");
+    }else{
+        $("#factory_page_prev").css("display","block");
+        $("#factory_page_prev").on('click',function(){
+            var new_start = factory_start-(table_row*5);
+            if(new_start<0) new_start =0;
+            factory_intialize(new_start);
+        });
+    }
+
+    if((factory_start+(table_row*5))>=factory_total){
+        $("#factory_page_next").css("display","none");
+    }else{
+        $("#factory_page_next").css("display","block");
+        $("#factory_page_next").on('click',function(){
+            factory_intialize(factory_start+(table_row*5));
+        });
+    }
+
+    draw_factory_table($("#factory_page_0"));
+}
+function draw_factory_table(data){
+
+    $("#Table_Factory").empty();
+    if(null === factory_table) return;
+    var sequence = (parseInt(data.html())-1)*table_row-factory_start;
+    var txt = table_head;
+    txt = txt +"<tbody>";
+    var i;
+    for(i=0;i<table_row;i++){
+        if((sequence+i)<factory_table.length){
+            if(0!==i%2){
+                txt =txt+ "<tr class='success li_menu' id='factory_table_cell"+i+"' factoryid='"+factory_table[sequence+i].factoryid+"'>";
+            }else{ txt =txt+ "<tr class='li_menu' id='factory_table_cell"+i+"' factoryid='"+factory_table[sequence+i].factoryid+"'>";}
+            txt = txt +"<td>" + factory_table[sequence+i].factoryid+"</td>" +"<td>" + factory_table[sequence+i].factorycode+"</td>" ;
+            txt = txt+"<td>"+factory_table[sequence+i].factorydutyday+"</td>"+"<td>" + factory_table[sequence+i].factoryworkstarttime+"</td>"+"<td>" + factory_table[sequence+i].factoryworkendtime+"</td>" ;
+            txt = txt +"</tr>";
+        }else{
+            if(0!==i%2){
+                txt =txt+ "<tr class='success' id='factory_table_cell"+i+"' factoryid='null'>";
+            }else{ txt =txt+ "<tr  id='factory_table_cell"+i+"' factoryid='null'>";}
+            txt = txt +"<td>--</td>" +"<td>--</td>" +"<td>--</td>" +"<td>--</td>" +"<td>--</td>" +"<td>--</td>";
+            txt = txt +"</tr>";
+        }
+
+    }
+    txt = txt+"</tbody>";
+
+    $("#Table_Factory").append(txt);
+    factory_table_cell_click = function(){
+        if($(this).attr("factoryid") !="null"){
+            for(var i=0;i<factory_table.length;i++){
+                if($(this).attr("factoryid") == factory_table[i].factoryid){
+                    factory_selected =factory_table[i];
+                    break;
+                }
+            }
+
+            Initialize_factory_detail();
+            touchcookie();
+        }
+    };
+    for(i=0;i<table_row;i++){
+        $("#factory_table_cell"+i).on('click',factory_table_cell_click);
+    }
+
+}
+function Initialize_factory_detail(){
+
+    draw_factory_detail_panel();
+}
+function clear_factory_detail_panel(){
+    factory_selected = null;
+    var txt = "<p></p><p></p>"+
+        "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
+        "<dl >"+
+        "<dt >工厂代码：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt >全勤天数：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt >经度：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>纬度：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "</dl>"+
+        "</div>"+
+        "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
+        "<dl >"+
+        "<dt>上班时间：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>下班时间：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>午休开始时间：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>午休结束时间：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "</dl>"+
+        "</div>"+
+        "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
+        "<dl >"+
+
+        "<dt>地址：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>备注：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "</dl>"+
+        "</div>";
+
+    $("#Label_factory_detail").empty();
+    $("#Label_factory_detail").append(txt);
+}
+function draw_factory_detail_panel(){
+    $("#Label_factory_detail").empty();
+    var txt = "<p></p><p></p>"+
+        "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
+        "<dl >"+
+        "<dt >工厂代码：</dt><dd>"+factory_selected.factorycode+"</dd>"+
+        "<dt >全勤天数：</dt><dd>"+factory_selected.factorydutyday+"</dd>"+
+        "<dt >经度：</dt><dd>"+factory_selected.factorylongitude+"</dd>"+
+        "<dt>纬度：</dt><dd>"+factory_selected.factorylatitude+"</dd>"+
+        "</dl>"+
+        "</div>"+
+        "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
+        "<dl >"+
+
+        "<dt>上班时间：</dt><dd>"+factory_selected.factoryworkstarttime+"</dd>"+
+        "<dt>下班时间：</dt><dd>"+factory_selected.factoryworkendtime+"</dd>"+
+        "<dt>午休开始时间：</dt><dd>"+factory_selected.factorylaunchstarttime+"</dd>"+
+        "<dt>午休结束时间：</dt><dd>"+factory_selected.factorylaunchendtime+"</dd>"+
+        "</dl>"+
+        "</div>"+
+        "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
+        "<dl >"+
+        "<dt>地址：</dt><dd>"+factory_selected.factoryaddress+"</dd>"+
+        "<dt>备注：</dt><dd>"+factory_selected.factorymemo+"</dd>"+
+        "</dl>"+
+        "</div>";
+    $("#Label_factory_detail").append(txt);
+
+}
+function show_new_factory_module(){
+
+    $("#newFactoryLabel").text("创建新工厂");
+    factory_module_status = true;
+    $("#NewFactoryCode_Input").val("");
+    $("#NewFactoryDutyDay_Input").val("22");
+    $("#NewFactoryLongitude_Input").val("");
+    $("#NewFactoryLatitude_Input").val("");
+    $("#NewFactoryWorkStartTime_Input").val("");
+    $("#NewFactoryWorkEndTime_Input").val("");
+    $("#NewFactoryLaunchStartTime_Input").val("");
+    $("#NewFactoryLaunchEndTime_Input").val("");
+    $("#NewFactoryAddress_Input").val("");
+    $("#NewFactoryMemo_Input").val("");
+
+    $('#NewFactoryLongitude_Input').attr("disabled",true);
+    $('#NewFactoryLatitude_Input').attr("disabled",true);
+    $("#NewFactoryCode_Input").attr("placeholder","工厂代码");
+    $("#NewFactoryDutyDay_Input").attr("placeholder","全勤天数");
+    $("#NewFactoryWorkStartTime_Input").attr("placeholder","上班时间");
+    $("#NewFactoryWorkEndTime_Input").attr("placeholder","下班时间");
+    $("#NewFactoryLaunchStartTime_Input").attr("placeholder","午休开始时间");
+    $("#NewFactoryLaunchEndTime_Input").attr("placeholder","午休结束时间");
+    $("#NewFactoryAddress_Input").attr("placeholder","地址");
+
+    modal_middle($('#newFactoryModal'));
+
+    $('#newFactoryModal').modal('show');
+
+}
+
+function submit_new_factory_module(){
+    var new_factory_code=$("#NewFactoryCode_Input").val();
+    var new_factory_duty_day=parseInt($("#NewFactoryDutyDay_Input").val());
+    var new_factory_longitude=$("#NewFactoryLongitude_Input").val();
+    var new_factory_latitude=$("#NewFactoryLatitude_Input").val();
+    var new_factory_work_start_time=$("#NewFactoryWorkStartTime_Input").val();
+    var new_factory_work_end_time=$("#NewFactoryWorkEndTime_Input").val();
+    var new_factory_launch_start_time=$("#NewFactoryLaunchStartTime_Input").val();
+    var new_factory_launch_end_time=$("#NewFactoryLaunchEndTime_Input").val();
+    var new_factory_address=$("#NewFactoryAddress_Input").val();
+    var new_factory_memo=$("#NewFactoryMemo_Input").val();
+    //console.log("new_usr_name:"+new_usr_name);
+    if(new_factory_code === null || new_factory_code === ""){
+        $("#NewFactoryCode_Input").attr("placeholder","工厂代码不能为空");
+        $("#NewFactoryCode_Input").focus();
+        return;
+    }
+    if(isNaN(new_factory_duty_day) || new_factory_duty_day<=0){
+        $("#NewFactoryDutyDay_Input").val("");
+        $("#NewFactoryDutyDay_Input").attr("placeholder","请输入正确的全勤天数");
+        $("#NewFactoryDutyDay_Input").focus();
+        return;
+    }
+    if(new_factory_work_start_time!== ""&& (!isDatetime(new_factory_work_start_time))){
+        $("#NewFactoryWorkStartTime_Input").val("");
+        $("#NewFactoryWorkStartTime_Input").focus();
+        return;
+    }
+    if(new_factory_work_end_time!== ""&& (!isDatetime(new_factory_work_end_time))){
+        $("#NewFactoryWorkEndTime_Input").val("");
+        $("#NewFactoryWorkEndTime_Input").focus();
+        return;
+    }
+    if(new_factory_launch_start_time!== ""&& (!isDatetime(new_factory_launch_start_time))){
+        $("#NewFactoryLaunchStartTime_Input").val("");
+        $("#NewFactoryLaunchStartTime_Input").focus();
+        return;
+    }
+    if(new_factory_launch_end_time!== ""&& (!isDatetime(new_factory_launch_end_time))){
+        $("#NewFactoryLaunchEndTime_Input").val("");
+        $("#NewFactoryLaunchEndTime_Input").focus();
+        return;
+    }
+    if(new_factory_address === null || new_factory_address === ""){
+        $("#NewFactoryCode_Input").attr("placeholder","工厂地址不能为空");
+        $("#NewFactoryCode_Input").focus();
+        return;
+    }
+    var factory = {
+        factoryid: "",
+        factorycode: new_factory_code,
+        factorydutyday: ""+new_factory_duty_day,
+        factorylongitude: new_factory_longitude,
+        factorylatitude: new_factory_latitude,
+        factoryworkstarttime: new_factory_work_start_time,
+        factoryworkendtime: new_factory_work_end_time,
+        factorylaunchstarttime: new_factory_launch_start_time,
+        factorylaunchendtime: new_factory_launch_end_time,
+        factoryaddress:new_factory_address,
+        factorymemo:new_factory_memo
+    };
+    new_factory(factory);
+}
+function show_mod_factory_module(factory){
+    $("#newFactoryLabel").text("工厂信息修改");
+    factory_module_status = false;
+    $("#NewFactoryCode_Input").val(factory.factorycode);
+    $("#NewFactoryDutyDay_Input").val(factory.factorydutyday);
+    $("#NewFactoryLongitude_Input").val(factory.factorylongitude);
+    $("#NewFactoryLatitude_Input").val(factory.factorylatitude);
+    $("#NewFactoryWorkStartTime_Input").val(factory.factoryworkstarttime);
+    $("#NewFactoryWorkEndTime_Input").val(factory.factoryworkendtime);
+    $("#NewFactoryLaunchStartTime_Input").val(factory.factorylaunchstarttime);
+    $("#NewFactoryLaunchEndTime_Input").val(factory.factorylaunchendtime);
+    $("#NewFactoryAddress_Input").val(factory.factoryaddress);
+    $("#NewFactoryMemo_Input").val(factory.factorymemo);
+
+    $('#NewFactoryLongitude_Input').attr("disabled",true);
+    $('#NewFactoryLatitude_Input').attr("disabled",true);
+    $("#NewFactoryCode_Input").attr("placeholder","工厂代码");
+    $("#NewFactoryDutyDay_Input").attr("placeholder","全勤天数");
+    $("#NewFactoryWorkStartTime_Input").attr("placeholder","上班时间");
+    $("#NewFactoryWorkEndTime_Input").attr("placeholder","下班时间");
+    $("#NewFactoryLaunchStartTime_Input").attr("placeholder","午休开始时间");
+    $("#NewFactoryLaunchEndTime_Input").attr("placeholder","午休结束时间");
+    $("#NewFactoryAddress_Input").attr("placeholder","地址");
+    modal_middle($('#newFactoryModal'));
+
+    $('#newFactoryModal').modal('show');
+}
+
+function submit_mod_factory_module(){
+    var new_factory_code=$("#NewFactoryCode_Input").val();
+    var new_factory_duty_day=parseInt($("#NewFactoryDutyDay_Input").val());
+    var new_factory_longitude=$("#NewFactoryLongitude_Input").val();
+    var new_factory_latitude=$("#NewFactoryLatitude_Input").val();
+    var new_factory_work_start_time=$("#NewFactoryWorkStartTime_Input").val();
+    var new_factory_work_end_time=$("#NewFactoryWorkEndTime_Input").val();
+    var new_factory_launch_start_time=$("#NewFactoryLaunchStartTime_Input").val();
+    var new_factory_launch_end_time=$("#NewFactoryLaunchEndTime_Input").val();
+    var new_factory_address=$("#NewFactoryAddress_Input").val();
+    var new_factory_memo=$("#NewFactoryMemo_Input").val();
+    if(new_factory_code === null || new_factory_code === ""){
+        $("#NewFactoryCode_Input").attr("placeholder","工厂代码不能为空");
+        $("#NewFactoryCode_Input").focus();
+        return;
+    }
+    if(isNaN(new_factory_duty_day) || new_factory_duty_day<=0){
+        $("#NewFactoryDutyDay_Input").val("");
+        $("#NewFactoryDutyDay_Input").attr("placeholder","请输入正确的全勤天数");
+        $("#NewFactoryDutyDay_Input").focus();
+        return;
+    }
+    if(new_factory_work_start_time!== ""&& (!isDatetime(new_factory_work_start_time))){
+        $("#NewFactoryWorkStartTime_Input").val("");
+        $("#NewFactoryWorkStartTime_Input").focus();
+        return;
+    }
+    if(new_factory_work_end_time!== ""&& (!isDatetime(new_factory_work_end_time))){
+        $("#NewFactoryWorkEndTime_Input").val("");
+        $("#NewFactoryWorkEndTime_Input").focus();
+        return;
+    }
+    if(new_factory_launch_start_time!== ""&& (!isDatetime(new_factory_launch_start_time))){
+        $("#NewFactoryLaunchStartTime_Input").val("");
+        $("#NewFactoryLaunchStartTime_Input").focus();
+        return;
+    }
+    if(new_factory_launch_end_time!== ""&& (!isDatetime(new_factory_launch_end_time))){
+        $("#NewFactoryLaunchEndTime_Input").val("");
+        $("#NewFactoryLaunchEndTime_Input").focus();
+        return;
+    }
+    if(new_factory_address === null || new_factory_address === ""){
+        $("#NewFactoryCode_Input").attr("placeholder","工厂地址不能为空");
+        $("#NewFactoryCode_Input").focus();
+        return;
+    }
+    var factory = {
+        factoryid: factory_selected.factoryid,
+        factorycode: new_factory_code,
+        factorydutyday: ""+new_factory_duty_day,
+        factorylongitude: new_factory_longitude,
+        factorylatitude: new_factory_latitude,
+        factoryworkstarttime: new_factory_work_start_time,
+        factoryworkendtime: new_factory_work_end_time,
+        factorylaunchstarttime: new_factory_launch_start_time,
+        factorylaunchendtime: new_factory_launch_end_time,
+        factoryaddress:new_factory_address,
+        factorymemo:new_factory_memo
+    };
+    modify_factory(factory);
+}
+
+/*specification add/send/del */
+function get_specification_table(start,length){
+    var body = {
+        startseq: start,
+        length:length,
+        keyword: global_key_word
+    };
+    var map={
+        action:"SpecificationTable",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+    var get_specification_table_callback=function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        specification_table = result.ret.specificationtable;
+
+        specification_start = parseInt(result.ret.start);
+        specification_total = parseInt(result.ret.total);
+
+        //HYj add for server slow
+        draw_specification_table_head();
+    };
+    JQ_get(request_head,map,get_specification_table_callback);
+}
+
+function del_specification(id){
+    var body = {
+        specificationid: id
+    };
+    var map={
+        action:"SpecificationDel",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var del_specification_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            del_specification_flash = function(){
+
+                //console.log("test 12345");
+                clear_specification_detail_panel();
+                specification_intialize(0);
+            };
+
+            setTimeout(function(){
+                show_alarm_module(false,"删除成功！",del_specification_flash);
+            },500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"删除失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,del_specification_callback);
+
+    $("#SpecificationDelAlarm").modal('hide');
+
+}
+function new_specification(specification){
+    var body = {
+        specificationid:"",
+        specificationcode: specification.specificationcode,
+        specificationlevel: specification.specificationlevel,
+        specificationnumber: specification.specificationnumber,
+        specificationweight: specification.specificationweight,
+        specificationmemo: specification.specificationmemo
+    };
+
+    var map={
+        action:"SpecificationNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    //console.log(map);
+    //console.log(JSON.stringify(map));
+    var new_specification_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+
+            $('#newSpecificationModal').modal('hide');
+            create_specification_flash = function(){
 
 
+                clear_specification_detail_panel();
+                specification_intialize(0);
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"创建成功！",create_specification_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"创建失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,new_specification_callback);
+}
+function modify_specification(specification){
+    var body={
+        specificationid:specification.specificationid,
+        specificationcode: specification.specificationcode,
+        specificationlevel: specification.specificationlevel,
+        specificationnumber: specification.specificationnumber,
+        specificationweight: specification.specificationweight,
+        specificationmemo: specification.specificationmemo
+    };
+    var map={
+        action:"SpecificationMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var modify_specification_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+
+            $('#newSpecificationModal').modal('hide');
+            mod_specification_flash = function(){
+
+                clear_specification_detail_panel();
+                specification_intialize(0);
+            };
+
+            setTimeout(function() {
+                show_alarm_module(false, "修改成功！", mod_specification_flash);
+            },500);
+        }else{
+
+            setTimeout(function() {
+                show_alarm_module(true, "修改失败！" + result.msg, null);
+            },500);
+        }
+    };
+    JQ_get(request_head,map,modify_specification_callback);
+
+}
+
+
+function specification_intialize(start) {
+    specification_initial = true;
+    specification_table = null;
+    get_specification_table(start, table_row * 5);
+    //window.setTimeout(draw_user_table_head, wait_time_middle);
+}
+
+//WORK TEMP STOP HERE
+function draw_specification_table_head(){
+    if(null === specification_table)return;
+    var page_number = Math.ceil((specification_table.length)/table_row);
+
+    $("#Specification_Page_control").empty();
+    var txt = "<li>"+
+        "<a href='#' id='specification_page_prev'>Prev</a>"+
+        "</li>";
+    var page_start_number = Math.ceil(specification_start/table_row);
+    var i;
+    for(i=0;i<page_number;i++){
+        txt=txt+ "<li>"+
+            "<a href='#' id='specification_page_"+i+"'>"+(i+page_start_number+1)+"</a>"+
+            "</li>";
+    }
+    txt=txt+"<li>"+
+        "<a href='#' id='specification_page_next'>Next</a>"+
+        "</li>";
+    $("#Specification_Page_control").append(txt);
+    table_head="<thead>"+
+        "<tr>"+"<th>序号</th>"+"<th>产品规格代码</th>"+"<th>产品等级</th>"+"<th>粒数</th>"+"<th>重量</th>";
+    table_head=table_head+"</tr></thread>";
+    click_draw_specification_table = function(){
+        draw_specification_table($(this));
+    };
+    for(i=0;i<page_number;i++){
+        /*
+         $("#user_page_"+i).on('click',function(){
+         draw_user_table($(this));
+         });*/
+        $("#specification_page_"+i).on('click',click_draw_specification_table);
+    }
+    if(specification_start<=0){
+        $("#specification_page_prev").css("display","none");
+    }else{
+        $("#specification_page_prev").css("display","block");
+        $("#specification_page_prev").on('click',function(){
+            var new_start = specification_start-(table_row*5);
+            if(new_start<0) new_start =0;
+            specification_intialize(new_start);
+        });
+    }
+
+    if((specification_start+(table_row*5))>=specification_total){
+        $("#specification_page_next").css("display","none");
+    }else{
+        $("#specification_page_next").css("display","block");
+        $("#specification_page_next").on('click',function(){
+            specification_intialize(specification_start+(table_row*5));
+        });
+    }
+
+    draw_specification_table($("#specification_page_0"));
+}
+function draw_specification_table(data){
+
+    $("#Table_specification").empty();
+    if(null === specification_table) return;
+    var sequence = (parseInt(data.html())-1)*table_row-specification_start;
+    var txt = table_head;
+    txt = txt +"<tbody>";
+    var i;
+    for(i=0;i<table_row;i++){
+        if((sequence+i)<specification_table.length){
+            if(0!==i%2){
+                txt =txt+ "<tr class='success li_menu' id='specification_table_cell"+i+"' specificationid='"+specification_table[sequence+i].specificationid+"'>";
+            }else{ txt =txt+ "<tr class='li_menu' id='specification_table_cell"+i+"' specificationid='"+specification_table[sequence+i].specificationid+"'>";}
+            txt = txt +"<td>" + specification_table[sequence+i].specificationid+"</td>" +"<td>" + specification_table[sequence+i].specificationcode+"</td>" ;
+            txt = txt+"<td>"+specification_table[sequence+i].specificationlevel+"</td>"+"<td>" + specification_table[sequence+i].specificationnumber+"</td>"+"<td>" + specification_table[sequence+i].specificationweight+"</td>" ;
+            txt = txt +"</tr>";
+        }else{
+            if(0!==i%2){
+                txt =txt+ "<tr class='success' id='specification_table_cell"+i+"' specificationid='null'>";
+            }else{ txt =txt+ "<tr  id='specification_table_cell"+i+"' specificationid='null'>";}
+            txt = txt +"<td>--</td>" +"<td>--</td>" +"<td>--</td>" +"<td>--</td>" +"<td>--</td>" +"<td>--</td>";
+            txt = txt +"</tr>";
+        }
+
+    }
+    txt = txt+"</tbody>";
+
+    $("#Table_specification").append(txt);
+    specification_table_cell_click = function(){
+        if($(this).attr("specificationid") !="null"){
+            for(var i=0;i<specification_table.length;i++){
+                if($(this).attr("specificationid") == specification_table[i].specificationid){
+                    specification_selected =specification_table[i];
+                    break;
+                }
+            }
+
+            Initialize_specification_detail();
+            touchcookie();
+        }
+    };
+    for(i=0;i<table_row;i++){
+        $("#specification_table_cell"+i).on('click',specification_table_cell_click);
+    }
+
+}
+function Initialize_specification_detail(){
+
+    draw_specification_detail_panel();
+}
+function clear_specification_detail_panel(){
+    specification_selected = null;
+    var txt = "<p></p><p></p>"+
+        "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
+        "<dl >"+
+        "<dt >规格代码：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt >产品等级：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "</dl>"+
+        "</div>"+
+        "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
+        "<dl >"+
+        "<dt>粒数：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>重量：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "</dl>"+
+        "</div>"+
+        "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
+        "<dl >"+
+        "<dt>备注：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "</dl>"+
+        "</div>";
+
+    $("#Label_specification_detail").empty();
+    $("#Label_specification_detail").append(txt);
+}
+function draw_specification_detail_panel(){
+    $("#Label_specification_detail").empty();
+    var txt = "<p></p><p></p>"+
+        "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
+        "<dl >"+
+        "<dt >规格代码：</dt><dd>"+specification_selected.specificationcode+"</dd>"+
+        "<dt >产品等级：</dt><dd>"+specification_selected.specificationlevel+"</dd>"+
+        "</dl>"+
+        "</div>"+
+        "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
+        "<dl >"+
+
+        "<dt>粒数：</dt><dd>"+specification_selected.specificationnumber+"</dd>"+
+        "<dt>重量：</dt><dd>"+specification_selected.specificationweight+"</dd>"+
+        "</dl>"+
+        "</div>"+
+        "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
+        "<dl >"+
+        "<dt>备注：</dt><dd>"+specification_selected.specificationmemo+"</dd>"+
+        "</dl>"+
+        "</div>";
+    $("#Label_specification_detail").append(txt);
+
+}
+function show_new_specification_module(){
+
+    $("#newSpecificationLabel").text("创建新规格");
+    specification_module_status = true;
+    $("#NewSpecificationCode_Input").val("");
+    $("#NewSpecificationLevel_Input").val("");
+    $("#NewSpecificationNumber_Input").val("");
+    $("#NewSpecificationWeight_Input").val("");
+    $("#NewSpecificationMemo_Input").val("");
+
+    $("#NewSpecificationCode_Input").attr("placeholder","规格代码");
+    $("#NewSpecificationLevel_Input").attr("placeholder","产品等级");
+    $("#NewSpecificationNumber_Input").attr("placeholder","粒数");
+    $("#NewSpecificationWeight_Input").attr("placeholder","重量");
+
+    modal_middle($('#newSpecificationModal'));
+
+    $('#newSpecificationModal').modal('show');
+
+}
+
+function submit_new_specification_module(){
+    var new_specification_code=$("#NewSpecificationCode_Input").val();
+    var new_specification_level=$("#NewSpecificationLevel_Input").val();
+    var new_specification_number=parseInt($("#NewSpecificationNumber_Input").val());
+    var new_specification_weight=parseFloat($("#NewSpecificationWeight_Input").val());
+    var new_specification_memo=$("#NewSpecificationMemo_Input").val();
+    //console.log("new_usr_name:"+new_usr_name);
+    if(new_specification_code === null || new_specification_code === ""){
+        $("#NewSpecificationCode_Input").attr("placeholder","规格代码不能为空");
+        $("#NewSpecificationCode_Input").focus();
+        return;
+    }
+    if(new_specification_level === null || new_specification_level === ""){
+        $("#NewSpecificationLevel_Input").attr("placeholder","产品等级不能为空");
+        $("#NewSpecificationLevel_Input").focus();
+        return;
+    }
+    if(isNaN(new_specification_number) || new_specification_number<=0){
+        $("#NewSpecificationNumber_Input").val("");
+        $("#NewSpecificationNumber_Input").attr("placeholder","请输入正确的粒数");
+        $("#NewSpecificationNumber_Input").focus();
+        return;
+    }
+    if(isNaN(new_specification_weight) || new_specification_weight<=0){
+        $("#NewSpecificationWeight_Input").val("");
+        $("#NewSpecificationWeight_Input").attr("placeholder","请输入正确的重量");
+        $("#NewSpecificationWeight_Input").focus();
+        return;
+    }
+    var specification = {
+        specificationid:"",
+        specificationcode: new_specification_code,
+        specificationlevel: new_specification_level,
+        specificationnumber: ""+new_specification_number,
+        specificationweight: ""+new_specification_weight,
+        specificationmemo: new_specification_memo
+    };
+    new_specification(specification);
+}
+function show_mod_specification_module(specification){
+    $("#newSpecificationLabel").text("产品规格修改");
+    specification_module_status = false;
+    $("#NewSpecificationCode_Input").val(specification.specificationcode);
+    $("#NewSpecificationLevel_Input").val(specification.specificationlevel);
+    $("#NewSpecificationNumber_Input").val(specification.specificationnumber);
+    $("#NewSpecificationWeight_Input").val(specification.specificationweight);
+    $("#NewSpecificationMemo_Input").val(specification.specificationmemo);
+
+    $("#NewSpecificationCode_Input").attr("placeholder","规格代码");
+    $("#NewSpecificationLevel_Input").attr("placeholder","产品等级");
+    $("#NewSpecificationNumber_Input").attr("placeholder","粒数");
+    $("#NewSpecificationWeight_Input").attr("placeholder","重量");
+    modal_middle($('#newSpecificationModal'));
+
+    $('#newSpecificationModal').modal('show');
+}
+
+function submit_mod_specification_module(){
+
+    var new_specification_code=$("#NewSpecificationCode_Input").val();
+    var new_specification_level=$("#NewSpecificationLevel_Input").val();
+    var new_specification_number=parseInt($("#NewSpecificationNumber_Input").val());
+    var new_specification_weight=parseFloat($("#NewSpecificationWeight_Input").val());
+    var new_specification_memo=$("#NewSpecificationMemo_Input").val();
+    //console.log("new_usr_name:"+new_usr_name);
+    if(new_specification_code === null || new_specification_code === ""){
+        $("#NewSpecificationCode_Input").attr("placeholder","规格代码不能为空");
+        $("#NewSpecificationCode_Input").focus();
+        return;
+    }
+    if(new_specification_level === null || new_specification_level === ""){
+        $("#NewSpecificationLevel_Input").attr("placeholder","产品等级不能为空");
+        $("#NewSpecificationLevel_Input").focus();
+        return;
+    }
+    if(isNaN(new_specification_number) || new_specification_number<=0){
+        $("#NewSpecificationNumber_Input").val("");
+        $("#NewSpecificationNumber_Input").attr("placeholder","请输入正确的粒数");
+        $("#NewSpecificationNumber_Input").focus();
+        return;
+    }
+    if(isNaN(new_specification_weight) || new_specification_weight<=0){
+        $("#NewSpecificationWeight_Input").val("");
+        $("#NewSpecificationWeight_Input").attr("placeholder","请输入正确的重量");
+        $("#NewSpecificationWeight_Input").focus();
+        return;
+    }
+
+    var specification = {
+        specificationid:specification_selected.specificationid,
+        specificationcode: new_specification_code,
+        specificationlevel: new_specification_level,
+        specificationnumber: new_specification_number,
+        specificationweight: new_specification_weight,
+        specificationmemo: new_specification_memo
+    };
+
+    modify_specification(specification);
+}
+
+
+/************************************************************************/
 /**
  * PG view function part
  */

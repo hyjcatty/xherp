@@ -84,6 +84,8 @@
                                 </li>
                                 <li><a><i class="fa fa-edit"></i> 生产管理 <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
+                                        <li><a href="#" id="FactoryManage">工厂信息</a></li>
+                                        <li><a href="#" id="SpecificationManage">规格信息</a></li>
                                         <li><a href="#" id="AssembleManage">生产信息</a></li>
                                         <li><a href="#" id="AssembleAudit">生产统计</a></li>
                                         <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
@@ -695,7 +697,7 @@
 
                                                                         <div class="input-group" >
                                                                             <span class="input-group-addon" id="NewStaffGender" style="min-width: 100px">性别</span>
-                                                                            <select class="form-control" placeholder="性别" aria-describedby="basic-addon1" id="NewStaffGender_choice">
+                                                                            <select class="form-control" placeholder="性别" aria-describedby="basic-addon1" id="NewStaffGender_Choice">
                                                                                 <option value="2">女</option>
                                                                                 <option value="1">男</option>
                                                                             </select>
@@ -715,7 +717,8 @@
                                                                     <div class="col-md-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon" id="NewStaffPJcode" style="min-width: 100px">工厂代码</span>
-                                                                            <input type="text" class="form-control" placeholder="工厂代码" aria-describedby="basic-addon1" id="NewStaffPJcode_Input"/>
+                                                                            <select class="form-control" placeholder="工厂代码" aria-describedby="basic-addon1" id="NewStaffPJcode_Choice">
+                                                                            </select>
                                                                         </div>
                                                                         <p></p>
                                                                         <div class="input-group">
@@ -767,7 +770,7 @@
                                                                     <h4 class="modal-title" id="StaffDelAlertModalLabel">确认删除</h4>
                                                                 </div>
                                                                 <div class="modal-body" >
-                                                                    <strong>警告！</strong>您确定要删除此用户么？
+                                                                    <strong>警告！</strong>您确定要删除此员工么？
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
@@ -1049,7 +1052,7 @@
                                                                 <h4 class="modal-title" id="FactoryDelAlertModalLabel">确认删除</h4>
                                                             </div>
                                                             <div class="modal-body" >
-                                                                <strong>警告！</strong>您确定要删除此用户么？
+                                                                <strong>警告！</strong>您确定要删除此工厂么？
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
@@ -1303,7 +1306,7 @@
                                                                 <h4 class="modal-title" id="SpecificationDelAlertModalLabel">确认删除</h4>
                                                             </div>
                                                             <div class="modal-body" >
-                                                                <strong>警告！</strong>您确定要删除此用户么？
+                                                                <strong>警告！</strong>您确定要删除此规格么？
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
