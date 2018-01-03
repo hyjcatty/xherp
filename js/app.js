@@ -195,6 +195,11 @@ var  if_assemble_audit_table_initialize = false;
 //key history table Control
 var Attendance_Audit_table_initialized = true;
 var  if_attendance_audit_table_initialize = false;
+
+//kpi table Control
+var KPI_Audit_table_initialized = true;
+var  if_kpi_audit_table_initialize = false;
+
 //Export table
 var  if_Export_table_initialize = false;
 //key auth Control
@@ -661,6 +666,13 @@ $(document).ready(function() {
         active_menu("AttendanceAudit");
         touchcookie();
         attendance_audit();
+
+    });
+    $("#KPIAudit").on('click',function(){
+        CURRENT_URL = "KPIAudit";
+        active_menu("KPIAudit");
+        touchcookie();
+        kpi_audit();
 
     });
     $("#KeyManage").on('click',function(){
@@ -1548,7 +1560,53 @@ $(document).ready(function() {
         }
         return;
     });
+    $("#KPIAuditStartTime_input").change(function(){
+        //console.log("AttendanceHistoryStartTime_input changes");
+        var startdate  = $("#KPIAuditStartTime_input").val();
+        var enddate  = $("#KPIAuditEndTime_input").val();
+        var compare = date_compare_today(startdate);
+        if(startdate !==  compare){
+            $("#KPIAuditStartTime_input").val(compare);
+            startdate = compare;
+        }
+        if(enddate === ""){
+            $("#KPIAuditEndTime_input").val(startdate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+            var startplus30 = dateplus30(startdate);
+            var tempdate2 = date_compare(startplus30,enddate);
+            if(tempdate === enddate){
+                $("#KPIAuditEndTime_input").val(startdate);
+            }else if(tempdate2 ===startplus30){
+                $("#KPIAuditEndTime_input").val(startplus30);
+            }
+        }
+        return;
+    });
+    $("#KPIAuditEndTime_input").change(function(){
+        //console.log("AttendanceHistoryEndTime_input changes");
+        var startdate  = $("#KPIAuditStartTime_input").val();
+        var enddate  = $("#KPIAuditEndTime_input").val();
+        var compare = date_compare_today(enddate);
+        if(enddate !==  compare){
+            $("#KPIAuditEndTime_input").val(compare);
+            enddate = compare;
+        }
+        if(startdate === ""){
+            $("#KPIAuditStartTime_input").val(enddate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
 
+            var endminus30 = dateminus30(enddate);
+            var tempdate2 = date_compare(endminus30,startdate);
+            if(tempdate === enddate){
+                $("#KPIAuditStartTime_input").val(enddate);
+            }else if(tempdate2 ===startdate){
+                $("#KPIAuditStartTime_input").val(endminus30);
+            }
+        }
+        return;
+    });
 
 
     $("#DevProjCode_choice").change(function(){
@@ -1791,6 +1849,11 @@ $(document).ready(function() {
     });
     $("#AttendanceAuditTableFlash").on('click',function(){
         query_attendance_audit();
+
+        touchcookie();
+    });
+    $("#KPIAuditTableFlash").on('click',function(){
+        query_kpi_audit();
 
         touchcookie();
     });
@@ -2313,6 +2376,15 @@ function attendance_audit(){
     //key_history_initialize();
     //query_static_warning();
 }
+function kpi_audit(){
+    clear_window();
+    hide_searchbar();
+    write_title("绩效统计查询","请输入查询条件");
+    $("#KPIAuditView").css("display","block");
+    kpi_audit_initialize();
+    //key_history_initialize();
+    //query_static_warning();
+}
 function key_history(){
     clear_window();
     hide_searchbar();
@@ -2358,6 +2430,7 @@ function clear_window(){
     $("#AssembleHistoryView").css("display","none");
     $("#AssembleAuditView").css("display","none");
     $("#AttendanceAuditView").css("display","none");
+    $("#KPIAuditView").css("display","none");
 }
 
 
@@ -2440,6 +2513,20 @@ function get_staff_name_list(){
                 source: substringMatcher(staff_name_list)
             });
         $('#AttendanceAuditWord_Input').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1,
+                classNames: {
+                    input: 'Typeahead-input',
+                    hint: 'Typeahead-hint',
+                    selectable: 'Typeahead-selectable'
+                }
+            },
+            {
+                name: 'states',
+                source: substringMatcher(staff_name_list)
+            });
+        $('#KPIAuditWord_Input').typeahead({
                 hint: true,
                 highlight: true,
                 minLength: 1,
@@ -9190,6 +9277,9 @@ function assemble_audit_initialize(){
 function attendance_audit_initialize(){
     Attendance_Audit_table_initialized = true;
 }
+function kpi_audit_initialize(){
+    KPI_Audit_table_initialized = true;
+}
 function query_open_lock_history(){
     if(Key_History_table_initialized !== true) return;
     var Query_project = $("#KeyHistoryProj_choice").val();
@@ -9887,7 +9977,90 @@ function query_attendance_audit(){
 
 }
 
+function query_kpi_audit(){
+    if(KPI_Audit_table_initialized !== true) return;
+    //var Query_time = $("#AssembleHistoryTime_choice").val();
+    var Query_start_time = $("#KPIAuditStartTime_input").val();
+    var Query_end_time = $("#KPIAuditEndTime_input").val();
+    var Query_word = $("#KPIAuditWord_Input").val();
+    if(Query_start_time===""){
+        return;
+    }if(Query_end_time===""){
+        return;
+    }
+    var condition = {
+        TimeStart:Query_start_time,
+        TimeEnd:Query_end_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"KPIAudit",
+        body:condition,
+        user:usr.id
+    };
+    var query_kpi_audit_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#KPILastFlash").empty();
+        $("#KPILastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+            txt = txt +"<tr>";
+            //txt = txt +"<td><button type='button' class='btn btn-default open_btn' AttendanceCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><ul class='pagination'> <li><a href='#' class = 'video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></a> </li></ul></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
+            //console.log("StateCode="+TableData[i][0]);
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#KPIAuditQueryTable").empty();
+        $("#KPIAuditQueryTable").append(txt);
+        if(if_attendance_audit_table_initialize) $("#KPIAuditQueryTable").DataTable().destroy();
 
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#KPIAuditQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        if_kpi_audit_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_kpi_audit_callback);
+
+}
 //Alarm
 function get_alarm_type_list(){
     var map={
