@@ -482,7 +482,7 @@ function PageInitialize(){
     //window.setTimeout("nav_check()", wait_time_short);
 }
 function hide_menu(){
-    for (var key in usr.userauth.webauth) {
+    for (var key in usr.userauth.KPIAuditQueryTable) {
         if(usr.userauth.webauth[key] == "false") $("#"+key).css('display','none');
     }
 }
@@ -10031,7 +10031,7 @@ function query_kpi_audit(){
         txt = txt+"</tbody>";
         $("#KPIAuditQueryTable").empty();
         $("#KPIAuditQueryTable").append(txt);
-        if(if_attendance_audit_table_initialize) $("#KPIAuditQueryTable").DataTable().destroy();
+        if(if_kpi_audit_table_initialize) $("#KPIAuditQueryTable").DataTable().destroy();
 
         //console.log(monitor_map_list);
 
