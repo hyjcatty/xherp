@@ -16,6 +16,8 @@
 
     <!--link href="./css/dataTables.tableTools.min.css" rel="stylesheet"-->
 
+    <link href="./resource/switchery/switchery.min.css" rel="stylesheet">
+
     <link href="./resource/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
     <link href="./resource/css/custom.css" rel="stylesheet">
     <link href="./css/nprogress.css" rel="stylesheet">
@@ -45,6 +47,8 @@
     <script src="./resource/js/fastclick/lib/fastclick.js"></script>
     <script src="./resource/js/jQuery.Hz2Py-min.js"></script>
 
+
+    <script src="./resource/switchery/switchery.min.js"></script>
     <script src="./js/nprogress.js"></script>
     <script src="./js/hcu_util.js"></script>
 
@@ -646,6 +650,11 @@
                                             </div>
                                         </div>
                                         <div class="row clearfix" id="StaffManageView">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 column" id="StaffSpecialCondition">
+                                                <label>
+                                                    <input type="checkbox" id="LeftStaff" class="js-switch staff-js-switch"   data-switchery="false" value="off"/> 包含离职员工信息
+                                                </label>
+                                            </div>
                                             <div class="col-md-6 col-sm-6 col-xs-6 column" id="StaffRightWindow1">
                                                 <ul class="pagination" id="Staff_Page_control">
                                                     <li>
@@ -736,8 +745,11 @@
                                                                         </div>
                                                                         <p></p>
                                                                         <div class="input-group">
-                                                                            <span class="input-group-addon" id="NewStaffNickname" style="min-width: 100px">微信昵称</span>
-                                                                            <input type="text" class="form-control" placeholder="微信绑定后自动填入" aria-describedby="basic-addon1" disabled="disabled" id="NewStaffNickname_Input"/>
+                                                                            <span class="input-group-addon" id="NewStaffStatus" style="min-width: 100px">是否在职</span>
+                                                                            <select class="form-control" placeholder="是否在职" aria-describedby="basic-addon1" id="NewStaffStatus_Choice">
+                                                                                <option value="1">在职</option>
+                                                                                <option value="0">离职</option>
+                                                                            </select>
                                                                         </div>
                                                                         <p></p>
                                                                         <div class="input-group">
@@ -746,7 +758,10 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12">
-
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon" id="NewStaffNickname" style="min-width: 100px">微信昵称</span>
+                                                                            <input type="text" class="form-control" placeholder="微信绑定后自动填入" aria-describedby="basic-addon1" disabled="disabled" id="NewStaffNickname_Input"/>
+                                                                        </div>
 
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon" id="NewStaffAddress" style="min-width: 100px">地址</span>
@@ -897,7 +912,7 @@
                                                     </table>
                                                 </div>
                                                 <div class="row clearfix">
-                                                    <span class="section">用户信息</span>
+                                                    <span class="section">员工信息</span>
                                                     <div id="Staff_card" style="min-height: 250px">
                                                         <!--div class="panel-body"-->
                                                         <div class="col-md-12 col-sm-12 col-xs-12 column">
@@ -1179,7 +1194,7 @@
                                                 </table>
                                             </div>
                                             <div class="row clearfix">
-                                                <span class="section">用户信息</span>
+                                                <span class="section">工厂信息</span>
                                                 <div id="Factory_card" style="min-height: 250px">
                                                     <!--div class="panel-body"-->
                                                     <div class="col-md-12 col-sm-12 col-xs-12 column">
@@ -1433,7 +1448,7 @@
                                                 </table>
                                             </div>
                                             <div class="row clearfix">
-                                                <span class="section">用户信息</span>
+                                                <span class="section">规格信息</span>
                                                 <div id="Specification_card" style="min-height: 250px">
                                                     <!--div class="panel-body"-->
                                                     <div class="col-md-12 col-sm-12 col-xs-12 column">
@@ -1506,6 +1521,7 @@
                                             <div class="col-md-12 column">
                                                 <div class="col-md-12 column">
                                                     <button type="button" class="btn btn-primary" id="AttendanceHistoryTableNew">手工插入记录</button>
+                                                    <button type="button" class="btn btn-primary" id="AttendanceHistoryTableBatchNew">初始化当天全部记录</button>
                                                     <button type="button" class="btn btn-primary" id="AttendanceHistoryTableFlash">查询</button>
                                                     <label  style="min-width: 20px"></label>
                                                     <label  style="min-width: 20px" id="AttendanceHistoryLastFlash"></label>
@@ -1591,6 +1607,23 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
                                                             <button type="button" class="btn btn-primary" data-dismiss="modal" id="delAttendanceCommit">确认</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="AttendanceBatchAlarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" id="AttendanceBatchAlarmModalLabel">确认批量操作</h4>
+                                                        </div>
+                                                        <div class="modal-body" >
+                                                            <strong>警告！</strong>批量操作将会生成全部员工当天默认考勤，已有考勤记录将不会被覆盖！
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                                                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="AttendanceBatchCommit">确认</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1725,12 +1758,12 @@
                                         </div>
                                         <div class="col-md-4 col-sm-12 col-xs-12">
                                             <div class="input-group" style="float:left;width:100px">
-                                                <span class="input-group-addon" id="AssembleHistoryWord" style="width: 100px;max-height:20px">关键字</span>
+                                                <span class="input-group-addon" id="AttendanceAuditWord" style="width: 100px;max-height:20px">关键字</span>
                                                 <input type="text" class="form-control " placeholder="查询员工名或产品规格关键字" aria-describedby="basic-addon1" style="width: 0;padding-right: 0px;padding-left: 0px;border-left-width: 0px;border-right-width: 00px;"/>
 
                                             </div>
                                             <div class="form-group" style="float:left">
-                                                <input type="text" class="form-control " placeholder="查询员工名或产品规格关键字" aria-describedby="basic-addon1" id="AttendanceAuditWord_Input" style="width:100%"/>
+                                                <input type="text" class="form-control " placeholder="查询员工名关键字" aria-describedby="basic-addon1" id="AttendanceAuditWord_Input" style="width:100%"/>
                                             </div>
 
                                         </div>
@@ -1772,12 +1805,12 @@
                                             </div>
                                             <div class="col-md-4 col-sm-12 col-xs-12">
                                                 <div class="input-group" style="float:left;width:100px">
-                                                    <span class="input-group-addon" id="AssembleHistoryWord" style="width: 100px;max-height:20px">关键字</span>
+                                                    <span class="input-group-addon" id="KPIAuditWord" style="width: 100px;max-height:20px">关键字</span>
                                                     <input type="text" class="form-control " placeholder="查询员工名或产品规格关键字" aria-describedby="basic-addon1" style="width: 0;padding-right: 0px;padding-left: 0px;border-left-width: 0px;border-right-width: 00px;"/>
 
                                                 </div>
                                                 <div class="form-group" style="float:left">
-                                                    <input type="text" class="form-control " placeholder="查询员工名或产品规格关键字" aria-describedby="basic-addon1" id="KPIAuditWord_Input" style="width:100%"/>
+                                                    <input type="text" class="form-control " placeholder="查询员工名关键字" aria-describedby="basic-addon1" id="KPIAuditWord_Input" style="width:100%"/>
                                                 </div>
 
                                             </div>

@@ -83,6 +83,7 @@ var staff_total=0;
 var staff_table=null;
 var staff_selected;
 var staff_module_status;
+var default_staff_left_choice = false;
 // factory table control
 var factory_initial = false;
 var factory_start=0;
@@ -386,6 +387,16 @@ $(document).ready(function() {
             mouseWheel:{ preventDefault: true }
         });
     }
+
+    if ($(".staff-js-switch")[0]) {
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.staff-js-switch'));
+        console.log("switchery list lenght:"+elems.length);
+        elems.forEach(function (html) {
+            var switchery = new Switchery(html, {
+                color: '#26B99A'
+            });
+        });
+    }
 });
 function write_title(title,sub_titile){
     $("#page_title").empty();
@@ -594,7 +605,15 @@ $(document).ready(function() {
     DevUpdateDual2 = $('.DevUpdateAuthDual').bootstrapDualListbox(
         { nonSelectedListLabel: '当前设备', selectedListLabel: '需要升级', preserveSelectionOnMove: 'moved', moveOnSelect: true, nonSelectedFilter: '',showFilterInputs: false,infoText:""});
 
+    $('#LeftStaff').change(function(){
+        var booltemp = $(this).is(":checked");
+        if(default_staff_left_choice === booltemp) return;
+        else{
+            default_staff_left_choice = booltemp;
+            staff_intialize(0);
 
+        }
+    });
 
     // $("#showValue").click(function () { alert($('[name="duallistbox_demo1"]').val());});
     //$('.user_auth_dual').showFilterInputs=false;
@@ -1014,7 +1033,7 @@ $(document).ready(function() {
     $("#StaffDelButton").on('click',function(){
         touchcookie();
         if(staff_selected === null){
-            show_alarm_module(true,"请选择一个用户",null);
+            show_alarm_module(true,"请选择一个员工",null);
         }else{
             modal_middle($('#StaffDelAlarm'));
             $('#StaffDelAlarm').modal('show');
@@ -1023,7 +1042,7 @@ $(document).ready(function() {
     $("#StaffModifyButton").on('click',function(){
         touchcookie();
         if(staff_selected === null){
-            show_alarm_module(true,"请选择一个用户",null);
+            show_alarm_module(true,"请选择一个员工",null);
         }else{
             show_mod_staff_module(staff_selected);
         }
@@ -1054,7 +1073,7 @@ $(document).ready(function() {
     $("#FactoryDelButton").on('click',function(){
         touchcookie();
         if(factory_selected === null){
-            show_alarm_module(true,"请选择一个用户",null);
+            show_alarm_module(true,"请选择一个工厂",null);
         }else{
             modal_middle($('#FactoryDelAlarm'));
             $('#FactoryDelAlarm').modal('show');
@@ -1063,7 +1082,7 @@ $(document).ready(function() {
     $("#FactoryModifyButton").on('click',function(){
         touchcookie();
         if(factory_selected === null){
-            show_alarm_module(true,"请选择一个用户",null);
+            show_alarm_module(true,"请选择一个工厂",null);
         }else{
             show_mod_factory_module(factory_selected);
         }
@@ -1094,7 +1113,7 @@ $(document).ready(function() {
     $("#SpecificationDelButton").on('click',function(){
         touchcookie();
         if(specification_selected === null){
-            show_alarm_module(true,"请选择一个用户",null);
+            show_alarm_module(true,"请选择一个规格",null);
         }else{
             modal_middle($('#SpecificationDelAlarm'));
             $('#SpecificationDelAlarm').modal('show');
@@ -1103,7 +1122,7 @@ $(document).ready(function() {
     $("#SpecificationModifyButton").on('click',function(){
         touchcookie();
         if(specification_selected === null){
-            show_alarm_module(true,"请选择一个用户",null);
+            show_alarm_module(true,"请选择一个规格",null);
         }else{
             show_mod_specification_module(specification_selected);
         }
@@ -1966,7 +1985,18 @@ $(document).ready(function() {
         selectedstationactive();
     });
 
+    $("#AttendanceHistoryTableBatchNew").on('click',function(){
+        touchcookie();
+        modal_middle($('#AttendanceBatchAlarm'));
+        $('#AttendanceBatchAlarm').modal('show');
 
+    });
+    $("#AttendanceBatchCommit").on('click',function(){
+        touchcookie();
+        new_attendance_batch();
+        //AttendanceBatchCommit
+
+    });
 
 
 
@@ -2054,7 +2084,7 @@ function specification_manager(){
     //alert($(document).height());
     //alert($(document).width());
     clear_window();
-    write_title("员工管理","根据您的权限对用户进行添加/删除/修改等操作");
+    write_title("规格管理","根据您的权限对用户进行添加/删除/修改等操作");
     $("#SpecificationManageView").css("display","block");
     show_searchbar("查询员工名或手机关键字...");
     //if(!user_initial){ user_intialize(0);}
@@ -3299,7 +3329,8 @@ function get_staff_table(start,length){
     var body = {
         startseq: start,
         length:length,
-        keyword: global_key_word
+        keyword: global_key_word,
+        containleave:default_staff_left_choice
     };
     var map={
         action:"StaffTable",
@@ -3368,6 +3399,7 @@ function new_staff(staff){
         memo: staff.memo,
         nickname: staff.nickname,
         salary:staff.salary,
+        status:staff.status,
         KPI:staff.KPI
     };
 
@@ -3409,6 +3441,7 @@ function modify_staff(staff){
         address: staff.address,
         gender: staff.gender,
         memo: staff.memo,
+        status:staff.status,
 
         nickname: staff.nickname,
         salary: staff.salary,
@@ -3450,6 +3483,8 @@ function staff_intialize(start) {
     staff_initial = true;
     staff_table = null;
     get_staff_table(start, table_row * 5);
+    clear_staff_detail_panel();
+
     //window.setTimeout(draw_user_table_head, wait_time_middle);
 }
 
@@ -3512,6 +3547,11 @@ function get_staff_gender(gender){
     if (gender =="1") return "男";
     if (gender =="2") return "女";
     return "泰国人妖";
+}
+function get_staff_status(status){
+    if (status =="0") return "离职";
+    if (status =="1") return "在职";
+    return "未知状态";
 }
 function draw_staff_table(data){
 
@@ -3584,7 +3624,7 @@ function clear_staff_detail_panel(){
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
         "<dl >"+
-
+        "<dt>状态：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>地址：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>备注：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
@@ -3596,6 +3636,7 @@ function clear_staff_detail_panel(){
 function draw_staff_detail_panel(){
     $("#Label_staff_detail").empty();
     var staffgender=get_staff_gender(staff_selected.gender);
+    var staffstatus=get_staff_status(staff_selected.status);
     var txt = "<p></p><p></p>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
         "<dl >"+
@@ -3616,6 +3657,7 @@ function draw_staff_detail_panel(){
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
         "<dl >"+
+        "<dt>状态：</dt><dd>"+staffstatus+"</dd>"+
         "<dt>地址：</dt><dd>"+staff_selected.address+"</dd>"+
         "<dt>备注：</dt><dd>"+staff_selected.memo+"</dd>"+
         "</dl>"+
@@ -3637,6 +3679,7 @@ function show_new_staff_module(){
     $("#NewStaffSalary_Input").val("");
     $("#NewStaffNickname_Input").val("");
     $("#NewStaffKPI_Input").val(0);
+    $("#NewStaffStatus_Choice").val("1");
 
     $('#NewStaffNickname_Input').attr("disabled",true);
     $("#NewStaffname_Input").attr("placeholder","员工名");
@@ -3664,6 +3707,7 @@ function submit_new_staff_module(){
     var new_staff_nickname = $("#NewStaffNickname_Input").val();
     var new_staff_salary = parseInt($("#NewStaffSalary_Input").val());
     var new_staff_KPI = parseInt($("#NewStaffKPI_Input").val());
+    var new_staff_status = $("#NewStaffStatus_Choice").val();
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3710,7 +3754,8 @@ function submit_new_staff_module(){
         memo: new_staff_memo,
         nickname:new_staff_nickname,
         salary:""+new_staff_salary,
-        KPI:""+new_staff_KPI
+        KPI:""+new_staff_KPI,
+        status: new_staff_status
     };
     new_staff(staff);
 }
@@ -3727,6 +3772,8 @@ function show_mod_staff_module(staff){
     $("#NewStaffNickname_Input").val(staff.nickname);
     $("#NewStaffSalary_Input").val(staff.salary);
     $("#NewStaffKPI_Input").val(staff.KPI);
+    $("#NewStaffStatus_Choice").val(staff.status);
+
     $("#NewStaffname_Input").attr("placeholder","员工名");
     $("#NewStaffPJcode_Input").attr("placeholder","工厂代码");
     $("#NewStaffMobile_Input").attr("placeholder","联系电话");
@@ -3752,6 +3799,7 @@ function submit_mod_staff_module(){
     var new_staff_nickname = $("#NewStaffNickname_Input").val();
     var new_staff_salary = parseInt($("#NewStaffSalary_Input").val());
     var new_staff_KPI = parseInt($("#NewStaffKPI_Input").val());
+    var new_staff_status = $("#NewStaffStatus_Choice").val();
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3802,7 +3850,8 @@ function submit_mod_staff_module(){
         nickname:new_staff_nickname,
 
         salary:""+new_staff_salary,
-        KPI:""+new_staff_KPI
+        KPI:""+new_staff_KPI,
+        status: new_staff_status
     };
     modify_staff(staff);
 }
@@ -3993,6 +4042,7 @@ function factory_intialize(start) {
     factory_initial = true;
     factory_table = null;
     get_factory_table(start, table_row * 5);
+    clear_factory_detail_panel();
     //window.setTimeout(draw_user_table_head, wait_time_middle);
 }
 
@@ -4490,6 +4540,7 @@ function specification_intialize(start) {
     specification_initial = true;
     specification_table = null;
     get_specification_table(start, table_row * 5);
+    clear_specification_detail_panel();
     //window.setTimeout(draw_user_table_head, wait_time_middle);
 }
 
@@ -9571,7 +9622,30 @@ function new_attendance_submit(){
     };
     new_attendance(attendance);
 }
+function new_attendance_batch(){
 
+    var map={
+        action:"AttendanceBatchNew",
+        type:"mod",
+        user:usr.id
+    };
+    var new_attendance_batch_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            $('#AttendanceBatchAlarm').modal('hide');
+            create_attendance_flash = function(){
+                query_attendance_history();
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"批量创建成功！",create_attendance_flash);},500);
+        }else{
+            $('#AttendanceBatchAlarm').modal('hide');
+            setTimeout(function(){
+                show_alarm_module(true,"批量创建失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,new_attendance_batch_callback);
+}
 function new_attendance(attendance){
     var body = {
         PJcode: attendance.PJcode,

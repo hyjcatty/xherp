@@ -813,6 +813,7 @@ $retval=array(
     			'address'=>"address".(string)($start+$i),
     			'salary'=>rand(100,500),
     			'KPI'=>rand(1000,7000),
+    			'status'=>(string)rand(0,1),
     			'position'=>"DDDDDDD",
     			'memo'=>"备注".(string)($start+$i)
     		);
@@ -4643,6 +4644,29 @@ case "AttendanceHistory":
         );
         $jsonencode = _encode($retval);
         echo $jsonencode; break;
+case "AttendanceBatchNew":
+/*
+REQUEST:
+
+    var map={
+        action:"AttendanceBatchNew",
+        type:"mod",
+        user:usr.id
+    };
+RESPONSE:
+$retval=array(
+    'status'=>'true',
+    'msg'=>'success',
+    'auth'=>'true'
+);
+*/
+    $retval=array(
+        'status'=>'true',
+        'msg'=>'success',
+        'auth'=>'true'
+    );
+    $jsonencode = _encode($retval);
+    echo $jsonencode; break;
 case "AttendanceNew":
 /*
 REQUEST:
