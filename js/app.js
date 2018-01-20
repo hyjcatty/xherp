@@ -27,6 +27,7 @@ var default_point={
 var if_online=true;
 var user_point=default_point;
 var staff_name_list=[];
+var geography_list=[];
 //var countevent=0;
 function logout(){
     delCookie("Environmental.inspection.session");
@@ -493,8 +494,21 @@ function PageInitialize(){
     //window.setTimeout("nav_check()", wait_time_short);
 }
 function hide_menu(){
-    for (var key in usr.userauth.KPIAuditQueryTable) {
+    for (var key in usr.userauth.webauth) {
         if(usr.userauth.webauth[key] == "false") $("#"+key).css('display','none');
+    }
+    var list = $("#menu_monther li ul");
+    for(var i=0;i<list.length;i++){
+        var tempmenu = true;
+        for(var j=0;j<list[i].children.length;j++){
+            if( $(list[i].children[j].children[0]).css('display') !="none" ){
+                tempmenu = false;
+                break;
+            }
+        }
+        if(tempmenu){
+            $($("#menu_monther").children("li")[i]).css('display','none');
+        }
     }
 }
 
@@ -527,7 +541,7 @@ function get_user_information(){
             //getfavoritelist();
             get_user_message();
             get_user_image();
-
+            getgeographyinfo();
             nav_check();
             get_factory_list();
             get_sensor_list();
@@ -3400,7 +3414,9 @@ function new_staff(staff){
         nickname: staff.nickname,
         salary:staff.salary,
         status:staff.status,
-        KPI:staff.KPI
+        KPI:staff.KPI,
+        identify:staff.identify,
+        geoinfo:staff.geoinfo
     };
 
     var map={
@@ -3445,7 +3461,9 @@ function modify_staff(staff){
 
         nickname: staff.nickname,
         salary: staff.salary,
-        KPI:staff.KPI
+        KPI:staff.KPI,
+        identify:staff.identify,
+        geoinfo:staff.geoinfo
     };
     var map={
         action:"StaffMod",
@@ -3612,6 +3630,8 @@ function clear_staff_detail_panel(){
         "<dt >员工性别：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt >员工岗位：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>时薪：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+
+        "<dt>区域：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
@@ -3620,11 +3640,13 @@ function clear_staff_detail_panel(){
         "<dt>工厂代码：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>联系电话：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>绩效标准：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+
+        "<dt>状态：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
         "<dl >"+
-        "<dt>状态：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>身份证：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>地址：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>备注：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
@@ -3644,6 +3666,7 @@ function draw_staff_detail_panel(){
         "<dt >员工性别：</dt><dd>"+staffgender+"</dd>"+
         "<dt >员工岗位：</dt><dd>"+staff_selected.position+"</dd>"+
         "<dt>时薪：</dt><dd>"+staff_selected.salary+"</dd>"+
+        "<dt>区域：</dt><dd>"+staff_selected.geoinfo+"</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
@@ -3653,11 +3676,12 @@ function draw_staff_detail_panel(){
         "<dt>工厂代码：</dt><dd>"+staff_selected.PJcode+"</dd>"+
         "<dt>联系电话：</dt><dd>"+staff_selected.mobile+"</dd>"+
         "<dt>绩效标准：</dt><dd>"+staff_selected.KPI+"</dd>"+
+        "<dt>状态：</dt><dd>"+staffstatus+"</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
         "<dl >"+
-        "<dt>状态：</dt><dd>"+staffstatus+"</dd>"+
+        "<dt>身份证：</dt><dd>"+staff_selected.identify+"</dd>"+
         "<dt>地址：</dt><dd>"+staff_selected.address+"</dd>"+
         "<dt>备注：</dt><dd>"+staff_selected.memo+"</dd>"+
         "</dl>"+
@@ -3678,6 +3702,9 @@ function show_new_staff_module(){
     $("#NewStaffMemo_Input").val("");
     $("#NewStaffSalary_Input").val("");
     $("#NewStaffNickname_Input").val("");
+
+    $("#NewStaffIdentify_Input").val("");
+    $("#NewStaffGeoInfo_Input").val("");
     $("#NewStaffKPI_Input").val(0);
     $("#NewStaffStatus_Choice").val("1");
 
@@ -3708,6 +3735,8 @@ function submit_new_staff_module(){
     var new_staff_salary = parseInt($("#NewStaffSalary_Input").val());
     var new_staff_KPI = parseInt($("#NewStaffKPI_Input").val());
     var new_staff_status = $("#NewStaffStatus_Choice").val();
+    var new_staff_geoinfo = $("#NewStaffGeoInfo_Input").val();
+    var new_staff_identify = $("#NewStaffIdentify_Input").val();
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3755,7 +3784,9 @@ function submit_new_staff_module(){
         nickname:new_staff_nickname,
         salary:""+new_staff_salary,
         KPI:""+new_staff_KPI,
-        status: new_staff_status
+        status: new_staff_status,
+        geoinfo:new_staff_geoinfo,
+        identify: new_staff_identify
     };
     new_staff(staff);
 }
@@ -3774,6 +3805,8 @@ function show_mod_staff_module(staff){
     $("#NewStaffKPI_Input").val(staff.KPI);
     $("#NewStaffStatus_Choice").val(staff.status);
 
+    $("#NewStaffIdentify_Input").val(staff.identify);
+    $("#NewStaffGeoInfo_Input").val(staff.geoinfo);
     $("#NewStaffname_Input").attr("placeholder","员工名");
     $("#NewStaffPJcode_Input").attr("placeholder","工厂代码");
     $("#NewStaffMobile_Input").attr("placeholder","联系电话");
@@ -3800,6 +3833,8 @@ function submit_mod_staff_module(){
     var new_staff_salary = parseInt($("#NewStaffSalary_Input").val());
     var new_staff_KPI = parseInt($("#NewStaffKPI_Input").val());
     var new_staff_status = $("#NewStaffStatus_Choice").val();
+    var new_staff_geoinfo = $("#NewStaffGeoInfo_Input").val();
+    var new_staff_identify = $("#NewStaffIdentify_Input").val();
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3851,7 +3886,9 @@ function submit_mod_staff_module(){
 
         salary:""+new_staff_salary,
         KPI:""+new_staff_KPI,
-        status: new_staff_status
+        status: new_staff_status,
+        geoinfo:new_staff_geoinfo,
+        identify: new_staff_identify
     };
     modify_staff(staff);
 }
@@ -12841,4 +12878,71 @@ function selectedstationactive(){
         }
     };
     JQ_get(request_head,map,selectedstationactive_callback);
+}
+
+
+function getgeographyinfo(){
+
+    var map={
+        action:"GetGeoList",
+        type:"mod",
+        user:usr.id
+    };
+    var getgeographyinfo_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            var substringMatcher = function(strs) {
+                return function findMatches(q, cb) {
+                    var matches, substringRegex;
+
+                    // an array that will be populated with substring matches
+                    matches = [];
+
+                    // regex used to determine if a string contains the substring `q`
+                    substrRegex = new RegExp(q, 'i');
+
+                    // iterate through the pool of strings and for any string that
+                    // contains the substring `q`, add it to the `matches` array
+                    $.each(strs, function(i, str) {
+                        if (substrRegex.test(str.name)||substrRegex.test(str.pinyin)||substrRegex.test(str.pinyinnospace)) {
+                            matches.push(str.name);
+                        }
+                    });
+
+                    cb(matches);
+                };
+            };
+            geography_list =  [];
+            for(var i=0;i< result.ret.length;i++){
+                var temp={
+                    name:result.ret[i],
+                    pinyin:"",
+                    pinyinnospace:"",
+                };
+                $("#AssembleHideWord_Input").val(temp.name);
+                temp.pinyin = $("#AssembleHideWord_Input").toPinyin();
+                temp.pinyinnospace = temp.pinyin.replace(/\s+/g,"");
+                geography_list.push(temp);
+            }
+            $('#NewStaffGeoInfo_Input').typeahead({
+                    hint: true,
+                    highlight: true,
+                    minLength: 1,
+                    classNames: {
+                        input: 'Typeahead-input',
+                        hint: 'Typeahead-hint',
+                        selectable: 'Typeahead-selectable'
+                    }
+                },
+                {
+                    name: 'states',
+                    source: substringMatcher(geography_list)
+                });
+
+        }else{
+                show_alarm_module(true, "请重新登录！" + result.msg, null);
+
+        }
+    };
+    JQ_get(request_head,map,getgeographyinfo_callback);
 }

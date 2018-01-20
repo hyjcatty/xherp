@@ -24,6 +24,16 @@ function _urlencode($elem)
   }
   return urlencode($elem);
 }
+function getfiledetail($path){
+    $ret = "";
+    if(!file_exists($path)) {
+        //echo $path." is not exist!";
+        return "";
+    }
+    $afile=$path;
+    $json_string = file_get_contents($afile);
+    return $json_string;
+}
 #$basedir="/dist";
 $key=$_GET["action"];
 //echo $key;
@@ -225,6 +235,8 @@ $retval=array(
 			'WarningCheck' => 'true',
 			'WarningHandle' => 'true',
 			'InstConf' => 'true',
+			'AttendanceAudit' => 'true',
+            'KPIAudit' => 'true',
 			'InstRead' => 'true'
 		);
 		$userauth=array(
@@ -261,7 +273,9 @@ $retval=array(
 			'WarningCheck' => 'true',
 			'WarningHandle' => 'true',
 			'InstConf' => 'false',
-			'InstRead' => 'false'
+			'InstRead' => 'false',
+			'AttendanceAudit' => 'false',
+            'KPIAudit' => 'false'
 		);
 		$userauth=array(
 			'query' => 'true',
@@ -296,7 +310,9 @@ $retval=array(
 			'WarningCheck' => 'true',
 			'WarningHandle' => 'true',
 			'InstConf' => 'true',
-			'InstRead' => 'true'
+			'InstRead' => 'true',
+                                			'AttendanceAudit' => 'false',
+                                            'KPIAudit' => 'false'
 		);
 		$userauth=array(
 			'query' => 'true',
@@ -815,7 +831,9 @@ $retval=array(
     			'KPI'=>rand(1000,7000),
     			'status'=>(string)rand(0,1),
     			'position'=>"DDDDDDD",
-    			'memo'=>"备注".(string)($start+$i)
+    			'memo'=>"备注".(string)($start+$i),
+    			'identify'=>"21312031203012",
+    			'geoinfo'=>"山东",
     		);
     		array_push($stafftable,$temp);
         }
@@ -6020,6 +6038,17 @@ RESPONSE:
         $StatCode = ($body_in['StatCode']);
         $retval=array(
             'status'=>'true',
+            'auth'=>'true',
+            'msg'=>''
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetGeoList":
+        $retarray = getfiledetail("./json/geography.json");
+        $obj=json_decode($retarray,true);
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$obj['shandong'],
             'auth'=>'true',
             'msg'=>''
         );
