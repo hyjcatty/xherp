@@ -28,6 +28,8 @@ var if_online=true;
 var user_point=default_point;
 var staff_name_list=[];
 var geography_list=[];
+var page_number = 0;
+var page_sequence = null;
 //var countevent=0;
 function logout(){
     delCookie("Environmental.inspection.session");
@@ -85,6 +87,8 @@ var staff_table=null;
 var staff_selected;
 var staff_module_status;
 var default_staff_left_choice = false;
+
+var staff_photo_name = "";
 // factory table control
 var factory_initial = false;
 var factory_start=0;
@@ -3352,6 +3356,7 @@ function get_staff_table(start,length){
         body: body,
         user:usr.id
     };
+    page_number = start;
     var get_staff_table_callback=function(result){
         if(result.status == "false"){
             show_expiredModule();
@@ -3416,7 +3421,10 @@ function new_staff(staff){
         status:staff.status,
         KPI:staff.KPI,
         identify:staff.identify,
-        geoinfo:staff.geoinfo
+        geoinfo:staff.geoinfo,
+        bank:staff.bank,
+        account:staff.account,
+        photo:staff.photo
     };
 
     var map={
@@ -3463,7 +3471,10 @@ function modify_staff(staff){
         salary: staff.salary,
         KPI:staff.KPI,
         identify:staff.identify,
-        geoinfo:staff.geoinfo
+        geoinfo:staff.geoinfo,
+        bank:staff.bank,
+        account:staff.account,
+        photo:staff.photo
     };
     var map={
         action:"StaffMod",
@@ -3479,7 +3490,13 @@ function modify_staff(staff){
             mod_staff_flash = function(){
 
                 clear_staff_detail_panel();
-                staff_intialize(0);
+                staff_intialize(page_number);
+                if(page_sequence!==null){
+
+                    setTimeout(function(){
+                        draw_staff_table(page_sequence);
+                    },1000);
+                }
             };
 
             setTimeout(function() {
@@ -3530,6 +3547,7 @@ function draw_staff_table_head(){
         "<tr>"+"<th>序号</th>"+"<th>员工名</th>"+"<th>性别</th>"+"<th>微信昵称</th>"+"<th>岗位</th>"+"<th>时薪</th>";
     table_head=table_head+"</tr></thread>";
     click_draw_staff_table = function(){
+        page_sequence=$(this);
         draw_staff_table($(this));
     };
     for(i=0;i<page_number;i++){
@@ -3576,6 +3594,7 @@ function draw_staff_table(data){
     $("#Table_staff").empty();
     if(null === staff_table) return;
     var sequence = (parseInt(data.html())-1)*table_row-staff_start;
+    //page_sequence = data;
     var txt = table_head;
     txt = txt +"<tbody>";
     var i;
@@ -3624,14 +3643,16 @@ function Initialize_staff_detail(){
 function clear_staff_detail_panel(){
     staff_selected = null;
     var txt = "<p></p><p></p>"+
+
+        "<div class='col-md-8 col-sm-8 col-xs-12 column'>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
         "<dl >"+
         "<dt >员工名：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt >员工性别：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt >员工岗位：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>时薪：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
-
         "<dt>区域：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>开户行：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
@@ -3640,8 +3661,8 @@ function clear_staff_detail_panel(){
         "<dt>工厂代码：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>联系电话：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>绩效标准：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
-
         "<dt>状态：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>账号：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
@@ -3650,6 +3671,7 @@ function clear_staff_detail_panel(){
         "<dt>地址：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>备注：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
+        "</div>"+
         "</div>";
 
     $("#Label_staff_detail").empty();
@@ -3660,6 +3682,7 @@ function draw_staff_detail_panel(){
     var staffgender=get_staff_gender(staff_selected.gender);
     var staffstatus=get_staff_status(staff_selected.status);
     var txt = "<p></p><p></p>"+
+        "<div class='col-md-8 col-sm-8 col-xs-12 column'>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
         "<dl >"+
         "<dt >员工名：</dt><dd>"+staff_selected.name+"</dd>"+
@@ -3667,6 +3690,7 @@ function draw_staff_detail_panel(){
         "<dt >员工岗位：</dt><dd>"+staff_selected.position+"</dd>"+
         "<dt>时薪：</dt><dd>"+staff_selected.salary+"</dd>"+
         "<dt>区域：</dt><dd>"+staff_selected.geoinfo+"</dd>"+
+        "<dt>开户行：</dt><dd>"+staff_selected.bank+"</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
@@ -3677,6 +3701,7 @@ function draw_staff_detail_panel(){
         "<dt>联系电话：</dt><dd>"+staff_selected.mobile+"</dd>"+
         "<dt>绩效标准：</dt><dd>"+staff_selected.KPI+"</dd>"+
         "<dt>状态：</dt><dd>"+staffstatus+"</dd>"+
+        "<dt>账号：</dt><dd>"+staff_selected.account+"</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
@@ -3685,12 +3710,36 @@ function draw_staff_detail_panel(){
         "<dt>地址：</dt><dd>"+staff_selected.address+"</dd>"+
         "<dt>备注：</dt><dd>"+staff_selected.memo+"</dd>"+
         "</dl>"+
+        "</div>"+
+        "</div>"+
+        "<div class='col-md-4 col-sm-4 col-xs-12 column'>"+
+
+        "<img src ='"+staff_selected.photo+"' style='width:240px;hight:320px' />"+
         "</div>";
     $("#Label_staff_detail").append(txt);
 
 }
+function handlestaffFiles(files){
+    if(files.length>0){
+        staff_photo_name=(files[0].name);
+    }else{
+        staff_photo_name="";
+    }
+}
 function show_new_staff_module(){
-
+    $('#staffupdatefrom').empty();
+    $('#staffupdatefrom').append("<input id='file-zh2' name='file-zh[]' type='file' onchange='handlestaffFiles(this.files)'/>");
+    $('#file-zh2').fileinput({
+        language: 'zh',
+        uploadUrl: upload_url+"?id="+usr.id,
+        allowedFileExtensions : ['jpg', 'png','gif'],
+        'showPreview' : false,
+    });
+    $(".fileinput-remove").on("click",function(){
+        staff_photo_name="";
+        console.log("remove click");
+    });
+    staff_photo_name="";
     $("#newStaffLabel").text("创建新员工");
     staff_module_status = true;
     $("#NewStaffname_Input").val("");
@@ -3707,6 +3756,8 @@ function show_new_staff_module(){
     $("#NewStaffGeoInfo_Input").val("");
     $("#NewStaffKPI_Input").val(0);
     $("#NewStaffStatus_Choice").val("1");
+    $("#NewStaffBank_Input").val("");
+    $("#NewStaffAccount_Input").val("");
 
     $('#NewStaffNickname_Input').attr("disabled",true);
     $("#NewStaffname_Input").attr("placeholder","员工名");
@@ -3737,6 +3788,8 @@ function submit_new_staff_module(){
     var new_staff_status = $("#NewStaffStatus_Choice").val();
     var new_staff_geoinfo = $("#NewStaffGeoInfo_Input").val();
     var new_staff_identify = $("#NewStaffIdentify_Input").val();
+    var new_staff_bank = $("#NewStaffBank_Input").val();
+    var new_staff_account = $("#NewStaffAccount_Input").val();
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3786,11 +3839,28 @@ function submit_new_staff_module(){
         KPI:""+new_staff_KPI,
         status: new_staff_status,
         geoinfo:new_staff_geoinfo,
-        identify: new_staff_identify
+        identify: new_staff_identify,
+        bank:new_staff_bank,
+        account: new_staff_account,
+        photo:staff_photo_name
     };
     new_staff(staff);
 }
 function show_mod_staff_module(staff){
+    $('#staffupdatefrom').empty();
+    $('#staffupdatefrom').append("<input id='file-zh2' name='file-zh[]' type='file' onchange='handlestaffFiles(this.files)'/>");
+
+    $('#file-zh2').fileinput({
+        language: 'zh',
+        uploadUrl: upload_url+"?id="+usr.id,
+        allowedFileExtensions : ['jpg', 'png','gif'],
+        'showPreview' : false,
+    });
+
+    $(".fileinput-remove").on("click",function(){
+        staff_photo_name="";
+    });
+    staff_photo_name="";
     $("#newStaffLabel").text("员工信息修改");
     staff_module_status = false;
     $("#NewStaffname_Input").val(staff.name);
@@ -3807,6 +3877,9 @@ function show_mod_staff_module(staff){
 
     $("#NewStaffIdentify_Input").val(staff.identify);
     $("#NewStaffGeoInfo_Input").val(staff.geoinfo);
+
+    $("#NewStaffBank_Input").val(staff.bank);
+    $("#NewStaffAccount_Input").val(staff.account);
     $("#NewStaffname_Input").attr("placeholder","员工名");
     $("#NewStaffPJcode_Input").attr("placeholder","工厂代码");
     $("#NewStaffMobile_Input").attr("placeholder","联系电话");
@@ -3835,6 +3908,8 @@ function submit_mod_staff_module(){
     var new_staff_status = $("#NewStaffStatus_Choice").val();
     var new_staff_geoinfo = $("#NewStaffGeoInfo_Input").val();
     var new_staff_identify = $("#NewStaffIdentify_Input").val();
+    var new_staff_bank = $("#NewStaffBank_Input").val();
+    var new_staff_account = $("#NewStaffAccount_Input").val();
     //console.log("new_usr_name:"+new_usr_name);
     if(new_staff_name === null || new_staff_name === ""){
         $("#NewStaffname_Input").attr("placeholder","员工名不能为空");
@@ -3888,7 +3963,10 @@ function submit_mod_staff_module(){
         KPI:""+new_staff_KPI,
         status: new_staff_status,
         geoinfo:new_staff_geoinfo,
-        identify: new_staff_identify
+        identify: new_staff_identify,
+        bank:new_staff_bank,
+        account: new_staff_account,
+        photo:staff_photo_name
     };
     modify_staff(staff);
 }

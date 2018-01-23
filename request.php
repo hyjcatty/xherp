@@ -834,6 +834,9 @@ $retval=array(
     			'memo'=>"备注".(string)($start+$i),
     			'identify'=>"21312031203012",
     			'geoinfo'=>"山东",
+    			'bank'=>"山东银行",
+    			'account'=>"123321123321-".(string)($start+$i),
+    			'photo'=>"./photo/".(string)(rand(1,4)).".jpg"
     		);
     		array_push($stafftable,$temp);
         }

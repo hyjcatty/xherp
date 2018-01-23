@@ -774,6 +774,18 @@
                                                                     </div>
                                                                     <div class="col-md-12">
                                                                         <div class="input-group">
+                                                                            <span class="input-group-addon" id="NewStaffbank" style="min-width: 100px">开户行</span>
+                                                                            <input type="text" class="form-control" placeholder="工资卡开户行" aria-describedby="basic-addon1"  id="NewStaffBank_Input"/>
+                                                                        </div>
+
+                                                                        <p></p>
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon" id="NewStaffaccount" style="min-width: 100px">账号</span>
+                                                                            <input type="text" class="form-control" placeholder="工资卡账号" aria-describedby="basic-addon1"  id="NewStaffAccount_Input"/>
+                                                                        </div>
+
+                                                                        <p></p>
+                                                                        <div class="input-group">
                                                                             <span class="input-group-addon" id="NewStaffNickname" style="min-width: 100px">微信昵称</span>
                                                                             <input type="text" class="form-control" placeholder="微信绑定后自动填入" aria-describedby="basic-addon1" disabled="disabled" id="NewStaffNickname_Input"/>
                                                                         </div>
@@ -793,8 +805,18 @@
                                                                             </div>
                                                                         </div>
                                                                         <p></p>
+                                                                        <div class="col-md-12">
+                                                                            <div class="panel-heading">
+                                                                                <h3 class="panel-title">照片上传</h3>
+                                                                            </div>
+                                                                            <form enctype="multipart/form-data" id="staffupdatefrom">
+                                                                                <input id="file-zh2" name="file-zh[]" type="file" onchange="handlestaffFiles(this.files)"/>
+                                                                            </form>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+
+                                                                <div class="clearfix"></div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
                                                                     <button type="button" class="btn btn-primary" id="newStaffCommit">确认</button>

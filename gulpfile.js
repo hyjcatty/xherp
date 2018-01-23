@@ -64,6 +64,8 @@ gulp.task("resourcecopy",function(){
         .pipe(gulp.dest(option.admin_tools_path+"/resource/"));
     gulp.src("./php/*")
         .pipe(gulp.dest(option.buildPath+"/php/"));
+    gulp.src("./photo/*")
+        .pipe(gulp.dest(option.buildPath+"/photo/"));
     gulp.src("./ejs/*")
         .pipe(gulp.dest(option.buildPath+"/ejs/"));
     gulp.src("./svg/**/*")
