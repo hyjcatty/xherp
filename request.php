@@ -6057,6 +6057,215 @@ RESPONSE:
         );
         $jsonencode = _encode($retval);
         echo $jsonencode; break;
+    case "ConsumablesTable":
+        $column = 10;
+        	$row = 8;
+        	$column_name = array();
+        	$row_content = array();
+        	for( $i=0;$i<$column;$i++){
+        		array_push($column_name,"第".(string)($i+1)."列");
+        	}
+        	for($i=0;$i<$row;$i++){
+        		$one_row = array();
+        		array_push($one_row,(string)($i+1));
+        		array_push($one_row,"备注".(string)($i+1));
+        		for($j=0;$j<($column-6);$j++) array_push($one_row,rand(10,110));
+
+        		//one_row.push("地址"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+        		array_push($one_row,"地址".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+        		//one_row.push("测试");
+        		array_push($one_row,"测试");
+        		//one_row.push("名称");
+        		array_push($one_row,"名称");
+        		//one_row.push("长数据长数据长数据"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+        		array_push($one_row,"长数据长数据长数据".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+        		array_push($row_content,$one_row);
+        		//row_content.push(one_row);
+        	}
+        	$body=array(
+        		'ColumnName'=> $column_name,
+        		'TableData'=>$row_content
+        		);
+        	$retval=array(
+        		'status'=>'true',
+        		'ret'=>$body,
+        		'msg'=>'success',
+        		'auth'=>'true'
+        	);
+            $jsonencode = _encode($retval);
+        	echo $jsonencode; break;
+    case "ConsumablesHistory":
+        $body_in = $_GET['body'];
+        	$TableItem = $body_in["Item"];
+        	$Condition = $body_in["Period"];
+        	$KeyWord = $body_in["KeyWord"];
+        	//$Filter = $_GET["Filter"];
+
+        	$column = 8;
+        	$row = rand(40,100);
+        	$column_name = array();
+        	$row_content = array();
+        	for( $i=0;$i<($column-1);$i++){
+        		array_push($column_name,"第".(string)($i+1)."列");
+        	}
+        	for($i=0;$i<$row;$i++){
+        		$one_row = array();
+        		$first_number = rand(0,1);
+        		if($first_number == 0){
+        		    array_push($one_row,"");
+        		}else{
+        		    array_push($one_row,(string)($i+1));
+        		}
+        		array_push($one_row,"备注".(string)($i+1));
+        		for($j=0;$j<($column-6);$j++) array_push($one_row,rand(10,110));
+
+        		//one_row.push("地址"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+        		array_push($one_row,"地址".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+        		//one_row.push("测试");
+        		array_push($one_row,"测试");
+        		//one_row.push("名称");
+        		array_push($one_row,"名称");
+        		//one_row.push("长数据长数据长数据"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+        		array_push($one_row,"长数据长数据长数据".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+        		array_push($row_content,$one_row);
+        		//row_content.push(one_row);
+        	}
+        	$body=array(
+        		'ColumnName'=> $column_name,
+        		'TableData'=>$row_content
+        		);
+        	$retval=array(
+        		'status'=>'true',
+        		'ret'=>$body,
+        		'msg'=>'success',
+        		'auth'=>'true'
+
+        	);
+            $jsonencode = _encode($retval);
+        	echo $jsonencode; break;
+    case "ConsumablesPurchaseDel":
+        /*
+        REQUEST:
+        var body = {
+                consumablespurchaseID:consumablespurchaseid,
+            };
+            var map={
+                action:"ConsumablesPurchaseDel",
+                type:"mod",
+                body: body,
+                user:usr.id
+            };
+
+        */
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetConsumablesPurchase":
+        /*
+        REQUEST:
+        var body = {
+            consumablespurchaseID:consumablespurchaseid,
+        };
+
+        var map={
+            action:"GetConsumablesPurchase",
+            type:"query",
+            body: body,
+            user:usr.id
+        };
+        */
+        	$body= $_GET['body'];
+        	$auth = array() ;
+
+            $ret = array(
+                    'consumablespurchaseID'=>"1234",
+                    'item'=> rand(1,7),
+                    'number'=> "10",
+                    'unit'=> "22.00",
+                    'total'=> "0220.00",
+                    'vendor'=> "小慧智能",
+                    'type'=>"v01.1"
+            );
+        	$retval=array(
+        		'status'=>'true',
+        		'ret'=>$ret,
+        		'msg'=>'success',
+        		'auth'=>'true'
+        	);
+            $jsonencode = _encode($retval);
+        	echo $jsonencode; break;
+    case "ConsumablesPurchaseMod":
+    /*
+        REQUEST:
+        var body = {
+            consumablespurchaseID:select_consumablespurchase_ID,
+            item: purchase.item,
+            number: purchase.number,
+            unit: purchase.unit,
+            total: purchase.total,
+            vendor:purchase.vendor,
+            type:purchase.type
+        };
+
+        var map={
+            action:"ConsumablesPurchaseMod",
+            type:"mod",
+            body: body,
+            user:usr.id
+        };
+        RESPONSE:
+        $retval=array(
+        	'status'=>'true',
+        	'msg'=>'success',
+        	'auth'=>'true'
+        );
+        */
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "ConsumablesPurchaseNew":
+    /*
+        REQUEST:
+        var body = {
+                item: purchase.item,
+                number: purchase.number,
+                unit: purchase.unit,
+                total: purchase.total,
+                vendor:purchase.vendor,
+                type:purchase.type
+            };
+
+            var map={
+                action:"ConsumablesPurchaseNew",
+                type:"mod",
+                body: body,
+                user:usr.id
+            };
+        RESPONSE:
+        $retval=array(
+        	'status'=>'true',
+        	'msg'=>'success',
+        	'auth'=>'true'
+        );
+        */
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
 	default:
 	break;
 }

@@ -247,6 +247,14 @@ var camera_unit_v;
 
 var Longitude = null;
 var Latitude = null;
+
+/* Consumables*/
+var ConsumablesPurchase_module_status = false;
+var select_consumablespurchase_ID = "";
+var Consumables_History_table_initialized =false;
+var if_consumables_history_table_initialize = false;
+var Consumables_table_initialized =false;
+var if_consumables_table_initialize = false;
 /*
 var lineChartData = {
     labels : ["January","February","March","April","May","June","July"],
@@ -965,7 +973,18 @@ $(document).ready(function() {
         touchcookie();
         OTDR_Manage();
     });
-
+    $("#ConsumablesManage").on('click',function(){
+        CURRENT_URL = "ConsumablesManage";
+        active_menu("ConsumablesManage");
+        touchcookie();
+        consumables_manage();
+    });
+    $("#ConsumablesHistory").on('click',function(){
+        CURRENT_URL = "ConsumablesHistory";
+        active_menu("ConsumablesHistory");
+        touchcookie();
+        consumables_history();
+    });
 
     //user view buttons
     $("#UserfreshButton").on('click',function(){
@@ -2015,9 +2034,47 @@ $(document).ready(function() {
         //AttendanceBatchCommit
 
     });
+    $("#ConsumablesPurchase").on('click',function() {
+        show_consumablespurchase_module();
+    });
+    $("#ConsumablesPurchaseCommit").on('click',function() {
+        if(ConsumablesPurchase_module_status){
+            new_consumablespurchase_submit();
+        }else{
+            mod_consumablespurchase_submit();
+        }
+    });
+    $("#ConsumablesHistoryFlash").on('click',function() {
+        query_consumables_history();
+    });
+    $("#delConsumablesPurchaseCommit").on('click',function() {
+        var consumablespurchaseid=$("#delConsumablesPurchaseCommit").attr("ConsumablesPurchaseID");
 
-
-
+        del_consumablespurchase(consumablespurchaseid);
+        $('#ConsumablesPurchaseDelAlarm').modal('hide');
+    });
+    $("#ConsumablesUnitPrice_Input").on('change',function() {
+        var unitprice = parseFloat($("#ConsumablesUnitPrice_Input").val());
+        var number = parseInt($("#ConsumablesNumber_Input").val());
+        if(isNaN(unitprice) || unitprice <0){
+            unitprice = 0;
+            $("#ConsumablesUnitPrice_Input").val(0);
+            $("#ConsumablesTotalPrice_Input").val(0);
+        }else{
+            $("#ConsumablesTotalPrice_Input").val(unitprice*number);
+        }
+    });
+    $("#ConsumablesNumber_Input").on('change',function() {
+        var unitprice = parseFloat($("#ConsumablesUnitPrice_Input").val());
+        var number = parseInt($("#ConsumablesNumber_Input").val());
+        if(isNaN(number) || number <0){
+            number = 0;
+            $("#ConsumablesNumber_Input").val(0);
+            $("#ConsumablesTotalPrice_Input").val(0);
+        }else{
+            $("#ConsumablesTotalPrice_Input").val(unitprice*number);
+        }
+    });
     //alert($(window).height());
     //alert($(window).width());
     clear_window();
@@ -2449,7 +2506,27 @@ function export_table(){
     export_table_initialize();
     //query_static_warning();
 }
+function consumables_manage(){
+    clear_window();
+    hide_searchbar();
+    write_title("耗材信息","请输入查询条件");
+    $("#ConsumablesManageView").css("display","block");
+    query_consumables_table();
+    //export_table_initialize();
+    //query_static_warning();
+}
+function consumables_history(){
+    clear_window();
+    hide_searchbar();
+    write_title("耗材历史","请输入查询条件");
+    $("#ConsumablesHistoryView").css("display","block");
+    //export_table_initialize();
+    //query_static_warning();
+}
 function clear_window(){
+
+    $(".hyjwindow").css("display","none");
+    /*
     $("#UserManageView").css("display","none");
     $("#StaffManageView").css("display","none");
     $("#FactoryManageView").css("display","none");
@@ -2479,6 +2556,8 @@ function clear_window(){
     $("#AssembleAuditView").css("display","none");
     $("#AttendanceAuditView").css("display","none");
     $("#KPIAuditView").css("display","none");
+    $("#ConsumablesHistoryView").css("display","none");
+    $("#ConsumablesManageView").css("display","none");*/
 }
 
 
@@ -9909,7 +9988,7 @@ function del_attendance(attendanceid){
     };
     JQ_get(request_head,map,del_attendance_callback);
 
-    $("#UserDelAlarm").modal('hide');
+    $("#AttendanceDelAlarm").modal('hide');
 }
 
 function query_assemble_history(){
@@ -13023,4 +13102,415 @@ function getgeographyinfo(){
         }
     };
     JQ_get(request_head,map,getgeographyinfo_callback);
+}
+
+//耗材管理
+
+function getconsumablestable(){
+
+    var map={
+        action:"GetConsumablesTable",
+        type:"query",
+        user:usr.id
+    };
+    var getconsumablestable_callback = function(result){
+        //刷datatable
+    };
+    JQ_get(request_head,map,getconsumablestable_callback);
+}
+function getconsumableshistory(consumablestype,Query_time,Query_word){
+    var map={
+        action:"GetConsumablesHistory",
+        body:{
+            Consumables:consumablestype,
+            Time:Query_time,
+            KeyWord:Query_word
+        },
+        type:"query",
+        user:usr.id
+    };
+    var ggetconsumableshistory_callback = function(result){
+        //刷datatable
+    };
+    JQ_get(request_head,map,getconsumableshistory_callback);
+}
+
+function show_consumablespurchase_module(){
+    $("#ConsumablesPurchaseLabel").text("创建耗材入库记录");
+    ConsumablesPurchase_module_status=true;
+    $("#ConsumablesPurchaseSelect_choice").val("1");
+    $("#ConsumablesNumber_Input").val("0");
+    $("#ConsumablesUnitPrice_Input").val("0");
+    $("#ConsumablesTotalPrice_Input").val("0");
+
+    $("#ConsumablesVendor_Input").val("");
+    $("#ConsumablesType_Input").val("");
+    modal_middle($('#ConsumablesPurchaseModal'));
+    $('#ConsumablesPurchaseModal').modal('show');
+}
+function show_mod_consumablespurchase_module(purchase){
+    $("#ConsumablesPurchaseLabel").text("修改耗材入库记录");
+    ConsumablesPurchase_module_status=false;
+    $("#ConsumablesPurchaseSelect_choice").val(purchase.item);
+    $("#ConsumablesNumber_Input").val(purchase.number);
+    $("#ConsumablesUnitPrice_Input").val(purchase.unit);
+    $("#ConsumablesTotalPrice_Input").val(purchase.total);
+
+    $("#ConsumablesVendor_Input").val(purchase.vendor);
+    $("#ConsumablesType_Input").val(purchase.type);
+    modal_middle($('#ConsumablesPurchaseModal'));
+    $('#ConsumablesPurchaseModal').modal('show');
+}
+function new_consumablespurchase_submit(){
+    var item = $("#ConsumablesPurchaseSelect_choice").val();
+    var number = parseInt($("#ConsumablesNumber_Input").val());
+    var unit = parseFloat($("#ConsumablesUnitPrice_Input").val());
+    var total = parseFloat($("#ConsumablesTotalPrice_Input").val());
+    var vendor = $("#ConsumablesVendor_Input").val();
+    var type =$("#ConsumablesType_Input").val();
+    if( isNaN(number)  || number<=0 ){
+        $("#ConsumablesNumber_Input").val(0);
+        $("#ConsumablesNumber_Input").focus();
+        return;
+    }
+    if( isNaN(unit)  || unit<=0 ){
+        $("#ConsumablesUnitPrice_Input").val(0);
+        $("#ConsumablesUnitPrice_Input").focus();
+        return;
+    }
+    if( vendor ==="" ){
+        $("#ConsumablesVendor_Input").focus();
+        return;
+    }
+    var purchase = {
+        item: item,
+        number: number,
+        unit: unit,
+        total: total,
+        vendor:vendor,
+        type:type
+    };
+    new_consumablespurchase(purchase);
+}
+function new_consumablespurchase(purchase){
+    var body = {
+        item: purchase.item,
+        number: purchase.number,
+        unit: purchase.unit,
+        total: purchase.total,
+        vendor:purchase.vendor,
+        type:purchase.type
+    };
+
+    var map={
+        action:"ConsumablesPurchaseNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var new_consumablespurchase_callback = function(result){
+        $('#ConsumablesPurchaseModal').modal('hide');
+        var ret = result.status;
+        if(ret == "true"){
+            $('#ConsumablesPurchaseModal').modal('hide');
+            create_user_flash = function(){
+                query_consumables_table();
+
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"入库成功！",create_user_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"入库失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,new_consumablespurchase_callback);
+}
+function mod_consumablespurchase_submit(){
+    var item = $("#ConsumablesPurchaseSelect_choice").val();
+    var number = parseInt($("#ConsumablesNumber_Input").val());
+    var unit = parseFloat($("#ConsumablesUnitPrice_Input").val());
+    var total = parseFloat($("#ConsumablesTotalPrice_Input").val());
+    var vendor = $("#ConsumablesVendor_Input").val();
+    var type =$("#ConsumablesType_Input").val();
+    if( isNaN(number)  || number<=0 ){
+        $("#ConsumablesNumber_Input").val(0);
+        $("#ConsumablesNumber_Input").focus();
+        return;
+    }
+    if( isNaN(unit)  || unit<=0 ){
+        $("#ConsumablesUnitPrice_Input").val(0);
+        $("#ConsumablesUnitPrice_Input").focus();
+        return;
+    }
+    if( vendor ==="" ){
+        $("#ConsumablesVendor_Input").focus();
+        return;
+    }
+    var purchase = {
+        item: item,
+        number: number,
+        unit: unit,
+        total: total,
+        vendor:vendor,
+        type:type
+    };
+    mod_consumablespurchase(purchase);
+}
+
+function mod_consumablespurchase(purchase){
+    var body = {
+        consumablespurchaseID:select_consumablespurchase_ID,
+        item: purchase.item,
+        number: purchase.number,
+        unit: purchase.unit,
+        total: purchase.total,
+        vendor:purchase.vendor,
+        type:purchase.type
+    };
+
+    var map={
+        action:"ConsumablesPurchaseMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var mod_consumablespurchase_callback = function(result){
+        $('#ConsumablesPurchaseModal').modal('hide');
+        var ret = result.status;
+        if(ret == "true"){
+            $('#newAttendanceModal').modal('hide');
+            create_user_flash = function(){
+                query_consumables_history();
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"修改成功！",create_user_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"修改失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,mod_consumablespurchase_callback);
+}
+function get_consumablespurchase(consumablespurchaseid){
+    var body = {
+        consumablespurchaseID:consumablespurchaseid,
+    };
+
+    var map={
+        action:"GetConsumablesPurchase",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+    var get_consumablespurchase_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            show_mod_consumablespurchase_module(result.ret);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"查询失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,get_consumablespurchase_callback);
+}
+function del_consumablespurchase(consumablespurchaseid){
+    var body = {
+        consumablespurchaseID:consumablespurchaseid,
+    };
+    var map={
+        action:"ConsumablesPurchaseDel",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var del_consumablespurchase_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            del_attendance_flash = function(){
+                query_consumables_history();
+            };
+
+            setTimeout(function(){
+                show_alarm_module(false,"删除成功！",del_attendance_flash);
+            },500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"删除失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,del_consumablespurchase_callback);
+
+    $("#ConsumablesPurchaseDelAlarm").modal('hide');
+}
+
+function query_consumables_history(){
+    //if(Consumables_History_table_initialized !== true) return;
+    var Query_Consumables_item = $("#ConsumablesHistorySelect_choice").val();
+    var Query_time = $("#ConsumablesHistoryQueryTime_choice").val();
+    var Query_word = $("#ConsumablesHistoryQueryWord_Input").val();
+    var condition = {
+        Item:Query_Consumables_item,
+        Period:Query_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"ConsumablesHistory",
+        body:condition,
+        user:usr.id
+    };
+    var query_consumables_history_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#ConsumablesHistoryLastFlash").empty();
+        $("#ConsumablesHistoryLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr><th></th><th></th>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+
+            txt = txt +"<tr>";
+            if(TableData[i][0] ===""){
+                txt = txt +"<td><button type='button' class='btn btn-default purchase_del_btn' PurchaseCode='"+TableData[i][0]+"' disabled='disabled' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+                txt = txt +"<td><button type='button' class='btn btn-default purchase_mod_btn' PurchaseCode='"+TableData[i][0]+"' disabled='disabled' ><em class='glyphicon glyphicon-pencil ' aria-hidden='true' ></em></button></td>";
+            }else{
+                txt = txt +"<td><button type='button' class='btn btn-default purchase_del_btn' PurchaseCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+                txt = txt +"<td><button type='button' class='btn btn-default purchase_mod_btn' PurchaseCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-pencil ' aria-hidden='true' ></em></button></td>";
+            }
+            for(var j=1;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#ConsumablesHistoryQueryTable").empty();
+        $("#ConsumablesHistoryQueryTable").append(txt);
+        if(if_consumables_history_table_initialize) $("#ConsumablesHistoryQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#ConsumablesHistoryQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        delpurchase_btn_click = function(){
+            $("#delConsumablesPurchaseCommit").attr("ConsumablesPurchaseID",$(this).attr("PurchaseCode"));
+            modal_middle($('#ConsumablesPurchaseDelAlarm'));
+
+            $('#ConsumablesPurchaseDelAlarm').modal('show');
+
+        };
+        modpurchase_btn_click = function(){
+
+            select_consumablespurchase_ID  = $(this).attr("PurchaseCode");
+            get_consumablespurchase(select_consumablespurchase_ID);
+
+        };
+        $(".purchase_del_btn").on('click',delpurchase_btn_click);
+        $(".purchase_mod_btn").on('click',modpurchase_btn_click);
+        $("#ConsumablesHistoryQueryTable").on('draw.dt',function(){
+            $(".purchase_del_btn").unbind();
+            $(".purchase_del_btn").on('click',delpurchase_btn_click);
+            $(".purchase_mod_btn").unbind();
+            $(".purchase_mod_btn").on('click',modpurchase_btn_click);
+        });
+        if_consumables_history_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_consumables_history_callback);
+
+}
+
+function query_consumables_table(){
+    //if(Consumables_table_initialized !== true) return;
+    var map={
+        action:"ConsumablesTable",
+        user:usr.id
+    };
+    var query_consumables_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#ConsumablesManageLastFlash").empty();
+        $("#ConsumablesManageLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+
+            txt = txt +"<tr>";
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#ConsumablesManageQueryTable").empty();
+        $("#ConsumablesManageQueryTable").append(txt);
+        if(if_consumables_table_initialize) $("#ConsumablesManageQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#ConsumablesManageQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        if_consumables_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_consumables_callback);
+
 }
