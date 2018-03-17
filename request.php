@@ -6266,6 +6266,233 @@ RESPONSE:
         );
         $jsonencode = _encode($retval);
         echo $jsonencode; break;
+    case "ProductStockNew":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "ProductStockDel":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetProductStockList":
+        $retlist = array();
+        for($i=0;$i<10;$i++){
+            $cargo = array(
+            'id'=>$i,
+            'name'=>'仓库'.$i,
+            'address'=>'地址'.$i
+            );
+            array_push($retlist, $cargo);
+        }
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$retlist,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetProductEmptyStock":
+        $retlist = array();
+        for($i=0;$i<5;$i++){
+            $cargo = array(
+            'id'=>($i*2),
+            'name'=>'仓库'.($i*2),
+            'address'=>'地址'.($i*2)
+            );
+            array_push($retlist, $cargo);
+        }
+        $retval=array(
+         'status'=>'true',
+         'ret'=>$retlist,
+         'msg'=>'success',
+         'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetProductWeightAndSize":
+        $weightlist=array('5kg','10kg','20kg','50kg','100kg');
+        $sizelist=array('一级','二级','三级','特级','垃圾');
+        $retlist = array(
+            'weight'=>$weightlist,
+            'size'=>$sizelist
+        );
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$retlist,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "ProductStockRemovalNew":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "ProductStockRemovalMod":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "ProductStockRemovalDel":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "ProductStockTransfer":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "ProductStockTable":
+        $body= $_GET['body'];
+        $column = 10;
+        $row = 8;
+        $column_name = array();
+        $row_content = array();
+        for( $i=0;$i<$column-1;$i++){
+            array_push($column_name,"第".(string)($i+1)."列");
+        }
+        for($i=0;$i<$row;$i++){
+            $one_row = array();
+            array_push($one_row,(string)($i+1));
+            array_push($one_row,"备注".(string)($i+1));
+            for($j=0;$j<($column-6);$j++) array_push($one_row,rand(10,110));
+
+            //one_row.push("地址"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+            array_push($one_row,"地址".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+            //one_row.push("测试");
+            array_push($one_row,"测试");
+            //one_row.push("名称");
+            array_push($one_row,"名称");
+            //one_row.push("长数据长数据长数据"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+            array_push($one_row,"长数据长数据长数据".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+            array_push($row_content,$one_row);
+            //row_content.push(one_row);
+        }
+        $body=array(
+            'ColumnName'=> $column_name,
+            'TableData'=>$row_content
+            );
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$body,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetProductStockDetail":
+        $body= $_GET['body'];
+        $StockDetail = array(
+            'storageID'=> '1',
+            'weight'=> '5kg',
+            'size'=> '三级',
+            'maxStorage'=> '100',
+        );
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$StockDetail,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "ProductStockHistory":
+        $body_in = $_GET['body'];
+        //$Filter = $_GET["Filter"];
+
+        $column = 8;
+        $row = rand(40,100);
+        $column_name = array();
+        $row_content = array();
+        for( $i=0;$i<($column-1);$i++){
+            array_push($column_name,"第".(string)($i+1)."列");
+        }
+        for($i=0;$i<$row;$i++){
+            $one_row = array();
+            $first_number = rand(0,1);
+            if($first_number == 0){
+                array_push($one_row,"");
+            }else{
+                array_push($one_row,(string)($i+1));
+            }
+            array_push($one_row,"备注".(string)($i+1));
+            for($j=0;$j<($column-6);$j++) array_push($one_row,rand(10,110));
+
+            //one_row.push("地址"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+            array_push($one_row,"地址".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+            //one_row.push("测试");
+            array_push($one_row,"测试");
+            //one_row.push("名称");
+            array_push($one_row,"名称");
+            //one_row.push("长数据长数据长数据"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+            array_push($one_row,"长数据长数据长数据".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+            array_push($row_content,$one_row);
+            //row_content.push(one_row);
+        }
+        $body=array(
+            'ColumnName'=> $column_name,
+            'TableData'=>$row_content
+            );
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$body,
+            'msg'=>'success',
+            'auth'=>'true'
+
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetProductStockHistoryDetail":
+        $body= $_GET['body'];
+        $StockDetail = array(
+            'storageID'=> '1',
+            'weight'=> '5kg',
+            'size'=> '三级',
+            'number'=> '10',
+            'container'=>'1234567',
+            'trunk'=>'浙B22222',
+            'driver'=>'司机b',
+            'mobile'=>'13913131313',
+            'target'=>'富士康',
+            'logistics'=>'顺丰快递'
+        );
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$StockDetail,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
 	default:
 	break;
 }
