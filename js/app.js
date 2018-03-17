@@ -13903,8 +13903,8 @@ function getEmptyStockList(){
     var getEmptyStockList_callback = function(result){
         var ret = result.status;
         if(ret == "true"){
-            StockList = result.ret;
-            show_productStockdel_modal(StockList);
+            //StockList = result.ret;
+            show_productStockdel_modal(result.ret);
         }else{
             setTimeout(function(){
                 show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
