@@ -13925,7 +13925,7 @@ function show_productStockdel_modal(emptylist){
 }
 function del_productstock_submit(){
     var stock = $("#ProductStockDelSelect_choice").val();
-    if(stock ===  "") return;
+    if(stock === null ||stock ===  "") return;
     del_productstock(stock);
 }
 function del_productstock(stock){
