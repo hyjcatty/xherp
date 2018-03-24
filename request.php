@@ -6493,6 +6493,254 @@ RESPONSE:
         );
         $jsonencode = _encode($retval);
         echo $jsonencode; break;
+    //Material part
+    case "MaterialStockNew":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "MaterialStockDel":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetMaterialStockList":
+        $retlist = array();
+        for($i=0;$i<10;$i++){
+            $cargo = array(
+            'id'=>$i,
+            'name'=>'仓库'.$i,
+            'address'=>'地址'.$i
+            );
+            array_push($retlist, $cargo);
+        }
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$retlist,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetMaterialEmptyStock":
+        $retlist = array();
+        for($i=0;$i<5;$i++){
+            $cargo = array(
+            'id'=>($i*2),
+            'name'=>'仓库'.($i*2),
+            'address'=>'地址'.($i*2)
+            );
+            array_push($retlist, $cargo);
+        }
+        $retval=array(
+         'status'=>'true',
+         'ret'=>$retlist,
+         'msg'=>'success',
+         'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "MaterialStockRemovalNew":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "MaterialStockRemovalMod":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "MaterialStockRemovalDel":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "MaterialStockIncomeNew":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "MaterialStockIncomeMod":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "MaterialStockIncomeDel":
+        $body= $_GET['body'];
+        $retval=array(
+            'status'=>'true',
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "MaterialStockTable":
+        $body= $_GET['body'];
+        $column = 10;
+        $row = 8;
+        $column_name = array();
+        $row_content = array();
+        for( $i=0;$i<$column-1;$i++){
+            array_push($column_name,"第".(string)($i+1)."列");
+        }
+        for($i=0;$i<$row;$i++){
+            $one_row = array();
+            array_push($one_row,(string)($i+1));
+            array_push($one_row,"备注".(string)($i+1));
+            for($j=0;$j<($column-6);$j++) array_push($one_row,rand(10,110));
+
+            //one_row.push("地址"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+            array_push($one_row,"地址".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+            //one_row.push("测试");
+            array_push($one_row,"测试");
+            //one_row.push("名称");
+            array_push($one_row,"名称");
+            //one_row.push("长数据长数据长数据"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+            array_push($one_row,"长数据长数据长数据".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+            array_push($row_content,$one_row);
+            //row_content.push(one_row);
+        }
+        $body=array(
+            'ColumnName'=> $column_name,
+            'TableData'=>$row_content
+            );
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$body,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetMaterialStockDetail":
+        $body= $_GET['body'];
+        $StockDetail = array(
+            'storageID'=> '1',
+            'mode'=> (string)rand(0,1),//0 自有 1 第三方
+            'localStorage'=> '50',
+            'maxStorage'=> '100',
+        );
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$StockDetail,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "MaterialStockHistory":
+        $body_in = $_GET['body'];
+        //$Filter = $_GET["Filter"];
+
+        $column = 8;
+        $row = rand(40,100);
+        $column_name = array();
+        $row_content = array();
+        for( $i=0;$i<($column-1);$i++){
+            array_push($column_name,"第".(string)($i+1)."列");
+        }
+        for($i=0;$i<$row;$i++){
+            $one_row = array();
+            $first_number = rand(0,1);
+            if($first_number == 0){
+                array_push($one_row,"");
+            }else{
+                array_push($one_row,(string)($i+1));
+            }
+            array_push($one_row,"备注".(string)($i+1));
+            for($j=0;$j<($column-6);$j++) array_push($one_row,rand(10,110));
+
+            //one_row.push("地址"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+            array_push($one_row,"地址".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+            //one_row.push("测试");
+            array_push($one_row,"测试");
+            //one_row.push("名称");
+            array_push($one_row,"名称");
+            //one_row.push("长数据长数据长数据"+(i+1)+"xxxxx路"+(i+1)+"xxxxx号");
+            array_push($one_row,"长数据长数据长数据".((string)($i+1))."xxxxx路".((string)($i+1))."xxxxx号");
+            array_push($row_content,$one_row);
+            //row_content.push(one_row);
+        }
+        $body=array(
+            'ColumnName'=> $column_name,
+            'TableData'=>$row_content
+            );
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$body,
+            'msg'=>'success',
+            'auth'=>'true'
+
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetMaterialStockHistoryDetail":
+        $body= $_GET['body'];
+        $type = (string)(rand(0,1));//0 入库1出库
+        $StockDetail;
+        if($type == '1'){
+            $StockDetail = array(
+                'type'=> '1', //
+                'storageID'=> '1',
+                'materialMode'=> (string)(rand(0,1)),
+                'bucket'=> '20',
+                'price'=> '100',
+                'trunk'=>'浙B22222',
+                'driver'=>'司机b',
+                'mobile'=>'13913131313',
+                'target'=>'富士康',
+                'logistics'=>'顺丰快递'
+            );
+        }else{
+            $StockDetail = array(
+                'type'=> '0',//
+                'storageID'=> '1',
+                'materialMode'=> (string)(rand(0,1)),
+                'bucket'=> '20',
+                'price'=> '100',
+                'buyer'=>'采购员',
+                'vendor'=>'供应商A',
+                'mobile'=>'13913131313'
+            );
+        }
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$StockDetail,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+
+
 	default:
 	break;
 }

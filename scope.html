@@ -118,10 +118,12 @@
                                     </ul>
                                 </li>
 
-                                <li><a><i class="fa fa-truck"></i> 出库管理 <span class="fa fa-chevron-down"></span></a>
+                                <li><a><i class="fa fa-truck"></i> 仓库管理 <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="#" id="ProductStorageManage">成品库存信息</a></li>
-                                        <li><a href="#" id="ProductDeliveryManage">出库信息</a></li>
+                                        <li><a href="#" id="ProductDeliveryManage">成品出库信息</a></li>
+                                        <li><a href="#" id="MaterialStorageManage">原材料库存信息</a></li>
+                                        <li><a href="#" id="MaterialDeliveryManage">原材料出入库信息</a></li>
                                         <!--li><a href="#" id="ProductDeliveryHistory">成品出库历史</a></li>
                                         <li><a href="#" id="MaterialLogisticsManage">物流信息</a></li>
                                         <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
@@ -130,7 +132,7 @@
                                         <li><a href="#" id="InstControl">数据管理</a></li-->
                                     </ul>
                                 </li>
-                                <li><a><i class="fa fa-cubes"></i> 入库管理 <span class="fa fa-chevron-down"></span></a>
+                                <!--li><a><i class="fa fa-cubes"></i> 入库管理 <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="#" id="ApplePurchaseInManage">苹果采购入库</a></li>
                                         <li><a href="#" id="AppleSaveInManage">苹果代存入库</a></li>
@@ -138,9 +140,9 @@
                                         <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
                                         <li><a href="#" id="SoftwareLoadManage">软件包管理</a></li>
                                         <li><a href="#" id="ParaManage">参数管理</a></li>
-                                        <li><a href="#" id="InstControl">数据管理</a></li-->
+                                        <li><a href="#" id="InstControl">数据管理</a></li>
                                     </ul>
-                                </li>
+                                </li-->
                                 <!--li><a><i class="fa fa-edit"></i> 项目管理 <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="#" id="PGManage">项目组信息</a></li>
@@ -4265,6 +4267,74 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <div class="row clearfix hyjwindow" id="MaterialDeliveryHistoryView">
+                                        <div class="col-md-12 column">
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon" id="MaterialDeliveryHistorySelect" style="min-width: 100px">仓库选择</span>
+                                                    <select class="form-control" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialDeliveryHistorySelect_choice">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="input-group" >
+                                                    <span class="input-group-addon" id="MaterialDeliveryHistoryQueryTime" style="min-width: 100px">查询周期</span>
+                                                    <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="MaterialDeliveryHistoryQueryTime_choice">
+                                                        <option value="1">今日</option>
+                                                        <option value="7">近7天</option>
+                                                        <option value="30">近30天</option>
+                                                        <option value="all">全部</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" id="MaterialDeliveryHistoryQueryWord" style="min-width: 100px">关键字</span>
+                                                    <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="MaterialDeliveryHistoryQueryWord_Input"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 column">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary" id="MaterialDeliveryHistoryFlash">查询</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="MaterialDeliveryHistoryLastFlash"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 column" id="MaterialDeliveryHistoryQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                            <p></p>
+                                            <table id="MaterialDeliveryHistoryQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="MaterialStorageManageView">
+                                        <div class="col-md-12 column">
+                                            <button type="button" class="btn btn-primary" id="MaterialStorageadd">增加仓库</button>
+                                            <button type="button" class="btn btn-primary" id="MaterialStoragedel">删除仓库</button>
+                                        </div>
+                                        <div class="col-md-12 column">
+                                            <div class="col-md-12 column">
+                                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="input-group" >
+                                                        <span class="input-group-addon" id="MaterialStorageSelect" style="min-width: 100px">仓库</span>
+                                                        <select class="form-control" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialStorageSelect_choice">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary" id="MaterialStorageQuery">查询</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="MaterialStorageLastFlash"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 column" id="MaterialStorageManageQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                            <p></p>
+                                            <table id="MaterialStorageManageQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                            </table>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -4759,7 +4829,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="ProductStockRemovalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -4939,6 +5008,213 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
                     <button type="button" class="btn btn-primary"  id="ProductStockDelCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="MaterialStockRemovalDelAlarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="MaterialStockRemovalDelAlertModalLabel">确认删除</h4>
+                </div>
+                <div class="modal-body" >
+                    <strong>警告！</strong>您确定要删除此记录么？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="delMaterialStockRemovalCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="MaterialStockRemovalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="MaterialStockRemovalLabel">原料出库</h4>
+                </div>
+                <div class="modal-body" style="min-height:520px">
+                    <div class="col-md-6">
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="MaterialStockRemovalStorageSelect" style="min-width: 100px">仓库</span>
+                            <select class="form-control" placeholder="仓库" aria-describedby="basic-addon1" disabled="disabled" id="MaterialStockRemovalStorageSelect_choice">
+                            </select>
+                        </div>
+
+                        <p></p>
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="MaterialStockRemovalModeSelect" style="min-width: 100px">货品选择</span>
+                            <select class="form-control" placeholder="货品选择" aria-describedby="basic-addon1" disabled="disabled" id="MaterialStockRemovalModeSelect_choice">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockRemovalNumber" style="min-width: 100px">桶数</span>
+                            <input type="text" class="form-control" placeholder="桶数" aria-describedby="basic-addon1"  id="MaterialStockRemovalNumber_Input"/>
+                        </div>
+                        <p></p>
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="MaterialStockRemovalPrice" style="min-width: 100px">总价</span>
+                            <input type="text" class="form-control" placeholder="总价" aria-describedby="basic-addon1"  id="MaterialStockRemovalPrice_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockRemovalTrunk" style="min-width: 100px">车牌号</span>
+                            <input type="text" class="form-control" placeholder="车牌号" aria-describedby="basic-addon1" id="MaterialStockRemovalTrunk_Input"/>
+                        </div>
+                        <p></p>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="PMaterialStockRemovalLogistics" style="min-width: 100px">物流单位</span>
+                            <input type="text" class="form-control" placeholder="物流单位" aria-describedby="basic-addon1" id="MaterialStockRemovalLogistics_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockRemovalDriver" style="min-width: 100px">司机名</span>
+                            <input type="text" class="form-control" placeholder="司机名" aria-describedby="basic-addon1" id="MaterialStockRemovalDriver_Input"/>
+                        </div>
+                        <p></p>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockRemovalDriverMobile" style="min-width: 100px">司机手机</span>
+                            <input type="text" class="form-control" placeholder="司机手机" aria-describedby="basic-addon1" id="MaterialStockRemovalDriverMobile_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockRemovalTarget" style="min-width: 100px">收货单位</span>
+                            <input type="text" class="form-control" placeholder="收货单位" aria-describedby="basic-addon1" id="MaterialStockRemovalTarget_Input"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-primary"  id="MaterialStockRemovalCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="MaterialStockIncomeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="MaterialStockTransferLabel">原料入库</h4>
+                </div>
+                <div class="modal-body" style="min-height:520px">
+                    <div class="col-md-6">
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="MaterialStockIncomeStorageSelect" style="min-width: 100px">仓库</span>
+                            <select class="form-control" placeholder="仓库" aria-describedby="basic-addon1" disabled="disabled" id="MaterialStockIncomeStorageSelect_choice">
+                            </select>
+                        </div>
+
+                        <p></p>
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="MaterialStockIncomeModeSelect" style="min-width: 100px">货品选择</span>
+                            <select class="form-control" placeholder="货品选择" aria-describedby="basic-addon1" disabled="disabled" id="MaterialStockIncomeModeSelect_choice">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockIncomeNumber" style="min-width: 100px">桶数</span>
+                            <input type="text" class="form-control" placeholder="桶数" aria-describedby="basic-addon1"  id="MaterialStockIncomeNumber_Input"/>
+                        </div>
+                        <p></p>
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="MaterialStockIncomePrice" style="min-width: 100px">总价</span>
+                            <input type="text" class="form-control" placeholder="总价" aria-describedby="basic-addon1"  id="MaterialStockIncomePrice_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockIncomeVendor" style="min-width: 100px">供应商</span>
+                            <input type="text" class="form-control" placeholder="供应商" aria-describedby="basic-addon1" id="MaterialStockIncomeVendor_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockIncomeBuyer" style="min-width: 100px">采购员</span>
+                            <input type="text" class="form-control" placeholder="采购员" aria-describedby="basic-addon1" id="MaterialStockIncomeBuyer_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockIncomeBuyerMobile" style="min-width: 100px">采购员手机</span>
+                            <input type="text" class="form-control" placeholder="采购员手机" aria-describedby="basic-addon1" id="MaterialStockIncomeBuyerMobile_Input"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-primary"  id="MaterialStockIncomeCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="MaterialStockNewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="MaterialStockNewModalLabel">新增原材料仓库（输入同名仓库视为修改）</h4>
+                </div>
+                <div class="modal-body" style="min-height:520px">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockNewName" style="min-width: 100px">仓库名</span>
+                            <input type="text" class="form-control" placeholder="仓库名" aria-describedby="basic-addon1"  id="MaterialStockNewName_Input"/>
+                        </div><p></p>
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="MaterialStockNewModeSelect" style="min-width: 100px">仓库种类</span>
+                            <select class="form-control" placeholder="仓库种类" aria-describedby="basic-addon1" id="MaterialStockNewModeSelect_choice">
+                                <option value="0">自有</option>
+                                <option value="1">第三方</option>
+                            </select>
+                        </div>
+                        <p></p>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="MaterialStockNewAddress" style="min-width: 100px">地址</span>
+                            <input type="text" class="form-control" placeholder="地址" aria-describedby="basic-addon1"  id="MaterialStockNewAddress_Input"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-primary"  id="MaterialStockNewCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="MaterialStockDelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="MaterialStockDelModalLabel">删除仓库（只能删除空仓库）</h4>
+                </div>
+                <div class="modal-body" style="min-height:520px">
+                    <div class="col-md-12">
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="MaterialStockDelSelect" style="min-width: 100px">空仓库</span>
+                            <select class="form-control" placeholder="空仓库" aria-describedby="basic-addon1" id="MaterialStockDelSelect_choice">
+                            </select>
+                        </div>
+                        <!--p></p>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ProductStockDelAddress" style="min-width: 100px">地址</span>
+                            <input type="text" class="form-control" placeholder="地址" aria-describedby="basic-addon1" disabled="disabled" id="ProductStockDelAddress_Input"/>
+                        </div-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-primary"  id="MaterialStockDelCommit">确认</button>
                 </div>
             </div>
         </div>

@@ -267,6 +267,15 @@ var select_ProductStockRemoval_ID = "";
 var if_productstock_history_table_initialize = false;
 var if_productstock_table_initialize = false;
 
+/*Product Stock*/
+var MaterialStockList = [];
+var MaterialStrockEmptyList = [];
+var MaterialStockRemoval_module_status = false;
+var MaterialStockIncome_module_status = false;
+var select_MaterialStockRemoval_ID = "";
+
+var if_materialstock_history_table_initialize = false;
+var if_materialstock_table_initialize = false;
 /*
 var lineChartData = {
     labels : ["January","February","March","April","May","June","July"],
@@ -579,6 +588,7 @@ function get_user_information(){
             get_staff_name_list();
             getProductWeightAndSize();
             getProductStockList();
+            getMaterialStockList();
             
         }
 	};
@@ -1010,6 +1020,18 @@ $(document).ready(function() {
         active_menu("ProductDeliveryManage");
         touchcookie();
         productstock_history();
+    });
+    $("#MaterialStorageManage").on('click',function(){
+        CURRENT_URL = "MaterialStorageManage";
+        active_menu("MaterialStorageManage");
+        touchcookie();
+        materialstock_manage();
+    });
+    $("#MaterialDeliveryManage").on('click',function(){
+        CURRENT_URL = "MaterialDeliveryManage";
+        active_menu("MaterialDeliveryManage");
+        touchcookie();
+        materialstock_history();
     });
     //user view buttons
     $("#UserfreshButton").on('click',function(){
@@ -2127,6 +2149,33 @@ $(document).ready(function() {
     $("#ProductStockDelCommit").on('click',function() {
         del_productstock_submit();
     });
+    $("#MaterialDeliveryHistoryFlash").on('click',function() {
+        query_materialstock_history();
+    });
+    $("#MaterialStorageQuery").on('click',function() {
+        query_materialstock_table();
+    });
+    $("#MaterialStorageadd").on('click',function() {
+        show_materialstock_module();
+    });
+    $("#MaterialStoragedel").on('click',function() {
+        getMaterialEmptyStockList();
+    });
+    $("#delMaterialStockRemovalCommit").on('click',function() {
+        del_materialstockremoval(select_MaterialStockRemoval_ID);
+    });
+    $("#MaterialStockRemovalCommit").on('click',function() {
+        new_materialstockremoval_submit();
+    });
+    $("#MaterialStockIncomeCommit").on('click',function() {
+        new_materialstockincome_submit();
+    });
+    $("#MaterialStockNewCommit").on('click',function() {
+        new_materialstock_submit();
+    });
+    $("#MaterialStockDelCommit").on('click',function() {
+        del_materialstock_submit();
+    });
     //alert($(window).height());
     //alert($(window).width());
     clear_window();
@@ -2588,6 +2637,20 @@ function productstock_history(){
     write_title("成品出库历史","请输入查询条件");
     $("#ProductDeliveryHistoryView").css("display","block");
     query_productstock_history();
+}
+function materialstock_manage(){
+    clear_window();
+    hide_searchbar();
+    write_title("原材料库存信息","请输入查询条件");
+    $("#MaterialStorageManageView").css("display","block");
+    query_materialstock_table();
+}
+function materialstock_history(){
+    clear_window();
+    hide_searchbar();
+    write_title("原材料出入库历史","请输入查询条件");
+    $("#MaterialDeliveryHistoryView").css("display","block");
+    query_materialstock_history();
 }
 function clear_window(){
 
@@ -14325,3 +14388,799 @@ function get_productstockhistory_detail(removalID){
     JQ_get(request_head,map,get_productstockhistory_detail_callback);
 
 }
+
+
+
+
+/*MaterialStock Part*/
+function getMaterialStockList(){
+    var map={
+        action:"GetMaterialStockList",
+        user:usr.id
+    };
+    var getMaterialStockList_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            MaterialStockList = result.ret;
+            buildmaterialstocklistchoice(MaterialStockList);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,getMaterialStockList_callback);
+}
+function buildmaterialstocklistchoice(stocklist){
+    var options = "";
+    for(var i=0;i<stocklist.length;i++){
+        options=options + "<option value="+stocklist[i].id+">"+stocklist[i].name+"</option>";
+    }
+    $("#MaterialStockRemovalStorageSelect_choice").empty();
+    $("#MaterialStockRemovalStorageSelect_choice").append(options);
+    $("#MaterialStockIncomeStorageSelect_choice").empty();
+    $("#MaterialStockIncomeStorageSelect_choice").append(options);
+    options="<option value='all'>全部仓库</option>"+options;
+    $("#MaterialDeliveryHistorySelect_choice").empty();
+    $("#MaterialDeliveryHistorySelect_choice").append(options);
+    $("#MaterialStorageSelect_choice").empty();
+    $("#MaterialStorageSelect_choice").append(options);
+}
+function show_materialstockremoval_module(data){
+    $("#MaterialStockRemovalLabel").text("创建原材料出库记录");
+    MaterialStockRemoval_module_status=true;
+    $("#MaterialStockRemovalStorageSelect_choice").val(data.storageID);
+    $("#MaterialStockRemovalModeSelect_choice").empty();
+    if(data.mode ==='0'){
+        $("#MaterialStockRemovalModeSelect_choice").append("<option value='0'>自有出库</option><option value='1'>代存出库</option>");
+    }else{
+        $("#MaterialStockRemovalModeSelect_choice").append("<option value='0'>自有出库</option>");
+
+    }
+    $("#MaterialStockRemovalModeSelect_choice").attr("disabled",false);
+    $("#MaterialStockRemovalNumber_Input").val("0");
+    $("#MaterialStockRemovalPrice_Input").val("0");
+
+    $("#MaterialStockRemovalContainer_Input").val("");
+    $("#MaterialStockRemovalTrunk_Input").val("");
+    $("#MaterialStockRemovalDriverMobile_Input").val("");
+    $("#MaterialStockRemovalDriver_Input").val("");
+    $("#MaterialStockRemovalTarget_Input").val("");
+    $("#MaterialStockRemovalLogistics_Input").val("");
+    modal_middle($('#MaterialStockRemovalModal'));
+    $('#MaterialStockRemovalModal').modal('show');
+}
+function show_mod_materialstockremoval_module(removal){
+    $("#MaterialStockRemovalLabel").text("修改原材料出库记录");
+    MaterialStockRemoval_module_status=false;
+    $("#MaterialStockRemovalStorageSelect_choice").val(removal.storageID);
+    $("#MaterialStockRemovalModeSelect_choice").empty();
+    $("#MaterialStockRemovalModeSelect_choice").append("<option value='0'>自有出库</option><option value='1'>代存出库</option>");
+    $("#MaterialStockRemovalModeSelect_choice").val(removal.storageID);
+    $("#MaterialStockRemovalModeSelect_choice").attr("disabled",true);
+    $("#MaterialStockRemovalNumber_Input").val(removal.bucket);
+    $("#MaterialStockRemovalPrice_Input").val(removal.price);
+
+    $("#MaterialStockRemovalTrunk_Input").val(removal.trunk);
+    $("#MaterialStockRemovalDriverMobile_Input").val(removal.mobile);
+    $("#MaterialStockRemovalDriver_Input").val(removal.driver);
+    $("#MaterialStockRemovalTarget_Input").val(removal.target);
+    $("#MaterialStockRemovalLogistics_Input").val(removal.logistics);
+    modal_middle($('#MaterialStockRemovalModal'));
+    $('#MaterialStockRemovalModal').modal('show');
+}
+function new_materialstockremoval(removal){
+    var body = {
+        storageID: removal.storageID,
+        materialMode: removal.materialMode,
+        bucket: removal.bucket,
+        price:removal.price,
+        trunk:removal.trunk,
+        mobile:removal.mobile,
+        driver:removal.driver,
+        target:removal.target,
+        logistics:removal.logistics
+    };
+
+    var map={
+        action:"MaterialStockRemovalNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var new_materialstockremoval_callback = function(result){
+        $('#MaterialStockRemovalModal').modal('hide');
+        var ret = result.status;
+        if(ret == "true"){
+            //$('#ConsumablesPurchaseModal').modal('hide');
+            create_user_flash = function(){
+                //query_consumables_table();
+                query_materialstock_table();
+
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"出库成功！",create_user_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"出库失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,new_materialstockremoval_callback);
+}
+function new_materialstockremoval_submit(){
+    var storage = $("#MaterialStockRemovalStorageSelect_choice").val();
+    var mode = $("#MaterialStockRemovalModeSelect_choice").val();
+    var bucket = $("#MaterialStockRemovalNumber_Input").val();
+    var price = $("#MaterialStockRemovalPrice_Input").val();
+
+    var trunk = $("#MaterialStockRemovalTrunk_Input").val();
+    var mobile = $("#MaterialStockRemovalDriverMobile_Input").val();
+    var driver = $("#MaterialStockRemovalDriver_Input").val();
+    var target = $("#MaterialStockRemovalTarget_Input").val();
+    var logistics = $("#MaterialStockRemovalLogistics_Input").val();
+    if( isNaN(bucket)  || bucket<=0 ){
+        $("#MaterialStockRemovalNumber_Input").val(0);
+        $("#MaterialStockRemovalNumber_Input").focus();
+        return;
+    }
+    if( isNaN(price)  || price<=0 ){
+        $("#MaterialStockRemovalPrice_Input").val(0);
+        $("#MaterialStockRemovalPrice_Input").focus();
+        return;
+    }
+    if( trunk ==="" ){
+        $("#MaterialStockRemovalTrunk_Input").focus();
+        return;
+    }
+    if( mobile ==="" ){
+        $("#MaterialStockRemovalDriverMobile_Input").focus();
+        return;
+    }
+    if( driver ==="" ){
+        $("#MaterialStockRemovalDriver_Input").focus();
+        return;
+    }
+    if( target ==="" ){
+        $("#MaterialStockRemovalTarget_Input").focus();
+        return;
+    }
+    if( logistics ==="" ){
+        $("#MaterialStockRemovalLogistics_Input").focus();
+        return;
+    }
+    var removal = {
+        storageID: storage,
+        storageMode: mode,
+        bucket: bucket,
+        price:price,
+        trunk:trunk,
+        mobile:mobile,
+        driver:driver,
+        target:target,
+        logistics:logistics
+    };
+    if(MaterialStockRemoval_module_status){
+
+        new_materialstockremoval(removal);
+    }else{
+
+        mod_materialstockremoval(removal);
+    }
+}
+function mod_materialstockremoval(removal){
+    var body = {
+        removalID: select_MaterialStockRemoval_ID,
+        storageID: removal.storageID,
+        materialMode: removal.materialMode,
+        bucket: removal.bucket,
+        price:removal.price,
+        trunk:removal.trunk,
+        mobile:removal.mobile,
+        driver:removal.driver,
+        target:removal.target,
+        logistics:removal.logistics
+    };
+
+    var map={
+        action:"MaterialStockRemovalMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var mod_materialstockremoval_callback = function(result){
+        $('#MaterialStockRemovalModal').modal('hide');
+        var ret = result.status;
+        if(ret == "true"){
+            //$('#ConsumablesPurchaseModal').modal('hide');
+            create_user_flash = function(){
+                //query_consumables_table();
+                query_materialstock_history();
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"出库修改成功！",create_user_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"出库修改失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,mod_materialstockremoval_callback);
+}
+function show_materialstock_module(){
+
+    $("#MaterialStockNewName_Input").val("");
+    $("#MaterialStockNewModeSelect_choice").val("0");
+    $("#MaterialStockNewAddress_Input").val("");
+
+    modal_middle($('#MaterialStockNewModal'));
+    $('#MaterialStockNewModal').modal('show');
+}
+function new_materialstock_submit(){
+    var name = $("#MaterialStockNewName_Input").val();
+    var mode = $("#MaterialStockNewModeSelect_choice").val();
+    var address = $("#MaterialStockNewAddress_Input").val();
+
+    if( name ==="" ){
+        $("#MaterialStockNewName_Input").focus();
+        return;
+    }
+    if( address ==="" ){
+        $("#MaterialStockNewAddress_Input").focus();
+        return;
+    }
+    var stock = {
+        name: name,
+        mode:mode,
+        address: address
+    };
+    new_materialstock(stock);
+}
+function new_materialstock(stock){
+    var body = {
+        name: stock.name,
+        mode:stock.mode,
+        address: stock.address
+    };
+
+    var map={
+        action:"MaterialStockNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var new_materialstock_callback = function(result){
+        $('#MaterialStockNewModal').modal('hide');
+        var ret = result.status;
+        if(ret == "true"){
+            //$('#ConsumablesPurchaseModal').modal('hide');
+            create_user_flash = function(){
+                getMaterialStockList();
+                query_materialstock_table();
+
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"新增仓库成功！",create_user_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"新增仓库失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,new_materialstock_callback);
+}
+
+function getMaterialEmptyStockList(){
+    var map={
+        action:"GetMaterialEmptyStock",
+        user:usr.id
+    };
+    var getEmptyStockList_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            //StockList = result.ret;
+            show_materialStockdel_modal(result.ret);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,getEmptyStockList_callback);
+}
+function show_materialStockdel_modal(emptylist){
+    var options = "";
+    for(var i=0;i<emptylist.length;i++){
+        options=options + "<option value="+emptylist[i].id+">"+emptylist[i].name+"</option>";
+    }
+    $("#MaterialStockDelSelect_choice").empty();
+    $("#MaterialStockDelSelect_choice").append(options);
+
+    modal_middle($('#MaterialStockDelModal'));
+    $('#MaterialStockDelModal').modal('show');
+}
+function del_materialstock_submit(){
+    var stock = $("#MaterialStockDelSelect_choice").val();
+    if(stock === null ||stock ===  "") return;
+    del_materialstock(stock);
+}
+function del_materialstock(stock){
+    var body = {
+        stockID: stock
+    };
+
+    var map={
+        action:"MaterialStockDel",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var del_materialstock_callback = function(result){
+        $('#MaterialStockDelModal').modal('hide');
+        var ret = result.status;
+        if(ret == "true"){
+            //$('#ConsumablesPurchaseModal').modal('hide');
+            create_user_flash = function(){
+                getMaterialStockList();
+                query_materialstock_table();
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"删除空仓库成功！",create_user_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"删除空仓库失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,del_materialstock_callback);
+}
+function del_materialstockremoval(materialstockremovalid){
+    var body = {
+        removalID:materialstockremovalid,
+    };
+    var map={
+        action:"MaterialStockRemovalDel",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var del_materialstockremoval_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            del_materialstockremoval_flash = function(){
+                //query_consumables_history();
+                query_materialstock_history();
+            };
+
+            setTimeout(function(){
+                show_alarm_module(false,"删除成功！",del_materialstockremoval_flash);
+            },500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"删除失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,del_materialstockremoval_callback);
+
+    $("#MaterialStockRemovalDelAlarm").modal('hide');
+}
+
+function show_materialstockincome_module(data){
+    $("#MaterialStockIncomeLabel").text("创建原材料入库记录");
+    MaterialStockIncome_module_status=true;
+    $("#MaterialStockIncomeStorageSelect_choice").val(data.storageID);
+    $("#MaterialStockIncomeModeSelect_choice").empty();
+    if(data.mode ==='0'){
+        $("#MaterialStockIncomeModeSelect_choice").append("<option value='0'>入库</option><option value='1'>代存</option>");
+    }else{
+        $("#MaterialStockIncomeModeSelect_choice").append("<option value='0'>入库</option>");
+
+    }
+    $("#MaterialStockIncomeModeSelect_choice").attr("disabled",false);
+    $("#MaterialStockIncomeNumber_Input").val("0");
+    $("#MaterialStockIncomePrice_Input").val("0");
+
+    $("#MaterialStockIncomeVendor_Input").val("");
+    $("#MaterialStockIncomeBuyer_Input").val("");
+    $("#MaterialStockIncomeBuyerMobile_Input").val("");
+    modal_middle($('#MaterialStockIncomeModal'));
+    $('#MaterialStockIncomeModal').modal('show');
+}
+function show_mod_materialstockincome_module(income){
+    $("#MaterialStockIncomeLabel").text("修改原材料入库记录");
+    MaterialStockIncome_module_status=false;
+    $("#MaterialStockIncomeStorageSelect_choice").val(income.storageID);
+    $("#MaterialStockIncomeModeSelect_choice").empty();
+    $("#MaterialStockIncomeModeSelect_choice").append("<option value='0'>入库</option><option value='1'>代存</option>");
+    $("#MaterialStockIncomeModeSelect_choice").val(income.storageID);
+    $("#MaterialStockIncomeModeSelect_choice").attr("disabled",true);
+    $("#MaterialStockIncomeNumber_Input").val(income.bucket);
+    $("#MaterialStockIncomePrice_Input").val(income.price);
+
+    $("#MaterialStockIncomeVendor_Input").val(income.vendor);
+    $("#MaterialStockIncomeBuyer_Input").val(income.buyer);
+    $("#MaterialStockIncomeBuyerMobile_Input").val(income.mobile);
+    modal_middle($('#MaterialStockIncomeModal'));
+    $('#MaterialStockIncomeModal').modal('show');
+}
+function new_materialstockincome(income){
+    var body = {
+        storageID: income.storageID,
+        materialMode: income.materialMode,
+        bucket: income.bucket,
+        price:income.price,
+        vendor:income.vendor,
+        buyer:income.buyer,
+        mobile:income.mobile,
+    };
+
+    var map={
+        action:"MaterialStockIncomeNew",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var new_materialstockincome_callback = function(result){
+        $('#MaterialStockIncomeModal').modal('hide');
+        var ret = result.status;
+        if(ret == "true"){
+            //$('#ConsumablesPurchaseModal').modal('hide');
+            create_user_flash = function(){
+                //query_consumables_table();
+                query_materialstock_table();
+
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"出库成功！",create_user_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"出库失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,new_materialstockincome_callback);
+}
+function new_materialstockincome_submit(){
+    var storage = $("#MaterialStockIncomeStorageSelect_choice").val();
+    var mode = $("#MaterialStockIncomeModeSelect_choice").val();
+    var bucket = $("#MaterialStockIncomeNumber_Input").val();
+    var price = $("#MaterialStockIncomePrice_Input").val();
+
+    var vendor = $("#MaterialStockIncomeVendor_Input").val();
+    var buyer = $("#MaterialStockIncomeBuyer_Input").val();
+    var mobile = $("#MaterialStockIncomeBuyerMobile_Input").val();
+    if( isNaN(bucket)  || bucket<=0 ){
+        $("#MaterialStockIncomeNumber_Input").val(0);
+        $("#MaterialStockIncomeNumber_Input").focus();
+        return;
+    }
+    if( isNaN(price)  || price<=0 ){
+        $("#MaterialStockIncomePrice_Input").val(0);
+        $("#MaterialStockIncomePrice_Input").focus();
+        return;
+    }
+    if( vendor ==="" ){
+        $("#MaterialStockIncomeVendor_Input").focus();
+        return;
+    }
+    if( buyer ==="" ){
+        $("#MaterialStockIncomeBuyer_Input").focus();
+        return;
+    }
+    if( mobile ==="" ){
+        $("#MaterialStockIncomeBuyerMobile_Input").focus();
+        return;
+    }
+    var income = {
+        storageID: storage,
+        storageMode: mode,
+        bucket: bucket,
+        price:price,
+        vendor:vendor,
+        buyer:buyer,
+        mobile:mobile
+    };
+    if(MaterialStockIncome_module_status){
+
+        new_materialstockincome(income);
+    }else{
+
+        mod_materialstockincome(income);
+    }
+}
+function mod_materialstockincome(income){
+    var body = {
+        incomeID: select_MaterialStockRemoval_ID,
+        storageID: income.storageID,
+        materialMode: income.materialMode,
+        bucket: income.bucket,
+        price:income.price,
+        vendor:income.vendor,
+        buyer:income.buyer,
+        mobile:income.mobile
+    };
+
+    var map={
+        action:"MaterialStockIncomeMod",
+        type:"mod",
+        body: body,
+        user:usr.id
+    };
+    var mod_materialstockincome_callback = function(result){
+        $('#MaterialStockIncomeModal').modal('hide');
+        var ret = result.status;
+        if(ret == "true"){
+            //$('#ConsumablesPurchaseModal').modal('hide');
+            create_user_flash = function(){
+                //query_consumables_table();
+                query_materialstock_history();
+            };
+            setTimeout(function(){
+                show_alarm_module(false,"出库修改成功！",create_user_flash);},500);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"出库修改失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,mod_materialstockincome_callback);
+}
+
+
+function query_materialstock_history(){
+    //if(Consumables_History_table_initialized !== true) return;
+    var Query_stock_item = $("#MaterialDeliveryHistorySelect_choice").val();
+    var Query_time = $("#MaterialDeliveryHistoryQueryTime_choice").val();
+    var Query_word = $("#MaterialDeliveryHistoryQueryWord_Input").val();
+    var condition = {
+        StockID:Query_stock_item,
+        Period:Query_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"MaterialStockHistory",
+        body:condition,
+        user:usr.id
+    };
+    var query_materialstock_history_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#MaterialDeliveryHistoryLastFlash").empty();
+        $("#MaterialDeliveryHistoryLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr><th></th><th></th>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+
+            txt = txt +"<tr>";
+            if(TableData[i][0] ===""){
+                txt = txt +"<td><button type='button' class='btn btn-default material_history_del_btn' RemovalCode='"+TableData[i][0]+"' disabled='disabled' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+                txt = txt +"<td><button type='button' class='btn btn-default material_history_mod_btn' RemovalCode='"+TableData[i][0]+"' disabled='disabled' ><em class='glyphicon glyphicon-pencil ' aria-hidden='true' ></em></button></td>";
+            }else{
+                txt = txt +"<td><button type='button' class='btn btn-default material_history_del_btn' RemovalCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+                txt = txt +"<td><button type='button' class='btn btn-default material_history_mod_btn' RemovalCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-pencil ' aria-hidden='true' ></em></button></td>";
+            }
+            for(var j=1;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#MaterialDeliveryHistoryQueryTable").empty();
+        $("#MaterialDeliveryHistoryQueryTable").append(txt);
+        if(if_materialstock_history_table_initialize) $("#MaterialDeliveryHistoryQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#MaterialDeliveryHistoryQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        delmaterial_btn_click = function(){
+
+            select_MaterialStockRemoval_ID  = $(this).attr("RemovalCode");
+            modal_middle($('#MaterialStockRemovalDelAlarm'));
+            $('#MaterialStockRemovalDelAlarm').modal('show');
+
+        };
+        modmaterial_btn_click = function(){
+            select_MaterialStockRemoval_ID  = $(this).attr("RemovalCode");
+            get_materialstockhistory_detail(select_MaterialStockRemoval_ID);
+        };
+        $(".material_history_del_btn").unbind();
+        $(".material_history_mod_btn").unbind();
+        $(".material_history_del_btn").on('click',delmaterial_btn_click);
+        $(".material_history_mod_btn").on('click',modmaterial_btn_click);
+        $("#MaterialDeliveryHistoryQueryTable").on('draw.dt',function(){
+            $(".material_history_del_btn").unbind();
+            $(".material_history_del_btn").on('click',delmaterial_btn_click);
+            $(".material_history_mod_btn").unbind();
+            $(".material_history_mod_btn").on('click',modmaterial_btn_click);
+        });
+        if_materialstock_history_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_materialstock_history_callback);
+
+}
+
+function query_materialstock_table(){
+    //if(Consumables_table_initialized !== true) return;
+
+    var Query_stock_item = $("#MaterialStorageSelect_choice").val();
+    var Query_time = $("#MaterialStorageWeightSelect_choice").val();
+    var Query_word = $("#MaterialStorageSizeSelect_choice").val();
+    var condition = {
+        StockID:Query_stock_item,
+        Period:Query_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"MaterialStockTable",
+
+        body:condition,
+        user:usr.id
+    };
+    var query_materialstock_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#MaterialStorageLastFlash").empty();
+        $("#MaterialStorageLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr><th></th><th></th>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+
+            txt = txt +"<tr>";
+            txt = txt +"<td><button type='button' class='btn btn-default material_out_btn' StockCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-log-out' aria-hidden='true' ></em></button></td>";
+            txt = txt +"<td><button type='button' class='btn btn-default material_in_btn' StockCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-log-in ' aria-hidden='true' ></em></button></td>";
+
+            for(var j=1;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#MaterialStorageManageQueryTable").empty();
+        $("#MaterialStorageManageQueryTable").append(txt);
+        if(if_materialstock_table_initialize) $("#MaterialStorageManageQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#MaterialStorageManageQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        material_out_btn_click = function(){
+            get_materialstock_detail($(this).attr("StockCode"),"removal");
+
+        };
+        material_in_btn_click = function(){
+            get_materialstock_detail($(this).attr("StockCode"),"income");
+        };
+        $(".material_out_btn").on('click',material_out_btn_click);
+        $(".material_in_btn").on('click',material_in_btn_click);
+        $("#MaterialStorageManageQueryTable").on('draw.dt',function(){
+            $(".material_out_btn").unbind();
+            $(".material_out_btn").on('click',material_out_btn_click);
+            $(".material_in_btn").unbind();
+            $(".material_in_btn").on('click',material_in_btn_click);
+        });
+        if_materialstock_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_materialstock_callback);
+
+}
+
+
+function get_materialstock_detail(StockCode,callback){
+    var body = {
+        stockID:StockCode,
+    };
+
+    var map={
+        action:"GetMaterialStockDetail",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+    var get_materialstock_detail_removal = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            show_materialstockremoval_module(result.ret);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"查询失败！"+result.msg,null);},500);
+        }
+    };
+    var get_materialstock_detail_transfer = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            show_materialstockincome_module(result.ret);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"查询失败！"+result.msg,null);},500);
+        }
+    };
+    if(callback === 'removal'){
+
+        JQ_get(request_head,map,get_materialstock_detail_removal);
+    }else{
+
+        JQ_get(request_head,map,get_materialstock_detail_transfer);
+    }
+}
+
+function get_materialstockhistory_detail(removalID){
+    var body = {
+        removalID:removalID
+    };
+
+    var map={
+        action:"GetMaterialStockHistoryDetail",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+    var get_materialstockhistory_detail_callback = function(result){
+        var ret = result.status;
+        if(ret == "true" && result.ret.type === "1"){
+            show_mod_materialstockremoval_module(result.ret);
+        }else if(ret == "true" && result.ret.type === "0"){
+            show_mod_materialstockincome_module(result.ret);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"查询失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,get_materialstockhistory_detail_callback);
+
+}
+
