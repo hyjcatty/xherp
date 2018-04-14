@@ -76,6 +76,8 @@ gulp.task("resourcecopy",function(){
         .pipe(gulp.dest(option.buildPath+"/video/"));
     gulp.src("./screensaver/**/*")
         .pipe(gulp.dest(option.buildPath+"/screensaver/"));
+    gulp.src("./print/**/*")
+        .pipe(gulp.dest(option.buildPath+"/print/"));
     gulp.src("./json/**/*")
         .pipe(gulp.dest(option.buildPath+"/json/"));
     gulp.src("./PHPresource/**/*")

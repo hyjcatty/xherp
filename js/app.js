@@ -17,6 +17,7 @@ var upload_url=basic_address+"upload.php";
 var admintools_url="_ADMINTOOL_PATH_"+"\/admintools.html";
 var screen_saver_address=basic_address+"screensaver/screen.html";
 var show_image_url=basic_address+"imageshow/ImageShow.html";
+var show_print_url=basic_address+"print/print.html";
 var global_key_word = "";
 var default_point={
     'Flag_la':"N",
@@ -255,7 +256,8 @@ var Consumables_History_table_initialized =false;
 var if_consumables_history_table_initialize = false;
 var Consumables_table_initialized =false;
 var if_consumables_table_initialize = false;
-
+var ConsumablesVendorList = null;
+var ConsumablesTypeList = null;
 /*Product Stock*/
 var StockList = [];
 var StrockEmptyList = [];
@@ -589,6 +591,8 @@ function get_user_information(){
             getProductWeightAndSize();
             getProductStockList();
             getMaterialStockList();
+            getConsumablesTypeList();
+            getConsumablesVendorList();
             
         }
 	};
@@ -13342,12 +13346,16 @@ function new_consumablespurchase(purchase){
         var ret = result.status;
         if(ret == "true"){
             $('#ConsumablesPurchaseModal').modal('hide');
+            var newconsumablespurchaseID = result.ret.consumablespurchaseID;
             create_user_flash = function(){
                 query_consumables_table();
-
             };
             setTimeout(function(){
                 show_alarm_module(false,"入库成功！",create_user_flash);},500);
+            setTimeout(function(){
+                window.open("http://"+window.location.host+"/"+show_print_url+"?id="+newconsumablespurchaseID+"#",'结果打印',"height=auto, width=auto");
+
+            },1500);
         }else{
             setTimeout(function(){
                 show_alarm_module(true,"入库失败！"+result.msg,null);},500);
@@ -15184,3 +15192,63 @@ function get_materialstockhistory_detail(removalID){
 
 }
 
+function getConsumablesVendorList(){
+    var map={
+        action:"GetConsumablesVendorList",
+        user:usr.id
+    };
+    var getConsumablesVendorList_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            ConsumablesVendorList = result.ret;
+            buildconsumablesvendorlistchoice(ConsumablesVendorList);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,getConsumablesVendorList_callback);
+}
+function buildconsumablesvendorlistchoice(vendorlist){
+
+    var options = "";
+    for(var i=0;i<vendorlist.length;i++){
+        options=options + "<option value="+vendorlist[i]+">"+vendorlist[i]+"</option>";
+    }
+    $("#ConsumablesVendor_choice").empty();
+    $("#ConsumablesVendor_choice").append(options);
+}
+function getConsumablesTypeList(){
+    var map={
+        action:"GetConsumablesTypeList",
+        user:usr.id
+    };
+    var getConsumablesTypeList_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            ConsumablesTypeList = result.ret;
+            $("#ConsumablesPurchaseSelect_choice").val("1");
+            buildconsumablestypelistchoice(1);
+            $("#ConsumablesPurchaseSelect_choice").change(function(){
+                var choice = parseInt($("#ConsumablesPurchaseSelect_choice").val());
+                buildconsumablestypelistchoice(choice);
+            });
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,getConsumablesTypeList_callback);
+}
+function buildconsumablestypelistchoice(number){
+    if(ConsumablesTypeList === null) return;
+    if(number <1 || number >7) return;
+    if(number > ConsumablesTypeList.length) return;
+
+    var options = "";
+    for(var i=0;i<ConsumablesTypeList[number -1 ].length;i++){
+        options=options + "<option value="+ConsumablesTypeList[number -1 ][i]+">"+ConsumablesTypeList[number -1 ][i]+"</option>";
+    }
+    $("#ConsumablesType_choice").empty();
+    $("#ConsumablesType_choice").append(options);
+}

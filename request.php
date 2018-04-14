@@ -237,7 +237,13 @@ $retval=array(
 			'InstConf' => 'true',
 			'AttendanceAudit' => 'true',
             'KPIAudit' => 'true',
-			'InstRead' => 'true'
+			'InstRead' => 'true',
+			'ConsumablesManage'=>'true',
+			'ConsumablesHistory'=>'true',
+			'ProductStorageManage'=>'true',
+			'ProductDeliveryManage'=>'true',
+			'MaterialStorageManage'=>'true',
+			'MaterialDeliveryManage'=>'true',
 		);
 		$userauth=array(
 			'query' => 'true',
@@ -6259,8 +6265,12 @@ RESPONSE:
         );
         */
         $body= $_GET['body'];
+        $retstr=array(
+            'consumablespurchaseID' => "1234"
+        );
         $retval=array(
             'status'=>'true',
+            'ret'=>$retstr,
             'msg'=>'success',
             'auth'=>'true'
         );
@@ -6739,8 +6749,57 @@ RESPONSE:
         );
         $jsonencode = _encode($retval);
         echo $jsonencode; break;
+    case "GetPrint":
+        $body= $_GET['body'];
+        $keynumber = rand(5,15);
+        $PrintDetail = array();
+        for($i=0;$i<$keynumber;$i++){
+            $PrintItem = array(
+                'name'=>'item'.(string)($i),
+                'value'=>'xxxxxxxxxxxxxxxxxxxx'.(string)($i)
+            );
+            array_push($PrintDetail,$PrintItem);
+        }
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$PrintDetail,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetConsumablesVendorList":
 
-
+        $retlist = array();
+        for($i=0;$i<10;$i++){
+            array_push($retlist, '供应商'.$i);
+        }
+        $retval=array(
+            'status'=>'true',
+            'ret'=>$retlist,
+            'msg'=>'success',
+            'auth'=>'true'
+        );
+        $jsonencode = _encode($retval);
+        echo $jsonencode; break;
+    case "GetConsumablesTypeList":
+        $type = array("全部","纸箱","保鲜袋","胶带","标签","托盘","垫片","网套");
+            $retlist = array();
+            for($i=1;$i<sizeof($type);$i++){
+                $cargo = array();
+                for($j=0;$j<10;$j++){
+                    array_push( $cargo, $type[$i].(string)($j));
+                }
+                array_push($retlist, $cargo);
+            }
+            $retval=array(
+                'status'=>'true',
+                'ret'=>$retlist,
+                'msg'=>'success',
+                'auth'=>'true'
+            );
+            $jsonencode = _encode($retval);
+            echo $jsonencode; break;
 	default:
 	break;
 }

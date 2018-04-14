@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <link href="../resource/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../resource/js/jquery.min.js"></script>
+    <script src="../resource/js/bootstrap.min.js"></script>
+    <script src="../js/hcu_util.js"></script>
+    <title></title>
+</head>
+<body>
+<div id = "notepad" style="width:100%">
+    加载中
+</div>
+<table data-toggle="table" class="table table-hover table-bordered" id="itemtable" data-click-to-select="true" style="width:100%">
+
+</table>
+
+</body>
+<script>
+    var itemid;
+    var request_head= "../request.php";
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+
+    $(document).ready(function() {
+
+        itemid = getQueryString("id");
+        require_Print()
+
+    });
+    function require_Print(){
+		var body = {
+            itemid: itemid
+		};
+        var map = {
+            action: "GetPrint",
+            body: body,
+			type:"query",
+			user:"null"
+        };
+        jQuery.get(request_head, map, function (data) {
+            log(data);
+            var result=JSON.parse(data);
+            var ret = result.status;
+            if(ret == "false"){
+                $("#notepad").empty();
+                $("#notepad").append("获取打印信息失败，请检查设备的因特网链接是否顺畅。");
+            }else{
+
+                $("#notepad").empty();
+                $("#notepad").append("耗材录入信息，耗材编号:"+itemid);
+                var items = result.ret;
+                $("#itemtable").empty();
+                var txt = "<div class='row'><div class='col-md-12 col-sm-12 col-xs-12'>";
+
+                txt ="<thead> <tr> <th> </th><th> </th> </tr> </thead> <tbody >";
+                for(var i=0;i<items.length;i++){
+                    txt = txt + "<tr> <td>"+ items[i].name+"</td><td>"+ items[i].value+"</td> </tr>";
+                }
+                txt = txt+ "</tbody></div></div>";
+                $("#itemtable").append(txt);
+                window.print();
+            }
+        });
+    }
+</script>
+</html>
