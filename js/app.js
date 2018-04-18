@@ -207,6 +207,12 @@ var  if_attendance_audit_table_initialize = false;
 var KPI_Audit_table_initialized = true;
 var  if_kpi_audit_table_initialize = false;
 
+//seafood info table Control
+var Seafood_Info_table_initialized = true;
+var  if_seafood_info_table_initialize = false;
+var Seafood_Audit_table_initialized = true;
+var  if_seafood_audit_table_initialize = false;
+
 //Export table
 var  if_Export_table_initialize = false;
 //key auth Control
@@ -746,6 +752,20 @@ $(document).ready(function() {
         active_menu("KPIAudit");
         touchcookie();
         kpi_audit();
+
+    });
+    $("#SeafoodInfo").on('click',function(){
+        CURRENT_URL = "SeafoodInfo";
+        active_menu("SeafoodInfo");
+        touchcookie();
+        seafood_info();
+
+    });
+    $("#SeafoodAudit").on('click',function(){
+        CURRENT_URL = "SeafoodAudit";
+        active_menu("SeafoodAudit");
+        touchcookie();
+        seafood_audit();
 
     });
     $("#KeyManage").on('click',function(){
@@ -1714,7 +1734,96 @@ $(document).ready(function() {
         }
         return;
     });
+    $("#SeafoodInfoStartTime_input").change(function(){
+        var startdate  = $("#SeafoodInfoStartTime_input").val();
+        var enddate  = $("#SeafoodInfoEndTime_input").val();
+        var compare = date_compare_today(startdate);
+        if(startdate !==  compare){
+            $("#SeafoodInfoStartTime_input").val(compare);
+            startdate = compare;
+        }
+        if(enddate === ""){
+            $("#SeafoodInfoEndTime_input").val(startdate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+            var startplus30 = dateplus30(startdate);
+            var tempdate2 = date_compare(startplus30,enddate);
+            if(tempdate === enddate){
+                $("#SeafoodInfoEndTime_input").val(startdate);
+            }else if(tempdate2 ===startplus30){
+                $("#SeafoodInfoEndTime_input").val(startplus30);
+            }
+        }
+        return;
+    });
+    $("#SeafoodInfoEndTime_input").change(function(){
+        var startdate  = $("#SeafoodInfoStartTime_input").val();
+        var enddate  = $("#SeafoodInfoEndTime_input").val();
+        var compare = date_compare_today(enddate);
+        if(enddate !==  compare){
+            $("#SeafoodInfoEndTime_input").val(compare);
+            enddate = compare;
+        }
+        if(startdate === ""){
+            $("#SeafoodInfoStartTime_input").val(enddate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
 
+            var endminus30 = dateminus30(enddate);
+            var tempdate2 = date_compare(endminus30,startdate);
+            if(tempdate === enddate){
+                $("#SeafoodInfoStartTime_input").val(enddate);
+            }else if(tempdate2 ===startdate){
+                $("#SeafoodInfoStartTime_input").val(endminus30);
+            }
+        }
+        return;
+    });
+    $("#SeafoodAuditStartTime_input").change(function(){
+        var startdate  = $("#SeafoodAuditStartTime_input").val();
+        var enddate  = $("#SeafoodAuditEndTime_input").val();
+        var compare = date_compare_today(startdate);
+        if(startdate !==  compare){
+            $("#SeafoodAuditStartTime_input").val(compare);
+            startdate = compare;
+        }
+        if(enddate === ""){
+            $("#SeafoodAuditEndTime_input").val(startdate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+            var startplus30 = dateplus30(startdate);
+            var tempdate2 = date_compare(startplus30,enddate);
+            if(tempdate === enddate){
+                $("#SeafoodAuditEndTime_input").val(startdate);
+            }else if(tempdate2 ===startplus30){
+                $("#SeafoodAuditEndTime_input").val(startplus30);
+            }
+        }
+        return;
+    });
+    $("#SeafoodAuditEndTime_input").change(function(){
+        var startdate  = $("#SeafoodAuditStartTime_input").val();
+        var enddate  = $("#SeafoodAuditEndTime_input").val();
+        var compare = date_compare_today(enddate);
+        if(enddate !==  compare){
+            $("#SeafoodAuditEndTime_input").val(compare);
+            enddate = compare;
+        }
+        if(startdate === ""){
+            $("#SeafoodAuditStartTime_input").val(enddate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+
+            var endminus30 = dateminus30(enddate);
+            var tempdate2 = date_compare(endminus30,startdate);
+            if(tempdate === enddate){
+                $("#SeafoodAuditStartTime_input").val(enddate);
+            }else if(tempdate2 ===startdate){
+                $("#SeafoodAuditStartTime_input").val(endminus30);
+            }
+        }
+        return;
+    });
 
     $("#DevProjCode_choice").change(function(){
         get_proj_point_option($("#DevProjCode_choice").val(),$("#DevStatCode_choice"),"");
@@ -1961,6 +2070,16 @@ $(document).ready(function() {
     });
     $("#KPIAuditTableFlash").on('click',function(){
         query_kpi_audit();
+
+        touchcookie();
+    });
+    $("#SeafoodInfoTableFlash").on('click',function(){
+        query_seafood_info();
+
+        touchcookie();
+    });
+    $("#SeafoodAuditTableFlash").on('click',function(){
+        query_seafood_audit();
 
         touchcookie();
     });
@@ -2595,6 +2714,24 @@ function kpi_audit(){
     //key_history_initialize();
     //query_static_warning();
 }
+function seafood_info(){
+    clear_window();
+    hide_searchbar();
+    write_title("水产生产信息查询","请输入查询条件");
+    $("#SeafoodInfoView").css("display","block");
+    seafood_info_initialize();
+    //key_history_initialize();
+    //query_static_warning();
+}
+function seafood_audit(){
+    clear_window();
+    hide_searchbar();
+    write_title("水产生产统计查询","请输入查询条件");
+    $("#SeafoodAuditView").css("display","block");
+    seafood_audit_initialize();
+    //key_history_initialize();
+    //query_static_warning();
+}
 function key_history(){
     clear_window();
     hide_searchbar();
@@ -2787,6 +2924,34 @@ function get_staff_name_list(){
                 source: substringMatcher(staff_name_list)
             });
         $('#KPIAuditWord_Input').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1,
+                classNames: {
+                    input: 'Typeahead-input',
+                    hint: 'Typeahead-hint',
+                    selectable: 'Typeahead-selectable'
+                }
+            },
+            {
+                name: 'states',
+                source: substringMatcher(staff_name_list)
+            });
+        $('#SeafoodInfoWord_Input').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1,
+                classNames: {
+                    input: 'Typeahead-input',
+                    hint: 'Typeahead-hint',
+                    selectable: 'Typeahead-selectable'
+                }
+            },
+            {
+                name: 'states',
+                source: substringMatcher(staff_name_list)
+            });
+        $('#SeafoodAuditWord_Input').typeahead({
                 hint: true,
                 highlight: true,
                 minLength: 1,
@@ -9658,6 +9823,12 @@ function attendance_audit_initialize(){
 function kpi_audit_initialize(){
     KPI_Audit_table_initialized = true;
 }
+function seafood_info_initialize(){
+    Seafood_Info_table_initialized = true;
+}
+function seafood_audit_initialize(){
+    Seafood_Audit_table_initialized = true;
+}
 function query_open_lock_history(){
     if(Key_History_table_initialized !== true) return;
     var Query_project = $("#KeyHistoryProj_choice").val();
@@ -10460,6 +10631,174 @@ function query_kpi_audit(){
         if_kpi_audit_table_initialize = true;
     };
     JQ_get(request_head,map,query_kpi_audit_callback);
+
+}
+function query_seafood_info(){
+    if(Seafood_Info_table_initialized !== true) return;
+    //var Query_time = $("#AssembleHistoryTime_choice").val();
+    var Query_start_time = $("#SeafoodInfoStartTime_input").val();
+    var Query_end_time = $("#SeafoodInfoEndTime_input").val();
+    var Query_word = $("#SeafoodInfoWord_Input").val();
+    if(Query_start_time===""){
+        return;
+    }if(Query_end_time===""){
+        return;
+    }
+    var condition = {
+        TimeStart:Query_start_time,
+        TimeEnd:Query_end_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"SeafoodInfo",
+        body:condition,
+        user:usr.id
+    };
+    var query_seafood_info_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#SeafoodInfoLastFlash").empty();
+        $("#SeafoodInfoLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+            txt = txt +"<tr>";
+            //txt = txt +"<td><button type='button' class='btn btn-default open_btn' AttendanceCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><ul class='pagination'> <li><a href='#' class = 'video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></a> </li></ul></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
+            //console.log("StateCode="+TableData[i][0]);
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#SeafoodInfoQueryTable").empty();
+        $("#SeafoodInfoQueryTable").append(txt);
+        if(if_seafood_info_table_initialize) $("#SeafoodInfoQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#SeafoodInfoQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        if_seafood_info_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_seafood_info_callback);
+
+}
+function query_seafood_audit(){
+    if(Seafood_Audit_table_initialized !== true) return;
+    //var Query_time = $("#AssembleHistoryTime_choice").val();
+    var Query_start_time = $("#SeafoodAuditStartTime_input").val();
+    var Query_end_time = $("#SeafoodAuditEndTime_input").val();
+    var Query_word = $("#SeafoodAuditWord_Input").val();
+    if(Query_start_time===""){
+        return;
+    }if(Query_end_time===""){
+        return;
+    }
+    var condition = {
+        TimeStart:Query_start_time,
+        TimeEnd:Query_end_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"SeafoodAudit",
+        body:condition,
+        user:usr.id
+    };
+    var query_seafood_audit_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#SeafoodLastFlash").empty();
+        $("#SeafoodLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+            txt = txt +"<tr>";
+            //txt = txt +"<td><button type='button' class='btn btn-default open_btn' AttendanceCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><ul class='pagination'> <li><a href='#' class = 'video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></a> </li></ul></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
+            //console.log("StateCode="+TableData[i][0]);
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#SeafoodAuditQueryTable").empty();
+        $("#SeafoodAuditQueryTable").append(txt);
+        if(if_seafood_audit_table_initialize) $("#SeafoodAuditQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#SeafoodAuditQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        if_seafood_audit_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_seafood_audit_callback);
 
 }
 //Alarm
