@@ -14441,7 +14441,7 @@ function new_productstocktransfer_submit(){
 function new_productstocktransfer(transfer){
     var body = {
 
-        storageID: transfer.storage,
+        storageID: transfer.storageID,
         weight: transfer.weight,
         size: transfer.size,
         number:transfer.number,
@@ -14463,7 +14463,7 @@ function new_productstocktransfer(transfer){
             create_user_flash = function(){
                 //getProductStockList();
                 //query_consumables_table();
-
+                query_productstock_table();
             };
             setTimeout(function(){
                 show_alarm_module(false,"转库成功！",create_user_flash);},500);
@@ -14818,7 +14818,7 @@ function show_mod_materialstockremoval_module(removal){
 function new_materialstockremoval(removal){
     var body = {
         storageID: removal.storageID,
-        materialMode: removal.materialMode,
+        materialMode: removal.storageMode,
         bucket: removal.bucket,
         price:removal.price,
         trunk:removal.trunk,
@@ -14917,7 +14917,7 @@ function mod_materialstockremoval(removal){
     var body = {
         removalID: select_MaterialStockRemoval_ID,
         storageID: removal.storageID,
-        materialMode: removal.materialMode,
+        materialMode: removal.storageMode,
         bucket: removal.bucket,
         price:removal.price,
         trunk:removal.trunk,
@@ -15147,7 +15147,7 @@ function show_mod_materialstockincome_module(income){
 function new_materialstockincome(income){
     var body = {
         storageID: income.storageID,
-        materialMode: income.materialMode,
+        materialMode: income.storageMode,
         bucket: income.bucket,
         price:income.price,
         vendor:income.vendor,
@@ -15232,7 +15232,7 @@ function mod_materialstockincome(income){
     var body = {
         incomeID: select_MaterialStockRemoval_ID,
         storageID: income.storageID,
-        materialMode: income.materialMode,
+        materialMode: income.storageMode,
         bucket: income.bucket,
         price:income.price,
         vendor:income.vendor,
