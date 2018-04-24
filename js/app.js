@@ -1969,13 +1969,13 @@ $(document).ready(function() {
 	$("#btn_camera_right").on('click',function() {
 		var camera_state_code = $('#VideoModuleStatCode_Input').val();
 		if(camera_state_code!==undefined && camera_state_code!==""){
-			move_camera(camera_state_code,"v","1");
+			move_camera(camera_state_code,"h","1");
 		}
     });
 	$("#btn_camera_left").on('click',function() {
 		var camera_state_code = $('#VideoModuleStatCode_Input').val();
 		if(camera_state_code!==undefined && camera_state_code!==""){
-			move_camera(camera_state_code,"v","-1");
+			move_camera(camera_state_code,"h","-1");
 		}
     });
     $(".lock_monitor_btn").on('click',function() {
@@ -13638,8 +13638,8 @@ function new_consumablespurchase_submit(){
     var number = parseInt($("#ConsumablesNumber_Input").val());
     var unit = parseFloat($("#ConsumablesUnitPrice_Input").val());
     var total = parseFloat($("#ConsumablesTotalPrice_Input").val());
-    var vendor = $("#ConsumablesVendor_Input").val();
-    var type =$("#ConsumablesType_Input").val();
+    var vendor = $("#ConsumablesVendor_Choice").val();
+    var type =$("#ConsumablesType_Choice").val();
     if( isNaN(number)  || number<=0 ){
         $("#ConsumablesNumber_Input").val(0);
         $("#ConsumablesNumber_Input").focus();
@@ -13648,10 +13648,6 @@ function new_consumablespurchase_submit(){
     if( isNaN(unit)  || unit<=0 ){
         $("#ConsumablesUnitPrice_Input").val(0);
         $("#ConsumablesUnitPrice_Input").focus();
-        return;
-    }
-    if( vendor ==="" ){
-        $("#ConsumablesVendor_Input").focus();
         return;
     }
     var purchase = {
@@ -15554,8 +15550,8 @@ function buildconsumablesvendorlistchoice(vendorlist){
     for(var i=0;i<vendorlist.length;i++){
         options=options + "<option value="+vendorlist[i]+">"+vendorlist[i]+"</option>";
     }
-    $("#ConsumablesVendor_choice").empty();
-    $("#ConsumablesVendor_choice").append(options);
+    $("#ConsumablesVendor_Choice").empty();
+    $("#ConsumablesVendor_Choice").append(options);
 }
 function getConsumablesTypeList(){
     var map={
@@ -15588,6 +15584,6 @@ function buildconsumablestypelistchoice(number){
     for(var i=0;i<ConsumablesTypeList[number -1 ].length;i++){
         options=options + "<option value="+ConsumablesTypeList[number -1 ][i]+">"+ConsumablesTypeList[number -1 ][i]+"</option>";
     }
-    $("#ConsumablesType_choice").empty();
-    $("#ConsumablesType_choice").append(options);
+    $("#ConsumablesType_Choice").empty();
+    $("#ConsumablesType_Choice").append(options);
 }
