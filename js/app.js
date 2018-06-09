@@ -597,8 +597,8 @@ function get_user_information(){
             getProductWeightAndSize();
             getProductStockList();
             getMaterialStockList();
-            getConsumablesTypeList();
-            getConsumablesVendorList();
+            //getConsumablesTypeList();
+            //getConsumablesVendorList();
             
         }
 	};
@@ -13614,9 +13614,10 @@ function show_consumablespurchase_module(){
     $("#ConsumablesNumber_Input").val("0");
     $("#ConsumablesUnitPrice_Input").val("0");
     $("#ConsumablesTotalPrice_Input").val("0");
-
-    $("#ConsumablesVendor_Input").val("");
-    $("#ConsumablesType_Input").val("");
+    $("#ConsumablesVendor_Choice").val("");
+    $("#ConsumablesType_Choice").val("");
+    //$("#ConsumablesVendor_Input").val("");
+    //$("#ConsumablesType_Input").val("");
     modal_middle($('#ConsumablesPurchaseModal'));
     $('#ConsumablesPurchaseModal').modal('show');
 }

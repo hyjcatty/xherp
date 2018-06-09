@@ -10,13 +10,15 @@
     <title></title>
 </head>
 <body>
-<div id = "notepad" style="width:100%">
+<div id = "notepad" style="width:100%;text-align:center;font-size: 36px;font-weight: 700;margin-bottom: 50px">
     加载中
 </div>
 <table data-toggle="table" class="table table-hover table-bordered" id="itemtable" data-click-to-select="true" style="width:100%">
 
 </table>
+<div id = "foot" style="width:100%">
 
+</div>
 </body>
 <script>
     var itemid;
@@ -53,16 +55,25 @@
             }else{
 
                 $("#notepad").empty();
-                $("#notepad").append("耗材录入信息，耗材编号:"+itemid);
+                $("#notepad").append("栖霞市恒源商贸有限公司");
+                $("#foot").append("耗材录入信息，耗材编号:"+itemid);
                 var items = result.ret;
                 $("#itemtable").empty();
-                var txt = "<div class='row'><div class='col-md-12 col-sm-12 col-xs-12'>";
+                var txt ="";// "<div class='row'><div class='col-md-12 col-sm-12 col-xs-12'>";
 
-                txt ="<thead> <tr> <th> </th><th> </th> </tr> </thead> <tbody >";
-                for(var i=0;i<items.length;i++){
-                    txt = txt + "<tr> <td>"+ items[i].name+"</td><td>"+ items[i].value+"</td> </tr>";
+                txt =txt + "<thead><tr>";
+                for(var i=0;i<items.column.length;i++){
+                    txt =txt +"<th> "+items.column[i]+"</th>";
                 }
-                txt = txt+ "</tbody></div></div>";
+                txt =txt + "</tr> </thead> <tbody >";
+                for(var i=0;i<items.detail.length;i++){
+                    txt = txt + "<tr>";
+                    for(var j=0;j<items.detail[i].length;j++){
+                        txt = txt +" <td>"+ items.detail[i][j]+"</td>";
+                    }
+                    txt = txt +" </tr>";
+                }
+                //txt = txt+ "</tbody></div></div>";
                 $("#itemtable").append(txt);
                 window.print();
             }

@@ -6751,18 +6751,30 @@ RESPONSE:
         echo $jsonencode; break;
     case "GetPrint":
         $body= $_GET['body'];
+        $columnnumber = rand(2,3);
         $keynumber = rand(5,15);
         $PrintDetail = array();
+        $PrintColumn = array();
+        for($i=0;$i<$columnnumber;$i++){
+            array_push($PrintColumn,'item'.(string)($i));
+        }
         for($i=0;$i<$keynumber;$i++){
-            $PrintItem = array(
-                'name'=>'item'.(string)($i),
-                'value'=>'xxxxxxxxxxxxxxxxxxxx'.(string)($i)
-            );
+            $PrintItem = array();
+            for($j=0;$j<$columnnumber;$j++){
+                $xnumber = rand(3,35);
+                $output = "cell".'['.(string)($i).']['.(string)($j).']';
+                for($k=0;$k<$xnumber;$k++){$output = $output."x";}
+                array_push($PrintItem,$output);
+            }
             array_push($PrintDetail,$PrintItem);
         }
+        $PrintTable = array(
+                        'column'=>$PrintColumn,
+                        'detail'=>$PrintDetail,
+                    );
         $retval=array(
             'status'=>'true',
-            'ret'=>$PrintDetail,
+            'ret'=>$PrintTable,
             'msg'=>'success',
             'auth'=>'true'
         );
