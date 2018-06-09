@@ -1194,6 +1194,8 @@ case "FactoryNew":
                 'factoryworkendtime'=> "11:22:33",
                 'factorylaunchstarttime'=> "22:33:44",
                 'factorylaunchendtime'=> "10:20:30",
+                'factorytrafficmoney'=> rand(0,128),
+                'factorybonus'=> rand(0,280),
                 'factoryaddress'=>"DDDDDDD",
                 'factorymemo'=>"备注".(string)($start+$i)
     		);

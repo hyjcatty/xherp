@@ -4449,6 +4449,8 @@ function new_factory(factory){
         factorylaunchstarttime: factory.factorylaunchstarttime,
         factorylaunchendtime: factory.factorylaunchendtime,
         factoryaddress:factory.factoryaddress,
+        factorytrafficmoney: factory.factorytrafficmoney,
+        factorybonus:factory.factorybonus,
         factorymemo:factory.factorymemo
     };
 
@@ -4494,6 +4496,8 @@ function modify_factory(factory){
         factorylaunchstarttime: factory.factorylaunchstarttime,
         factorylaunchendtime: factory.factorylaunchendtime,
         factoryaddress:factory.factoryaddress,
+        factorytrafficmoney: factory.factorytrafficmoney,
+        factorybonus:factory.factorybonus,
         factorymemo:factory.factorymemo
     };
     var map={
@@ -4652,6 +4656,7 @@ function clear_factory_detail_panel(){
         "<dt >全勤天数：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt >经度：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>纬度：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>交通补贴：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
@@ -4660,6 +4665,7 @@ function clear_factory_detail_panel(){
         "<dt>下班时间：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>午休开始时间：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "<dt>午休结束时间：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
+        "<dt>全勤奖金：</dt><dd>&nbsp&nbsp&nbsp&nbsp</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
@@ -4682,6 +4688,7 @@ function draw_factory_detail_panel(){
         "<dt >全勤天数：</dt><dd>"+factory_selected.factorydutyday+"</dd>"+
         "<dt >经度：</dt><dd>"+factory_selected.factorylongitude+"</dd>"+
         "<dt>纬度：</dt><dd>"+factory_selected.factorylatitude+"</dd>"+
+        "<dt>交通补贴：</dt><dd>"+factory_selected.factorytrafficmoney+"</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-6 col-sm-6 col-xs-12 column'>"+
@@ -4691,6 +4698,7 @@ function draw_factory_detail_panel(){
         "<dt>下班时间：</dt><dd>"+factory_selected.factoryworkendtime+"</dd>"+
         "<dt>午休开始时间：</dt><dd>"+factory_selected.factorylaunchstarttime+"</dd>"+
         "<dt>午休结束时间：</dt><dd>"+factory_selected.factorylaunchendtime+"</dd>"+
+        "<dt>全勤奖金：</dt><dd>"+factory_selected.factorybonus+"</dd>"+
         "</dl>"+
         "</div>"+
         "<div class='col-md-12 col-sm-12 col-xs-12 column'>"+
@@ -4716,6 +4724,8 @@ function show_new_factory_module(){
     $("#NewFactoryLaunchEndTime_Input").val("");
     $("#NewFactoryAddress_Input").val("");
     $("#NewFactoryMemo_Input").val("");
+    $("#NewFactoryTrafficMoney_Input").val(0);
+    $("#NewFactoryBonus_Input").val(0);
 
     $('#NewFactoryLongitude_Input').attr("disabled",true);
     $('#NewFactoryLatitude_Input').attr("disabled",true);
@@ -4727,6 +4737,8 @@ function show_new_factory_module(){
     $("#NewFactoryLaunchEndTime_Input").attr("placeholder","午休结束时间");
     $("#NewFactoryAddress_Input").attr("placeholder","地址");
 
+    $("#NewFactoryTrafficMoney_Input").attr("placeholder","交通补贴");
+    $("#NewFactoryBonus_Input").attr("placeholder","全勤奖金");
     modal_middle($('#newFactoryModal'));
 
     $('#newFactoryModal').modal('show');
@@ -4744,6 +4756,8 @@ function submit_new_factory_module(){
     var new_factory_launch_end_time=$("#NewFactoryLaunchEndTime_Input").val();
     var new_factory_address=$("#NewFactoryAddress_Input").val();
     var new_factory_memo=$("#NewFactoryMemo_Input").val();
+    var new_factory_traffic_money=$("#NewFactoryTrafficMoney_Input").val();
+    var new_factory_bonus=$("#NewFactoryBonus_Input").val();
     //console.log("new_usr_name:"+new_usr_name);
     if(new_factory_code === null || new_factory_code === ""){
         $("#NewFactoryCode_Input").attr("placeholder","工厂代码不能为空");
@@ -4781,6 +4795,18 @@ function submit_new_factory_module(){
         $("#NewFactoryCode_Input").focus();
         return;
     }
+    if(isNaN(new_factory_traffic_money) || new_factory_traffic_money<0){
+        $("#NewFactoryTrafficMoney_Input").val("");
+        $("#NewFactoryTrafficMoney_Input").attr("placeholder","请输入正确的交通补贴");
+        $("#NewFactoryTrafficMoney_Input").focus();
+        return;
+    }
+    if(isNaN(new_factory_bonus) || new_factory_bonus<0){
+        $("#NewFactoryBonus_Input").val("");
+        $("#NewFactoryBonus_Input").attr("placeholder","请输入正确的全勤奖金");
+        $("#NewFactoryBonus_Input").focus();
+        return;
+    }
     var factory = {
         factoryid: "",
         factorycode: new_factory_code,
@@ -4792,6 +4818,8 @@ function submit_new_factory_module(){
         factorylaunchstarttime: new_factory_launch_start_time,
         factorylaunchendtime: new_factory_launch_end_time,
         factoryaddress:new_factory_address,
+        factorytrafficmoney: new_factory_traffic_money,
+        factorybonus:new_factory_bonus,
         factorymemo:new_factory_memo
     };
     new_factory(factory);
@@ -4809,7 +4837,8 @@ function show_mod_factory_module(factory){
     $("#NewFactoryLaunchEndTime_Input").val(factory.factorylaunchendtime);
     $("#NewFactoryAddress_Input").val(factory.factoryaddress);
     $("#NewFactoryMemo_Input").val(factory.factorymemo);
-
+    $("#NewFactoryTrafficMoney_Input").val(factory.factorytrafficmoney);
+    $("#NewFactoryBonus_Input").val(factory.factorybonus);
     $('#NewFactoryLongitude_Input').attr("disabled",true);
     $('#NewFactoryLatitude_Input').attr("disabled",true);
     $("#NewFactoryCode_Input").attr("placeholder","工厂代码");
@@ -4819,6 +4848,8 @@ function show_mod_factory_module(factory){
     $("#NewFactoryLaunchStartTime_Input").attr("placeholder","午休开始时间");
     $("#NewFactoryLaunchEndTime_Input").attr("placeholder","午休结束时间");
     $("#NewFactoryAddress_Input").attr("placeholder","地址");
+    $("#NewFactoryTrafficMoney_Input").attr("placeholder","交通补贴");
+    $("#NewFactoryBonus_Input").attr("placeholder","全勤奖金");
     modal_middle($('#newFactoryModal'));
 
     $('#newFactoryModal').modal('show');
@@ -4835,6 +4866,9 @@ function submit_mod_factory_module(){
     var new_factory_launch_end_time=$("#NewFactoryLaunchEndTime_Input").val();
     var new_factory_address=$("#NewFactoryAddress_Input").val();
     var new_factory_memo=$("#NewFactoryMemo_Input").val();
+
+    var new_factory_traffic_money=$("#NewFactoryTrafficMoney_Input").val();
+    var new_factory_bonus=$("#NewFactoryBonus_Input").val();
     if(new_factory_code === null || new_factory_code === ""){
         $("#NewFactoryCode_Input").attr("placeholder","工厂代码不能为空");
         $("#NewFactoryCode_Input").focus();
@@ -4871,6 +4905,19 @@ function submit_mod_factory_module(){
         $("#NewFactoryCode_Input").focus();
         return;
     }
+
+    if(isNaN(new_factory_traffic_money) || new_factory_traffic_money<0){
+        $("#NewFactoryTrafficMoney_Input").val("");
+        $("#NewFactoryTrafficMoney_Input").attr("placeholder","请输入正确的交通补贴");
+        $("#NewFactoryTrafficMoney_Input").focus();
+        return;
+    }
+    if(isNaN(new_factory_bonus) || new_factory_bonus<0){
+        $("#NewFactoryBonus_Input").val("");
+        $("#NewFactoryBonus_Input").attr("placeholder","请输入正确的全勤奖金");
+        $("#NewFactoryBonus_Input").focus();
+        return;
+    }
     var factory = {
         factoryid: factory_selected.factoryid,
         factorycode: new_factory_code,
@@ -4882,6 +4929,8 @@ function submit_mod_factory_module(){
         factorylaunchstarttime: new_factory_launch_start_time,
         factorylaunchendtime: new_factory_launch_end_time,
         factoryaddress:new_factory_address,
+        factorytrafficmoney: new_factory_traffic_money,
+        factorybonus:new_factory_bonus,
         factorymemo:new_factory_memo
     };
     modify_factory(factory);
