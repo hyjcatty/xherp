@@ -284,6 +284,19 @@ var select_MaterialStockRemoval_ID = "";
 
 var if_materialstock_history_table_initialize = false;
 var if_materialstock_table_initialize = false;
+
+
+var ContainerStockRemoval_module_status = false;
+var ContainerStockIncome_module_status = false;
+var select_ContainerStockRemoval_ID = "";
+var if_containerstock_history_table_initialize = false;
+var if_containerstock_table_initialize = false;
+
+
+var local_modal_structure = null;
+var factory_bill_structure = null;
+var factory_bill_list=[];
+var factory_bill_list_show=0;
 /*
 var lineChartData = {
     labels : ["January","February","March","April","May","June","July"],
@@ -1033,6 +1046,125 @@ $(document).ready(function() {
         touchcookie();
         consumables_history();
     });
+
+    $("#MaterialAudit").on('click',function(){
+        CURRENT_URL = "MaterialAudit";
+        active_menu("MaterialAudit");
+        touchcookie();
+        material_audit();
+    });
+    $("#MaterialCheckIn").on('click',function(){
+        CURRENT_URL = "MaterialCheckIn";
+        active_menu("MaterialCheckIn");
+        touchcookie();
+        material_check_in();
+    });
+    $("#MaterialPurchaseDetail").on('click',function(){
+        CURRENT_URL = "MaterialPurchaseDetail";
+        active_menu("MaterialPurchaseDetail");
+        touchcookie();
+        material_purchase_detail();
+    });
+    $("#OtherStorageCheckIn").on('click',function(){
+        CURRENT_URL = "OtherStorageCheckIn";
+        active_menu("OtherStorageCheckIn");
+        touchcookie();
+        other_storage_check_in();
+    });
+    $("#MaterialTransfer").on('click',function(){
+        CURRENT_URL = "MaterialTransfer";
+        active_menu("MaterialTransfer");
+        touchcookie();
+        material_transfer();
+    });
+    $("#MaterialSale").on('click',function(){
+        CURRENT_URL = "MaterialSale";
+        active_menu("MaterialSale");
+        touchcookie();
+        material_sale();
+    });
+    $("#MaterialConsume").on('click',function(){
+        CURRENT_URL = "MaterialConsume";
+        active_menu("MaterialConsume");
+        touchcookie();
+        material_consume();
+    });
+    $("#MaterialConsumeBack").on('click',function(){
+        CURRENT_URL = "MaterialConsumeBack";
+        active_menu("MaterialConsumeBack");
+        touchcookie();
+        material_consume_back();
+    });
+    $("#DepositaryCheckIn").on('click',function(){
+        CURRENT_URL = "DepositaryCheckIn";
+        active_menu("DepositaryCheckIn");
+        touchcookie();
+        depositary_check_in();
+    });
+    $("#DepositaryCheckOut").on('click',function(){
+        CURRENT_URL = "DepositaryCheckOut";
+        active_menu("DepositaryCheckOut");
+        touchcookie();
+        depositary_check_out();
+    });
+    $("#ProductStorageManage").on('click',function(){
+        CURRENT_URL = "ProductStorageManage";
+        active_menu("ProductStorageManage");
+        touchcookie();
+        product_storage_manage();
+    });
+    $("#ProductDeliveryManage").on('click',function(){
+        CURRENT_URL = "ProductDeliveryManage";
+        active_menu("ProductDeliveryManage");
+        touchcookie();
+        product_delivery_manage();
+    });
+    $("#ProductWasteDeliver").on('click',function(){
+        CURRENT_URL = "ProductWasteDeliver";
+        active_menu("ProductWasteDeliver");
+        touchcookie();
+        product_waste_deliver();
+    });
+    $("#ContainerStorageManage").on('click',function(){
+        CURRENT_URL = "ContainerStorageManage";
+        active_menu("ContainerStorageManage");
+        touchcookie();
+        container_storage_manage();
+    });
+    $("#ContainerCheckOut").on('click',function(){
+        CURRENT_URL = "ContainerCheckOut";
+        active_menu("ContainerCheckOut");
+        touchcookie();
+        container_check_out();
+    });
+    $("#ContainerCheckIn").on('click',function(){
+        CURRENT_URL = "ContainerCheckIn";
+        active_menu("ContainerCheckIn");
+        touchcookie();
+        container_check_in();
+    });
+    $("#ContainerSaleBack").on('click',function(){
+        CURRENT_URL = "ContainerSaleBack";
+        active_menu("ContainerSaleBack");
+        touchcookie();
+        container_sale_back();
+    });
+    $("#ContainerTransferBack").on('click',function(){
+        CURRENT_URL = "ContainerTransferBack";
+        active_menu("ContainerTransferBack");
+        touchcookie();
+        container_transfer_back();
+    });
+    $("#ContainerOtherStorageRefund").on('click',function(){
+        CURRENT_URL = "ContainerOtherStorageRefund";
+        active_menu("ContainerOtherStorageRefund");
+        touchcookie();
+        container_other_storage_refund();
+    });
+
+
+
+    /*
     $("#ProductStorageManage").on('click',function(){
         CURRENT_URL = "ProductStorageManage";
         active_menu("ProductStorageManage");
@@ -1045,11 +1177,18 @@ $(document).ready(function() {
         touchcookie();
         productstock_history();
     });
-    $("#MaterialStorageManage").on('click',function(){
-        CURRENT_URL = "MaterialStorageManage";
-        active_menu("MaterialStorageManage");
+    $("#MaterialAudit").on('click',function(){
+        CURRENT_URL = "MaterialAudit";
+        active_menu("MaterialAudit");
         touchcookie();
         materialstock_manage();
+    });*/
+    /*
+    $("#ContainerStorageManage").on('click',function(){
+        CURRENT_URL = "ContainerStorageManage";
+        active_menu("ContainerStorageManage");
+        touchcookie();
+        containerstock_manage();
     });
     $("#MaterialDeliveryManage").on('click',function(){
         CURRENT_URL = "MaterialDeliveryManage";
@@ -1057,6 +1196,12 @@ $(document).ready(function() {
         touchcookie();
         materialstock_history();
     });
+    $("#ContainerDeliveryManage").on('click',function(){
+        CURRENT_URL = "ContainerDeliveryManage";
+        active_menu("ContainerDeliveryManage");
+        touchcookie();
+        containerstock_history();
+    });*/
     //user view buttons
     $("#UserfreshButton").on('click',function(){
         touchcookie();
@@ -2245,6 +2390,107 @@ $(document).ready(function() {
             $("#ConsumablesTotalPrice_Input").val(unitprice*number);
         }
     });
+    $(".factory-audit").on('click',function() {
+        switch(CURRENT_URL){
+            case "MaterialAudit":
+                GetFactoryAudit($("#MaterialAuditStorageSelect_choice").val(),
+                    CURRENT_URL,
+                    "",
+                    "");
+                break;
+            case "ProductStorageManage":
+                GetFactoryAudit($("#ProductStorageManageStorageSelect_choice").val(),
+                    CURRENT_URL,
+                    $("#ProductStorageManageWeightSelect_choice").val(),
+                    $("#ProductStorageManageSizeSelect_choice").val());
+                break;
+            case "ContainerStorageManage":
+                GetFactoryAudit($("#ContainerStorageManageStorageSelect_choice").val(),
+                    CURRENT_URL,
+                    "",
+                    "");
+                break;
+            default:
+                console.log("Un-registered URL");
+                return;
+        }
+    });
+    $(".main-table-view-flash").on('click',function() {
+        GetFactoryBill();
+    });
+    $(".sub-table-view-back").on('click',function() {
+        show_main_table();
+    });
+    $("#FactoryGoBackward").on('click',function() {
+        if(local_modal_structure === null) return;
+        if(local_modal_structure.local == 1) return;
+        GetFactoryItemDetail(local_modal_structure.bill,local_modal_structure.item,-1);
+    });
+    $("#FactoryGoForward").on('click',function() {
+        if(local_modal_structure === null) return;
+        if(local_modal_structure.local == local_modal_structure.total) return;
+        GetFactoryItemDetail(local_modal_structure.bill,local_modal_structure.item,1);
+    });
+    $("#FactorySave").on('click',function() {
+        var resultConf=buildUpdatestructure(local_modal_structure);
+        if(resultConf === null) return;
+        SaveFactoryItemDetail(resultConf);
+
+    });
+    $(".main-table-view-new-bill").on('click',function() {
+        GetFactoryBillStructure();
+    });
+    $("#FactoryBillDelete").on('click',function() {
+        if(factory_bill_list.length === (factory_bill_list_show+1)){
+            return;
+        }else{
+            factory_bill_list.splice(factory_bill_list_show,1);
+            showFactoryBillModal(factory_bill_list_show);
+        }
+    });
+    $("#FactoryBillNext").on('click',function() {
+
+        var last = buildUpdatebillstructure(factory_bill_structure);
+
+        if(last === null) return;
+        if(factory_bill_list.length === (factory_bill_list_show+1)){
+            factory_bill_list.splice(factory_bill_list_show,0,last);
+        }else{
+            factory_bill_list.splice(factory_bill_list_show,1,last);
+        }
+
+        factory_bill_list_show++;
+        showFactoryBillModal(factory_bill_list_show);
+    });
+    $("#FactoryBillSave").on('click',function() {
+        var last = buildUpdatebillstructure(factory_bill_structure);
+        if(last === null) return;
+        if(factory_bill_list.length === (factory_bill_list_show+1)){
+            factory_bill_list.splice(factory_bill_list_show,0,last);
+        }else{
+            factory_bill_list.splice(factory_bill_list_show,1,last);
+        }
+        factory_bill_list.pop();
+        $('#FactoryBillModal').modal('hide');
+        SaveFactoryBill(factory_bill_list);
+    });
+    $("#FactoryBillGoBackward").on('click',function() {
+        if(factory_bill_list_show === 0){
+            return;
+        }else{
+            factory_bill_list_show --;
+            showFactoryBillModal(factory_bill_list_show);
+        }
+    });
+    $("#FactoryBillGoForward").on('click',function() {
+        if(factory_bill_list.length === (factory_bill_list_show+1)){
+            return;
+        }else{
+            factory_bill_list_show ++;
+            showFactoryBillModal(factory_bill_list_show);
+        }
+    });
+    /*
     $("#ProductDeliveryHistoryFlash").on('click',function() {
         query_productstock_history();
     });
@@ -2278,6 +2524,9 @@ $(document).ready(function() {
     $("#MaterialStorageQuery").on('click',function() {
         query_materialstock_table();
     });
+    $("#ContainerStorageQuery").on('click',function() {
+        query_containerstock_table();
+    });
     $("#MaterialStorageadd").on('click',function() {
         show_materialstock_module();
     });
@@ -2298,7 +2547,7 @@ $(document).ready(function() {
     });
     $("#MaterialStockDelCommit").on('click',function() {
         del_materialstock_submit();
-    });
+    });*/
     //alert($(window).height());
     //alert($(window).width());
     clear_window();
@@ -2765,6 +3014,131 @@ function consumables_history(){
     //export_table_initialize();
     //query_static_warning();
 }
+function consumables_history(){
+    clear_window();
+    hide_searchbar();
+    write_title("耗材历史","请输入查询条件");
+    $("#ConsumablesHistoryView").css("display","block");
+    //export_table_initialize();
+    //query_static_warning();
+}
+
+function material_audit(){
+    clear_window();
+    hide_searchbar();
+    write_title("原材料统计","请输入查询条件");
+    $("#MaterialAuditView").css("display","block");
+}
+function material_check_in(){
+    clear_window();
+    hide_searchbar();
+    write_title("采购原材料入库","请输入查询条件");
+    $("#MaterialCheckInView").css("display","block");
+}
+function material_purchase_detail(){
+    clear_window();
+    hide_searchbar();
+    write_title("采购苹果明细流水","请输入查询条件");
+    $("#MaterialPurchaseDetailView").css("display","block");
+}
+function other_storage_check_in(){
+    clear_window();
+    hide_searchbar();
+    write_title("别库原来入库","请输入查询条件");
+    $("#OtherStorageCheckInView").css("display","block");
+}
+function material_transfer(){
+    clear_window();
+    hide_searchbar();
+    write_title("原材料转库","请输入查询条件");
+    $("#MaterialTransferView").css("display","block");
+}
+function material_sale(){
+    clear_window();
+    hide_searchbar();
+    write_title("原材料出售","请输入查询条件");
+    $("#MaterialSaleView").css("display","block");
+}
+function material_consume(){
+    clear_window();
+    hide_searchbar();
+    write_title("原材料加工","请输入查询条件");
+    $("#MaterialConsumeView").css("display","block");
+}
+function material_consume_back(){
+    clear_window();
+    hide_searchbar();
+    write_title("车间原料返库","请输入查询条件");
+    $("#MaterialConsumeBackView").css("display","block");
+}
+function depositary_check_in(){
+    clear_window();
+    hide_searchbar();
+    write_title("代存入库","请输入查询条件");
+    $("#DepositaryCheckInView").css("display","block");
+}
+function depositary_check_out(){
+    clear_window();
+    hide_searchbar();
+    write_title("代存出库","请输入查询条件");
+    $("#DepositaryCheckOutView").css("display","block");
+}
+function product_storage_manage(){
+    clear_window();
+    hide_searchbar();
+    write_title("成品库存信息","请输入查询条件");
+    $("#ProductStorageManageView").css("display","block");
+}
+function product_delivery_manage(){
+    clear_window();
+    hide_searchbar();
+    write_title("成品出库信息","请输入查询条件");
+    $("#ProductDeliveryManageView").css("display","block");
+}
+function product_waste_deliver(){
+    clear_window();
+    hide_searchbar();
+    write_title("残料出库","请输入查询条件");
+    $("#ProductWasteDeliverView").css("display","block");
+}
+function container_storage_manage(){
+    clear_window();
+    hide_searchbar();
+    write_title("容器库存信息","请输入查询条件");
+    $("#ContainerStorageManageView").css("display","block");
+}
+function container_check_out(){
+    clear_window();
+    hide_searchbar();
+    write_title("空桶出库","请输入查询条件");
+    $("#ContainerCheckOutView").css("display","block");
+}
+function container_check_in(){
+    clear_window();
+    hide_searchbar();
+    write_title("空桶入库","请输入查询条件");
+    $("#ContainerCheckInView").css("display","block");
+}
+function container_sale_back(){
+    clear_window();
+    hide_searchbar();
+    write_title("销售返桶","请输入查询条件");
+    $("#ContainerSaleBackView").css("display","block");
+}
+function container_transfer_back(){
+    clear_window();
+    hide_searchbar();
+    write_title("转库返桶","请输入查询条件");
+    $("#ContainerTransferBackView").css("display","block");
+}
+function container_other_storage_refund(){
+    clear_window();
+    hide_searchbar();
+    write_title("别库退桶","请输入查询条件");
+    $("#ContainerOtherStorageRefundView").css("display","block");
+}
+
+/*
 function productstock_manage(){
     clear_window();
     hide_searchbar();
@@ -2786,6 +3160,13 @@ function materialstock_manage(){
     $("#MaterialStorageManageView").css("display","block");
     query_materialstock_table();
 }
+function containerstock_manage(){
+    clear_window();
+    hide_searchbar();
+    write_title("容器库存信息","请输入查询条件");
+    $("#ContainerStorageManageView").css("display","block");
+    //query_containerstock_table();
+}
 function materialstock_history(){
     clear_window();
     hide_searchbar();
@@ -2793,41 +3174,16 @@ function materialstock_history(){
     $("#MaterialDeliveryHistoryView").css("display","block");
     query_materialstock_history();
 }
+function containerstock_history(){
+    clear_window();
+    hide_searchbar();
+    write_title("容器出入库历史","请输入查询条件");
+    $("#ContainerDeliveryHistoryView").css("display","block");
+    query_containerstock_history();
+}*/
 function clear_window(){
-
     $(".hyjwindow").css("display","none");
-    /*
-    $("#UserManageView").css("display","none");
-    $("#StaffManageView").css("display","none");
-    $("#FactoryManageView").css("display","none");
-    $("#SpecificationManageView").css("display","none");
-    $("#PGManageView").css("display","none");
-    $("#ProjManageView").css("display","none");
-    $("#ParaManageView").css("display","none");
-    $("#MPManageView").css("display","none");
-    $("#DevManageView").css("display","none");
-    $("#MPMonitorView").css("display","none");
-    $("#MPMonitorTableView").css("display","none");
-    $("#MPMonitorCardView").css("display","none");
-    $("#MPMonitorStaticTableView").css("display","none");
-    $("#WarningCheckView").css("display","none");
-    $("#WarningHandleView").css("display","none");
-    $("#Desktop").css("display","none");
-    $("#Undefined").css("display","none");
-    $("#KeyManageView").css("display","none");
-    $("#KeyHistoryView").css("display","none");
-    $("#KeyAuthView").css("display","none");
-    $("#CableCheckView").css("display","none");
-    $("#RTUManageView").css("display","none");
-    $("#OTDRManageView").css("display","none");
-    $("#ExportTableView").css("display","none");
-    $("#AttendanceHistoryView").css("display","none");
-    $("#AssembleHistoryView").css("display","none");
-    $("#AssembleAuditView").css("display","none");
-    $("#AttendanceAuditView").css("display","none");
-    $("#KPIAuditView").css("display","none");
-    $("#ConsumablesHistoryView").css("display","none");
-    $("#ConsumablesManageView").css("display","none");*/
+    show_main_table();
 }
 
 
@@ -12650,7 +13006,7 @@ function JQ_get(url,request,callback){
             return;
         }
     }
-    jQuery.get(url, request, function (data) {
+    $.post(url,JSON.stringify(request),function(data){
         log(data);
         var result=JSON.parse(data);
         if(result.status == "false"){
@@ -12663,6 +13019,20 @@ function JQ_get(url,request,callback){
         }
         callback(result);
     });
+    /*
+    jQuery.get(url, request, function (data) {
+        log(data);
+        var result=JSON.parse(data);
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        if(result.auth == "false"){
+            show_alarm_module(true,"您没有进行此操作的权限："+result.msg,null);
+            return;
+        }
+        callback(result);
+    });*/
 }
 function JQ_get_with_para(url,request,callback,para){
     if(request.user!="null"){
@@ -12671,7 +13041,7 @@ function JQ_get_with_para(url,request,callback,para){
             return;
         }
     }
-    jQuery.get(url, request, function (data) {
+    $.post(url,JSON.stringify(request),function(data){
         log(data);
         var result=JSON.parse(data);
         if(result.status == "false"){
@@ -12684,6 +13054,20 @@ function JQ_get_with_para(url,request,callback,para){
         }
         callback(result,para);
     });
+    /*
+    jQuery.get(url, request, function (data) {
+        log(data);
+        var result=JSON.parse(data);
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        if(result.auth == "false"){
+            show_alarm_module(true,"您没有进行此操作的权限："+result.msg,null);
+            return;
+        }
+        callback(result,para);
+    });*/
 }
 function thread_sync(sync_key,thread_number,callback){
     var Intervalhandle = 0;
@@ -13211,155 +13595,11 @@ function AlarmHandleUpdateCommit_button_commit(){
 }
 
 function query_RTU_list(){
-    if(RTU_Manage_table_initialized !== true) return;
-    var map={
-        action:"GetRTUTable",
-        type:"query",
-        user:usr.id
-    };
-    var GetRTUTable_callback= function(result){
-        //log(data);
-        //var result=JSON.parse(data);
-        if(result.status == "false"){
-            show_expiredModule();
-            return;
-        }
-        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
-        $("#RTUFlashTime").empty();
-        $("#RTUFlashTime").append("最后刷新时间："+Last_update_date);
-        var ColumnName = result.ret.ColumnName;
-        var TableData = result.ret.TableData;
-        //var txt = "<thead> <tr><th></th><th></th>";
-        var txt = "<thead> <tr>";
-        var i;
-        for( i=0;i<ColumnName.length;i++){
-            txt = txt +"<th>"+ColumnName[i]+"</th>";
-        }
-        //txt = txt +"<th></th></tr></thead>";
-        txt = txt +"</tr></thead>";
-        txt = txt +"<tbody>";
-        for( i=0;i<TableData.length;i++){
-            txt = txt +"<tr>";
-            //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
-            //console.log("StateCode="+TableData[i][0]);
-            for(var j=0;j<TableData[i].length;j++){
-                txt = txt +"<td>"+TableData[i][j]+"</td>";
-            }
-            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
-            txt = txt +"</tr>";
-        }
-        txt = txt+"</tbody>";
-        $("#RTUQueryTable").empty();
-        $("#RTUQueryTable").append(txt);
-        if(if_RTU_Manage_table_initialize) $("#RTUQueryTable").DataTable().destroy();
 
-        //console.log(monitor_map_list);
-
-        var show_table  = $("#RTUQueryTable").DataTable( {
-            //dom: 'T<"clear">lfrtip',
-            "scrollY": true,
-            "scrollCollapse": true,
-
-            "scrollX": true,
-            "searching": false,
-            "autoWidth": true,
-            "lengthChange":false,
-            //"paging":false,
-            //bSort: false,
-            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
-            dom: 'Bfrtip',
-            select:true,
-            buttons:{
-                buttons:[
-
-                    {
-                        extend: 'excel',
-                        text: '导出到excel',
-                        filename: "AlarmData"+Last_update_date
-                    }
-                ]
-            }
-
-        } );
-        if_RTU_Manage_table_initialize = true;
-    };
-    JQ_get(request_head,map,GetRTUTable_callback);
 
 }
 function query_OTDR_list(){
-    if(OTDR_Manage_table_initialized !== true) return;
-    var map={
-        action:"GetOTDRTable",
-        type:"query",
-        user:usr.id
-    };
-    var GetOTDRTable_callback= function(result){
-        //log(data);
-        //var result=JSON.parse(data);
-        if(result.status == "false"){
-            show_expiredModule();
-            return;
-        }
-        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
-        $("#OTDRFlashTime").empty();
-        $("#OTDRFlashTime").append("最后刷新时间："+Last_update_date);
-        var ColumnName = result.ret.ColumnName;
-        var TableData = result.ret.TableData;
-        //var txt = "<thead> <tr><th></th><th></th>";
-        var txt = "<thead> <tr>";
-        var i;
-        for( i=0;i<ColumnName.length;i++){
-            txt = txt +"<th>"+ColumnName[i]+"</th>";
-        }
-        //txt = txt +"<th></th></tr></thead>";
-        txt = txt +"</tr></thead>";
-        txt = txt +"<tbody>";
-        for( i=0;i<TableData.length;i++){
-            txt = txt +"<tr>";
-            //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
-            //console.log("StateCode="+TableData[i][0]);
-            for(var j=0;j<TableData[i].length;j++){
-                txt = txt +"<td>"+TableData[i][j]+"</td>";
-            }
-            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
-            txt = txt +"</tr>";
-        }
-        txt = txt+"</tbody>";
-        $("#OTDRQueryTable").empty();
-        $("#OTDRQueryTable").append(txt);
-        if(OTDR_Manage_table_initialized) $("#OTDRQueryTable").DataTable().destroy();
 
-        //console.log(monitor_map_list);
-
-        var show_table  = $("#OTDRQueryTable").DataTable( {
-            //dom: 'T<"clear">lfrtip',
-            "scrollY": true,
-            "scrollCollapse": true,
-
-            "scrollX": true,
-            "searching": false,
-            "autoWidth": true,
-            "lengthChange":false,
-            //"paging":false,
-            //bSort: false,
-            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
-            dom: 'Bfrtip',
-            select:true,
-            buttons:{
-                buttons:[
-
-                    {
-                        extend: 'excel',
-                        text: '导出到excel',
-                        filename: "AlarmData"+Last_update_date
-                    }
-                ]
-            }
-
-        } );
-        OTDR_Manage_table_initialized = true;
-    };
-    JQ_get(request_head,map,GetOTDRTable_callback);
 
 }
 function get_pm(city_name){
@@ -14035,6 +14275,24 @@ function query_consumables_table(){
 
 }
 /*ProductStock Part*/
+
+function getEmptyStockList(){
+    var map={
+        action:"GetProductEmptyStock",
+        user:usr.id
+    };
+    var getEmptyStockList_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            //StockList = result.ret;
+            show_productStockdel_modal(result.ret);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,getEmptyStockList_callback);
+}
 function getProductStockList(){
     var map={
         action:"GetProductStockList",
@@ -14057,15 +14315,21 @@ function buildstocklistchoice(stocklist){
     for(var i=0;i<stocklist.length;i++){
         options=options + "<option value="+stocklist[i].id+">"+stocklist[i].name+"</option>";
     }
+    /*
     $("#ProductStockRemovalStorageSelect_choice").empty();
     $("#ProductStockRemovalStorageSelect_choice").append(options);
     $("#ProductStockTransferSelect_choice").empty();
-    $("#ProductStockTransferSelect_choice").append(options);
+    $("#ProductStockTransferSelect_choice").append(options);*/
+    $(".product-storage-sub").empty();
+    $(".product-storage-sub").append(options);
     options="<option value='all'>全部仓库</option>"+options;
+    $(".product-storage-all").empty();
+    $(".product-storage-all").append(options);
+    /*
     $("#ProductDeliveryHistorySelect_choice").empty();
     $("#ProductDeliveryHistorySelect_choice").append(options);
     $("#ProductStorageSelect_choice").empty();
-    $("#ProductStorageSelect_choice").append(options);
+    $("#ProductStorageSelect_choice").append(options);*/
 }
 function buildstocklistchoiceexceptone(stocklist,except){
     var options = "";
@@ -14105,8 +14369,11 @@ function buildweightandsizechoice(weight,size){
     for(i=0;i<size.length;i++){
         optionssize=optionssize + "<option value="+size[i]+">"+size[i]+"</option>";
     }
-    $("#ProductStorageWeightSelect_choice").empty();
-    $("#ProductStorageWeightSelect_choice").append(optionsweight);
+    $(".product-weight").empty();
+    $(".product-weight").append(optionsweight);
+    $(".product-size").empty();
+    $(".product-size").append(optionssize);
+    /*
     $("#ProductStorageSizeSelect_choice").empty();
     $("#ProductStorageSizeSelect_choice").append(optionssize);
 
@@ -14118,8 +14385,70 @@ function buildweightandsizechoice(weight,size){
     $("#ProductStockTransferWeightSelect_choice").empty();
     $("#ProductStockTransferWeightSelect_choice").append(optionsweight);
     $("#ProductStockTransferSizeSelect_choice").empty();
-    $("#ProductStockTransferSizeSelect_choice").append(optionssize);
+    $("#ProductStockTransferSizeSelect_choice").append(optionssize);*/
 }
+function getMaterialStockList(){
+    var map={
+        action:"GetMaterialStockList",
+        user:usr.id
+    };
+    var getMaterialStockList_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            MaterialStockList = result.ret;
+            buildmaterialstocklistchoice(MaterialStockList);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,getMaterialStockList_callback);
+}
+function buildmaterialstocklistchoice(stocklist){
+    var options = "";
+    for(var i=0;i<stocklist.length;i++){
+        options=options + "<option value="+stocklist[i].id+">"+stocklist[i].name+"</option>";
+    }
+    $(".material-storage-sub").empty();
+    $(".material-storage-sub").append(options);
+    /*
+     $("#MaterialStockRemovalStorageSelect_choice").empty();
+     $("#MaterialStockRemovalStorageSelect_choice").append(options);
+     $("#MaterialStockIncomeStorageSelect_choice").empty();
+     $("#MaterialStockIncomeStorageSelect_choice").append(options);*/
+    options="<option value='all'>全部仓库</option>"+options;
+
+    $(".material-storage-all").empty();
+    $(".material-storage-all").append(options);
+    /*$("#MaterialDeliveryHistorySelect_choice").empty();
+     $("#MaterialDeliveryHistorySelect_choice").append(options);
+     $("#MaterialStorageSelect_choice").empty();
+     $("#MaterialStorageSelect_choice").append(options);
+     $("#ContainerStorageSelect_choice").empty();
+     $("#ContainerStorageSelect_choice").append(options);
+     $("#ContainerDeliveryHistorySelect_choice").empty();
+     $("#ContainerDeliveryHistorySelect_choice").append(options);*/
+}
+function getMaterialEmptyStockList(){
+    var map={
+        action:"GetMaterialEmptyStock",
+        user:usr.id
+    };
+    var getEmptyStockList_callback = function(result){
+        var ret = result.status;
+        if(ret == "true"){
+            //StockList = result.ret;
+            show_materialStockdel_modal(result.ret);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,getEmptyStockList_callback);
+}
+
+
+/*These part will be abandon*/
 function show_productstockremoval_module(data){
     $("#ProductStockRemovalLabel").text("创建成品出库记录");
     ProductStockRemoval_module_status=true;
@@ -14350,24 +14679,6 @@ function new_productstock(stock){
     };
     JQ_get(request_head,map,new_productstock_callback);
 }
-
-function getEmptyStockList(){
-    var map={
-        action:"GetProductEmptyStock",
-        user:usr.id
-    };
-    var getEmptyStockList_callback = function(result){
-        var ret = result.status;
-        if(ret == "true"){
-            //StockList = result.ret;
-            show_productStockdel_modal(result.ret);
-        }else{
-            setTimeout(function(){
-                show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
-        }
-    };
-    JQ_get(request_head,map,getEmptyStockList_callback);
-}
 function show_productStockdel_modal(emptylist){
     var options = "";
     for(var i=0;i<emptylist.length;i++){
@@ -14455,7 +14766,6 @@ function show_productstocktransfer_module(data){
     modal_middle($('#ProductStockTransferModal'));
     $('#ProductStockTransferModal').modal('show');
 }
-
 function new_productstocktransfer_submit(){
     var storage = $("#ProductStockTransferSelect_choice").val();
     var weight = $("#ProductStockTransferWeightSelect_choice").val();
@@ -14483,7 +14793,6 @@ function new_productstocktransfer_submit(){
     };
     new_productstocktransfer(transfer);
 }
-
 function new_productstocktransfer(transfer){
     var body = {
 
@@ -14520,7 +14829,6 @@ function new_productstocktransfer(transfer){
     };
     JQ_get(request_head,map,new_productstocktransfer_callback);
 }
-
 function query_productstock_history(){
     //if(Consumables_History_table_initialized !== true) return;
     var Query_stock_item = $("#ProductDeliveryHistorySelect_choice").val();
@@ -14622,7 +14930,6 @@ function query_productstock_history(){
     JQ_get(request_head,map,query_productstock_history_callback);
 
 }
-
 function query_productstock_table(){
     //if(Consumables_table_initialized !== true) return;
 
@@ -14651,6 +14958,7 @@ function query_productstock_table(){
         var ColumnName = result.ret.ColumnName;
         var TableData = result.ret.TableData;
         var txt = "<thead> <tr><th></th><th></th>";
+        //var txt = "<thead> <tr>";
         var i;
         for( i=0;i<ColumnName.length;i++){
             txt = txt +"<th>"+ColumnName[i]+"</th>";
@@ -14718,8 +15026,6 @@ function query_productstock_table(){
     JQ_get(request_head,map,query_productstock_callback);
 
 }
-
-
 function get_productstock_detail(StockCode,callback){
     var body = {
         stockID:StockCode,
@@ -14757,7 +15063,6 @@ function get_productstock_detail(StockCode,callback){
         JQ_get(request_head,map,get_productstock_detail_transfer);
     }
 }
-
 function get_productstockhistory_detail(removalID){
     var body = {
         removalID:removalID
@@ -14780,43 +15085,6 @@ function get_productstockhistory_detail(removalID){
     };
     JQ_get(request_head,map,get_productstockhistory_detail_callback);
 
-}
-
-
-
-
-/*MaterialStock Part*/
-function getMaterialStockList(){
-    var map={
-        action:"GetMaterialStockList",
-        user:usr.id
-    };
-    var getMaterialStockList_callback = function(result){
-        var ret = result.status;
-        if(ret == "true"){
-            MaterialStockList = result.ret;
-            buildmaterialstocklistchoice(MaterialStockList);
-        }else{
-            setTimeout(function(){
-                show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
-        }
-    };
-    JQ_get(request_head,map,getMaterialStockList_callback);
-}
-function buildmaterialstocklistchoice(stocklist){
-    var options = "";
-    for(var i=0;i<stocklist.length;i++){
-        options=options + "<option value="+stocklist[i].id+">"+stocklist[i].name+"</option>";
-    }
-    $("#MaterialStockRemovalStorageSelect_choice").empty();
-    $("#MaterialStockRemovalStorageSelect_choice").append(options);
-    $("#MaterialStockIncomeStorageSelect_choice").empty();
-    $("#MaterialStockIncomeStorageSelect_choice").append(options);
-    options="<option value='all'>全部仓库</option>"+options;
-    $("#MaterialDeliveryHistorySelect_choice").empty();
-    $("#MaterialDeliveryHistorySelect_choice").append(options);
-    $("#MaterialStorageSelect_choice").empty();
-    $("#MaterialStorageSelect_choice").append(options);
 }
 function show_materialstockremoval_module(data){
     $("#MaterialStockRemovalLabel").text("创建原材料出库记录");
@@ -15058,24 +15326,6 @@ function new_materialstock(stock){
     };
     JQ_get(request_head,map,new_materialstock_callback);
 }
-
-function getMaterialEmptyStockList(){
-    var map={
-        action:"GetMaterialEmptyStock",
-        user:usr.id
-    };
-    var getEmptyStockList_callback = function(result){
-        var ret = result.status;
-        if(ret == "true"){
-            //StockList = result.ret;
-            show_materialStockdel_modal(result.ret);
-        }else{
-            setTimeout(function(){
-                show_alarm_module(true,"获取重要信息失败！"+result.msg,null);},500);
-        }
-    };
-    JQ_get(request_head,map,getEmptyStockList_callback);
-}
 function show_materialStockdel_modal(emptylist){
     var options = "";
     for(var i=0;i<emptylist.length;i++){
@@ -15151,7 +15401,6 @@ function del_materialstockremoval(materialstockremovalid){
 
     $("#MaterialStockRemovalDelAlarm").modal('hide');
 }
-
 function show_materialstockincome_module(data){
     $("#MaterialStockIncomeLabel").text("创建原材料入库记录");
     MaterialStockIncome_module_status=true;
@@ -15310,8 +15559,42 @@ function mod_materialstockincome(income){
     };
     JQ_get(request_head,map,mod_materialstockincome_callback);
 }
+function show_mod_containerstockremoval_module(removal){
+    $("#ContainerStockRemovalLabel").text("修改原材料出库记录");
+    ContainerStockRemoval_module_status=false;
+    $("#ContainerStockRemovalStorageSelect_choice").val(removal.storageID);
+    $("#ContainerStockRemovalModeSelect_choice").empty();
+    $("#ContainerStockRemovalModeSelect_choice").append("<option value='0'>自有出库</option><option value='1'>代存出库</option>");
+    $("#ContainerStockRemovalModeSelect_choice").val(removal.storageID);
+    $("#ContainerStockRemovalModeSelect_choice").attr("disabled",true);
+    $("#ContainerStockRemovalNumber_Input").val(removal.bucket);
+    $("#ContainerStockRemovalPrice_Input").val(removal.price);
 
+    $("#ContainerStockRemovalTrunk_Input").val(removal.trunk);
+    $("#ContainerStockRemovalDriverMobile_Input").val(removal.mobile);
+    $("#ContainerStockRemovalDriver_Input").val(removal.driver);
+    $("#ContainerStockRemovalTarget_Input").val(removal.target);
+    $("#ContainerStockRemovalLogistics_Input").val(removal.logistics);
+    modal_middle($('#ContainerStockRemovalModal'));
+    $('#ContainerStockRemovalModal').modal('show');
+}
+function show_mod_containerstockincome_module(income){
+    $("#ContainerStockIncomeLabel").text("修改原材料入库记录");
+    ContainerStockIncome_module_status=false;
+    $("#ContainerStockIncomeStorageSelect_choice").val(income.storageID);
+    $("#ContainerStockIncomeModeSelect_choice").empty();
+    $("#ContainerStockIncomeModeSelect_choice").append("<option value='0'>入库</option><option value='1'>代存</option>");
+    $("#ContainerStockIncomeModeSelect_choice").val(income.storageID);
+    $("#ContainerStockIncomeModeSelect_choice").attr("disabled",true);
+    $("#ContainerStockIncomeNumber_Input").val(income.bucket);
+    $("#ContainerStockIncomePrice_Input").val(income.price);
 
+    $("#ContainerStockIncomeVendor_Input").val(income.vendor);
+    $("#ContainerStockIncomeBuyer_Input").val(income.buyer);
+    $("#ContainerStockIncomeBuyerMobile_Input").val(income.mobile);
+    modal_middle($('#ContainerStockIncomeModal'));
+    $('#ContainerStockIncomeModal').modal('show');
+}
 function query_materialstock_history(){
     //if(Consumables_History_table_initialized !== true) return;
     var Query_stock_item = $("#MaterialDeliveryHistorySelect_choice").val();
@@ -15415,7 +15698,109 @@ function query_materialstock_history(){
     JQ_get(request_head,map,query_materialstock_history_callback);
 
 }
+function query_containerstock_history(){
+    //if(Consumables_History_table_initialized !== true) return;
+    var Query_stock_item = $("#ContainerDeliveryHistorySelect_choice").val();
+    var Query_time = $("#ContainerDeliveryHistoryQueryTime_choice").val();
+    var Query_word = $("#ContainerDeliveryHistoryQueryWord_Input").val();
+    var condition = {
+        StockID:Query_stock_item,
+        Period:Query_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"ContainerStockHistory",
+        body:condition,
+        user:usr.id
+    };
+    var query_containerstock_history_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#ContainerDeliveryHistoryLastFlash").empty();
+        $("#ContainerDeliveryHistoryLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr><th></th><th></th>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
 
+            txt = txt +"<tr>";
+            if(TableData[i][0] ===""){
+                txt = txt +"<td><button type='button' class='btn btn-default container_history_del_btn' RemovalCode='"+TableData[i][0]+"' disabled='disabled' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+                txt = txt +"<td><button type='button' class='btn btn-default container_history_mod_btn' RemovalCode='"+TableData[i][0]+"' disabled='disabled' ><em class='glyphicon glyphicon-pencil ' aria-hidden='true' ></em></button></td>";
+            }else{
+                txt = txt +"<td><button type='button' class='btn btn-default container_history_del_btn' RemovalCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+                txt = txt +"<td><button type='button' class='btn btn-default container_history_mod_btn' RemovalCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-pencil ' aria-hidden='true' ></em></button></td>";
+            }
+            for(var j=1;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#ContainerDeliveryHistoryQueryTable").empty();
+        $("#ContainerDeliveryHistoryQueryTable").append(txt);
+        if(if_containerstock_history_table_initialize) $("#ContainerDeliveryHistoryQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#ContainerDeliveryHistoryQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        delcontainer_btn_click = function(){
+
+            select_ContainerStockRemoval_ID  = $(this).attr("RemovalCode");
+            modal_middle($('#ContainerStockRemovalDelAlarm'));
+            $('#ContainerStockRemovalDelAlarm').modal('show');
+
+        };
+        modcontainer_btn_click = function(){
+            select_ContainerStockRemoval_ID  = $(this).attr("RemovalCode");
+            get_containerstockhistory_detail(select_ContainerStockRemoval_ID);
+        };
+        $(".container_history_del_btn").unbind();
+        $(".container_history_mod_btn").unbind();
+        $(".container_history_del_btn").on('click',delcontainer_btn_click);
+        $(".container_history_mod_btn").on('click',modcontainer_btn_click);
+        $("#ContainerDeliveryHistoryQueryTable").on('draw.dt',function(){
+            $(".container_history_del_btn").unbind();
+            $(".container_history_del_btn").on('click',delcontainer_btn_click);
+            $(".container_history_mod_btn").unbind();
+            $(".container_history_mod_btn").on('click',modcontainer_btn_click);
+        });
+        if_containerstock_history_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_containerstock_history_callback);
+
+}
 function query_materialstock_table(){
     //if(Consumables_table_initialized !== true) return;
 
@@ -15443,7 +15828,8 @@ function query_materialstock_table(){
         $("#MaterialStorageLastFlash").append("最后刷新时间："+Last_update_date);
         var ColumnName = result.ret.ColumnName;
         var TableData = result.ret.TableData;
-        var txt = "<thead> <tr><th></th><th></th>";
+        //var txt = "<thead> <tr><th></th><th></th>";
+        var txt = "<thead> <tr>";
         var i;
         for( i=0;i<ColumnName.length;i++){
             txt = txt +"<th>"+ColumnName[i]+"</th>";
@@ -15454,8 +15840,8 @@ function query_materialstock_table(){
         for( i=0;i<TableData.length;i++){
 
             txt = txt +"<tr>";
-            txt = txt +"<td><button type='button' class='btn btn-default material_out_btn' StockCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-log-out' aria-hidden='true' ></em></button></td>";
-            txt = txt +"<td><button type='button' class='btn btn-default material_in_btn' StockCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-log-in ' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default material_out_btn' StockCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-log-out' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default material_in_btn' StockCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-log-in ' aria-hidden='true' ></em></button></td>";
 
             for(var j=1;j<TableData[i].length;j++){
                 txt = txt +"<td>"+TableData[i][j]+"</td>";
@@ -15490,7 +15876,7 @@ function query_materialstock_table(){
                 }
             ]
 
-        } );
+        } );/*
         material_out_btn_click = function(){
             get_materialstock_detail($(this).attr("StockCode"),"removal");
 
@@ -15505,14 +15891,103 @@ function query_materialstock_table(){
             $(".material_out_btn").on('click',material_out_btn_click);
             $(".material_in_btn").unbind();
             $(".material_in_btn").on('click',material_in_btn_click);
-        });
+        });*/
         if_materialstock_table_initialize = true;
     };
     JQ_get(request_head,map,query_materialstock_callback);
 
 }
+function query_containerstock_table(){
+    //if(Consumables_table_initialized !== true) return;
 
+    var Query_stock_item = $("#ContainerStorageSelect_choice").val();
+    var condition = {
+        StockID:Query_stock_item
+    };
+    var map={
+        action:"ContainerStockTable",
+        body:condition,
+        user:usr.id
+    };
+    var query_containerstock_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#ContainerStorageLastFlash").empty();
+        $("#ContainerStorageLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        //var txt = "<thead> <tr><th></th><th></th>";
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
 
+            txt = txt +"<tr>";
+            //txt = txt +"<td><button type='button' class='btn btn-default material_out_btn' StockCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-log-out' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default material_in_btn' StockCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-log-in ' aria-hidden='true' ></em></button></td>";
+
+            for(var j=1;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#ContainerStorageManageQueryTable").empty();
+        $("#ContainerStorageManageQueryTable").append(txt);
+        if(if_containerstock_table_initialize) $("#ContainerStorageManageQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#ContainerStorageManageQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );/*
+        material_out_btn_click = function(){
+            get_materialstock_detail($(this).attr("StockCode"),"removal");
+
+        };
+        material_in_btn_click = function(){
+            get_materialstock_detail($(this).attr("StockCode"),"income");
+        };
+        $(".material_out_btn").on('click',material_out_btn_click);
+        $(".material_in_btn").on('click',material_in_btn_click);
+        $("#MaterialStorageManageQueryTable").on('draw.dt',function(){
+            $(".material_out_btn").unbind();
+            $(".material_out_btn").on('click',material_out_btn_click);
+            $(".material_in_btn").unbind();
+            $(".material_in_btn").on('click',material_in_btn_click);
+        });*/
+        if_containerstock_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_containerstock_callback);
+
+}
 function get_materialstock_detail(StockCode,callback){
     var body = {
         stockID:StockCode,
@@ -15550,7 +16025,6 @@ function get_materialstock_detail(StockCode,callback){
         JQ_get(request_head,map,get_materialstock_detail_transfer);
     }
 }
-
 function get_materialstockhistory_detail(removalID){
     var body = {
         removalID:removalID
@@ -15576,7 +16050,30 @@ function get_materialstockhistory_detail(removalID){
     JQ_get(request_head,map,get_materialstockhistory_detail_callback);
 
 }
+function get_containerstockhistory_detail(removalID){
+    var body = {
+        removalID:removalID
+    };
 
+    var map={
+        action:"GetContainerStockHistoryDetail",
+        type:"query",
+        body: body,
+        user:usr.id
+    };
+    var get_containerstockhistory_detail_callback = function(result){
+        var ret = result.status;
+        if(ret == "true" && result.ret.type === "1"){
+            show_mod_containerstockremoval_module(result.ret);
+        }else if(ret == "true" && result.ret.type === "0"){
+            show_mod_containerstockincome_module(result.ret);
+        }else{
+            setTimeout(function(){
+                show_alarm_module(true,"查询失败！"+result.msg,null);},500);
+        }
+    };
+    JQ_get(request_head,map,get_containerstockhistory_detail_callback);
+}
 function getConsumablesVendorList(){
     var map={
         action:"GetConsumablesVendorList",
@@ -15636,4 +16133,833 @@ function buildconsumablestypelistchoice(number){
     }
     $("#ConsumablesType_Choice").empty();
     $("#ConsumablesType_Choice").append(options);
+}
+
+/*Abandon part finish*/
+
+function GetFactoryAudit(StorageID,CurrentURL,weight,size){
+    var condition = {
+        StockID:StorageID,
+        Weight:weight,
+        Size:size
+    };
+    var map={
+        action:"GetFactoryAudit",
+        body:condition,
+        function:CurrentURL,
+        user:usr.id
+    };
+    var flashlabel = "";
+    var tablename ="";
+    switch(CurrentURL){
+        case "MaterialAudit":
+            flashlabel = "#MaterialAuditLastFlash";
+            tablename ="#MaterialAuditQueryTable";
+            break;
+        case "ProductStorageManage":
+            flashlabel = "#ProductStorageManageLastFlash";
+            tablename ="#ProductStorageManageQueryTable";
+            break;
+        case "ContainerStorageManage":
+            flashlabel = "#ContainerStorageManageLastFlash";
+            tablename ="#ContainerStorageManageQueryTable";
+            break;
+        default:
+            console.log("Un-registered URL");
+            return;
+    }
+    var get_factory_audit_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $(flashlabel).empty();
+        $(flashlabel).append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+
+            txt = txt +"<tr>";
+
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        if ($(tablename).hasClass('dataTable')) {
+            $(tablename).DataTable().destroy();
+        }
+        $(tablename).empty();
+        $(tablename).append(txt);
+        var show_table  = $(tablename).DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+        } );
+    };
+    JQ_get(request_head,map,get_factory_audit_callback);
+}
+function GetFactoryBill(){
+    var StorageID = "";
+    var CurrentURL = CURRENT_URL;
+    var date = "";
+    var keyword = "";
+    var flashlabel = "";
+    var tablename ="";
+    show_main_table();
+    switch(CurrentURL){
+        case "MaterialCheckIn":
+            flashlabel = "#MaterialCheckInLastFlash";
+            tablename ="#MaterialCheckInQueryTable";
+            StorageID = $("#MaterialCheckInStorageSelect_choice").val();
+            date = $("#MaterialCheckInQueryTime_choice").val();
+            keyword = $("#MaterialCheckInQueryWord_Input").val();
+            break;
+        case "MaterialPurchaseDetail":
+            flashlabel = "#MaterialPurchaseDetailLastFlash";
+            tablename ="#MaterialPurchaseDetailQueryTable";
+            StorageID = $("#MaterialPurchaseDetailStorageSelect_choice").val();
+            date = $("#MaterialPurchaseDetailQueryTime_choice").val();
+            keyword = $("#MaterialPurchaseDetailQueryWord_Input").val();
+            break;
+        case "OtherStorageCheckIn":
+            flashlabel = "#OtherStorageCheckInLastFlash";
+            tablename ="#OtherStorageCheckInQueryTable";
+            StorageID = $("#OtherStorageCheckInStorageSelect_choice").val();
+            date = $("#OtherStorageCheckInQueryTime_choice").val();
+            keyword = $("#OtherStorageCheckInQueryWord_Input").val();
+            break;
+        case "MaterialTransfer":
+            flashlabel = "#MaterialTransferLastFlash";
+            tablename ="#MaterialTransferQueryTable";
+            StorageID = $("#MaterialTransferStorageSelect_choice").val();
+            date = $("#MaterialTransferQueryTime_choice").val();
+            keyword = $("#MaterialTransferQueryWord_Input").val();
+            break;
+        case "MaterialSale":
+            flashlabel = "#MaterialSaleLastFlash";
+            tablename ="#MaterialSaleQueryTable";
+            StorageID = $("#MaterialSaleStorageSelect_choice").val();
+            date = $("#MaterialSaleQueryTime_choice").val();
+            keyword = $("#MaterialSaleQueryWord_Input").val();
+            break;
+        case "MaterialConsume":
+            flashlabel = "#MaterialConsumeLastFlash";
+            tablename ="#MaterialConsumeQueryTable";
+            StorageID = $("#MaterialConsumeStorageSelect_choice").val();
+            date = $("#MaterialConsumeQueryTime_choice").val();
+            keyword = $("#MaterialConsumeQueryWord_Input").val();
+            break;
+        case "MaterialConsumeBack":
+            flashlabel = "#MaterialConsumeBackLastFlash";
+            tablename ="#MaterialConsumeBackQueryTable";
+            StorageID = $("#MaterialConsumeBackStorageSelect_choice").val();
+            date = $("#MaterialConsumeBackQueryTime_choice").val();
+            keyword = $("#MaterialConsumeBackQueryWord_Input").val();
+            break;
+        case "ProductDeliveryManage":
+            flashlabel = "#ProductDeliveryManageLastFlash";
+            tablename ="#ProductDeliveryManageQueryTable";
+            StorageID = $("#ProductDeliveryManageStorageSelect_choice").val();
+            date = $("#ProductDeliveryManageQueryTime_choice").val();
+            keyword = $("#ProductDeliveryManageQueryWord_Input").val();
+            break;
+        case "ProductWasteDeliver":
+            flashlabel = "#ProductWasteDeliverLastFlash";
+            tablename ="#ProductWasteDeliverQueryTable";
+            StorageID = $("#ProductWasteDeliverStorageSelect_choice").val();
+            date = $("#ProductWasteDeliverQueryTime_choice").val();
+            keyword = $("#ProductWasteDeliverQueryWord_Input").val();
+            break;
+        case "ContainerCheckOut":
+            flashlabel = "#ContainerCheckOutLastFlash";
+            tablename ="#ContainerCheckOutQueryTable";
+            StorageID = $("#ContainerCheckOutStorageSelect_choice").val();
+            date = $("#ContainerCheckOutQueryTime_choice").val();
+            keyword = $("#ContainerCheckOutQueryWord_Input").val();
+            break;
+        case "ContainerCheckIn":
+            flashlabel = "#ContainerCheckInLastFlash";
+            tablename ="#ContainerCheckInQueryTable";
+            StorageID = $("#ContainerCheckInStorageSelect_choice").val();
+            date = $("#ContainerCheckInQueryTime_choice").val();
+            keyword = $("#ContainerCheckInQueryWord_Input").val();
+            break;
+        case "ContainerSaleBack":
+            flashlabel = "#ContainerSaleBackLastFlash";
+            tablename ="#ContainerSaleBackQueryTable";
+            StorageID = $("#ContainerSaleBackStorageSelect_choice").val();
+            date = $("#ContainerSaleBackQueryTime_choice").val();
+            keyword = $("#ContainerSaleBackQueryWord_Input").val();
+            break;
+        case "ContainerTransferBack":
+            flashlabel = "#ContainerTransferBackLastFlash";
+            tablename ="#ContainerTransferBackQueryTable";
+            StorageID = $("#ContainerTransferBackStorageSelect_choice").val();
+            date = $("#ContainerTransferBackQueryTime_choice").val();
+            keyword = $("#ContainerTransferBackQueryWord_Input").val();
+            break;
+        case "ContainerOtherStorageRefund":
+            flashlabel = "#ContainerOtherStorageRefundLastFlash";
+            tablename ="#ContainerOtherStorageRefundQueryTable";
+            StorageID = $("#ContainerOtherStorageRefundStorageSelect_choice").val();
+            date = $("#ContainerOtherStorageRefundQueryTime_choice").val();
+            keyword = $("#ContainerOtherStorageRefundQueryWord_Input").val();
+            break;
+        default:
+            console.log("Un-registered URL");
+            return;
+    }
+    var condition = {
+        StockID:StorageID,
+        Date:date,
+        Keyword:keyword
+    };
+    var map={
+        action:"GetFactoryBill",
+        body:condition,
+        function:CurrentURL,
+        user:usr.id
+    };
+
+    var get_factory_bill_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $(flashlabel).empty();
+        $(flashlabel).append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr><th></th>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+
+            txt = txt +"<tr>";
+            txt = txt +"<td><button type='button' class='btn btn-default main_to_sub_btn' ActiveCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-paperclip ' aria-hidden='true' ></em></button></td>";
+
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        if ($(tablename).hasClass('dataTable')) {
+            $(tablename).DataTable().destroy();
+        }
+        $(tablename).empty();
+        $(tablename).append(txt);
+        var show_table  = $(tablename).DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+        } );
+        $(".main_to_sub_btn").unbind();
+        $(".main_to_sub_btn").on('click',function(){
+            GetFactoryBillDetail($(this).attr("ActiveCode"));
+        });
+        $(tablename).on('draw.dt',function(){
+            $(".main_to_sub_btn").unbind();
+            $(".main_to_sub_btn").on('click',function(){
+                GetFactoryBillDetail($(this).attr("ActiveCode"));
+            });
+        });
+    };
+    JQ_get(request_head,map,get_factory_bill_callback);
+}
+function show_main_table(){
+    $(".main-table-view").css("display","block");
+    $(".sub-table-view").css("display","none");
+}
+function show_sub_table(){
+    $(".main-table-view").css("display","none");
+    $(".sub-table-view").css("display","block");
+}
+
+function GetFactoryBillDetail(DetailID){
+    var CurrentURL = CURRENT_URL;
+    show_sub_table();
+    var flashlabel = "";
+    var tablename ="";
+    var titlelabel="";
+    switch(CurrentURL){
+        case "MaterialCheckIn":
+            flashlabel = "#MaterialCheckInLastFlash";
+            tablename ="#MaterialCheckInDetailTable";
+            titlelabel="#MaterialCheckInDetailFlash";
+            break;
+        case "MaterialPurchaseDetail":
+            flashlabel = "#MaterialPurchaseDetailLastFlash";
+            tablename ="#MaterialPurchaseDetailDetailTable";
+            titlelabel="#MaterialPurchaseDetailDetailFlash";
+            break;
+        case "OtherStorageCheckIn":
+            flashlabel = "#OtherStorageCheckInLastFlash";
+            tablename ="#OtherStorageCheckInDetailTable";
+            titlelabel="#OtherStorageCheckInDetailFlash";
+            break;
+        case "MaterialTransfer":
+            flashlabel = "#MaterialTransferLastFlash";
+            tablename ="#MaterialTransferDetailTable";
+            titlelabel="#MaterialTransferDetailFlash";
+            break;
+        case "MaterialSale":
+            flashlabel = "#MaterialSaleLastFlash";
+            tablename ="#MaterialSaleDetailTable";
+            titlelabel="#MaterialSaleDetailFlash";
+            break;
+        case "MaterialConsume":
+            flashlabel = "#MaterialConsumeLastFlash";
+            tablename ="#MaterialConsumeDetailTable";
+            titlelabel="#MaterialConsumeDetailFlash";
+            break;
+        case "MaterialConsumeBack":
+            flashlabel = "#MaterialConsumeBackLastFlash";
+            tablename ="#MaterialConsumeBackDetailTable";
+            titlelabel="#MaterialConsumeBackDetailFlash";
+            break;
+        case "ProductDeliveryManage":
+            flashlabel = "#ProductDeliveryManageLastFlash";
+            tablename ="#ProductDeliveryManageDetailTable";
+            titlelabel="#ProductDeliveryManageDetailFlash";
+            break;
+        case "ProductWasteDeliver":
+            flashlabel = "#ProductWasteDeliverLastFlash";
+            tablename ="#ProductWasteDeliverDetailTable";
+            titlelabel="#ProductWasteDeliverDetailFlash";
+            break;
+        case "ContainerCheckOut":
+            flashlabel = "#ContainerCheckOutLastFlash";
+            tablename ="#ContainerCheckOutDetailTable";
+            titlelabel="#ContainerCheckOutDetailFlash";
+            break;
+        case "ContainerCheckIn":
+            flashlabel = "#ContainerCheckInLastFlash";
+            tablename ="#ContainerCheckInDetailTable";
+            titlelabel="#ContainerCheckInDetailFlash";
+            break;
+        case "ContainerSaleBack":
+            flashlabel = "#ContainerSaleBackLastFlash";
+            tablename ="#ContainerSaleBackDetailTable";
+            titlelabel="#ContainerSaleBackDetailFlash";
+            break;
+        case "ContainerTransferBack":
+            flashlabel = "#ContainerTransferBackLastFlash";
+            tablename ="#ContainerTransferBackDetailTable";
+            titlelabel="#ContainerTransferBackDetailFlash";
+            break;
+        case "ContainerOtherStorageRefund":
+            flashlabel = "#ContainerOtherStorageRefundLastFlash";
+            tablename ="#ContainerOtherStorageRefundDetailTable";
+            titlelabel="#ContainerOtherStorageRefundDetailFlash";
+            break;
+        default:
+            console.log("Un-registered URL");
+            return;
+    }
+    var condition = {
+        DetailID:DetailID
+    };
+    var map={
+        action:"GetFactoryBillDetail",
+        body:condition,
+        function:CurrentURL,
+        user:usr.id
+    };
+
+    var get_factory_bill_detail_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var TableTitle = result.ret.TitleName;
+        $(titlelabel).empty();
+        $(titlelabel).append(TableTitle);
+        var txt = "<thead> <tr><th></th><th></th>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+
+            txt = txt +"<tr>";
+            txt = txt +"<td><button type='button' class='btn btn-default item_mod_btn' DetailCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-pencil ' aria-hidden='true' ></em></button></td>";
+
+            txt = txt +"<td><button type='button' class='btn btn-default item_del_btn' DetailCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        if ($(tablename).hasClass('dataTable')) {
+            $(tablename).DataTable().destroy();
+        }
+        $(tablename).empty();
+        $(tablename).append(txt);
+        var show_table  = $(tablename).DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+        } );
+        $(".item_mod_btn").unbind();
+        $(".item_mod_btn").on('click',function(){
+            GetFactoryItemDetail(DetailID,$(this).attr('DetailCode'),0);
+        });
+        $(tablename).on('draw.dt',function(){
+            $(".item_mod_btn").unbind();
+            $(".item_mod_btn").on('click',function(){
+                GetFactoryItemDetail(DetailID,$(this).attr('DetailCode'),0);
+            });
+        });
+    };
+    JQ_get(request_head,map,get_factory_bill_detail_callback);
+}
+function GetFactoryItemDetail(DetailID,subDetailID,bias){
+    var CurrentURL = CURRENT_URL;
+    var condition = {
+        DetailID:DetailID,
+        subDetailID:subDetailID,
+        Bias:bias
+    };
+    var map={
+        action:"GetFactoryItemDetail",
+        body:condition,
+        function:CurrentURL,
+        user:usr.id
+    };
+    var get_factory_item_detail_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        if(subDetailID===""){
+            showFactoryItemModal(result.ret,true);
+        }else{
+            showFactoryItemModal(result.ret,false);
+        }
+    };
+
+    JQ_get(request_head,map,get_factory_item_detail_callback);
+}
+function showFactoryItemModal(structure,ifnew){
+    local_modal_structure=structure;
+    if(ifnew){
+        $("#FactoryItemGuildBody").attr("display","none");
+        $("#FactoryDelete").attr("display","none");
+
+        $('#FactoryItemModalLabel').empty();
+        $('#FactoryItemModalLabel').append("详单:"+structure.bill+"  子项:新建  单长:"+structure.total);
+    }else{
+        $("#FactoryItemGuildBody").attr("display","block");
+        $("#FactoryDelete").attr("display","inline-block");
+
+        $('#FactoryItemModalLabel').empty();
+        $('#FactoryItemModalLabel').append("详单:"+structure.bill+"  子项:"+structure.item+"  进度:"+structure.local+"/"+structure.total);
+    }
+    buildstructure(structure);
+    modal_middle($('#FactoryItemModal'));
+    $('#FactoryItemModal').modal('show');
+}
+function buildstructure(structure){
+    var param = "";
+    var contentline;
+    var className;
+    var choice_items;
+    var tabsize;
+    var tabwidth;
+    for(var j=0;j<structure.list.length;j++){
+        if(structure.list[j].type === "int"){
+            contentline = "["+structure.list[j].min+"->"+structure.list[j].max+"]:"+structure.list[j].note;
+            className="form-control "+"sys_conf_input_"+structure.list[j].type;
+            tabsize = "6";
+            tabwidth = "90%";
+            if(structure.list[j].full){tabsize = "12";tabwidth = "95%";}
+            param = param+
+                "<div class='col-md-"+tabsize+"'>"+
+                "<div class='count' style='fontSize:20;marginTop:15;verticalAlign:bottom;width:"+tabwidth+"' >"+
+                "<div class='input-group'>"+
+                "<span class='input-group-addon'  style='minWidth: 100px;fontSize:12px'>"+structure.list[j].paraname+":"+"</span>"+
+                "<input type='text' class='"+className+"' placeholder='"+contentline+"' aria-describedby='basic-addon1' id='"+"P"+j+structure.list[j].type+"' data-parameter='"+j+"' value='"+structure.list[j].value+"'"+
+                "onChange='' onBlur=''"+
+                "data-min='"+structure.list[j].min+"'  data-max='"+structure.list[j].max+"' />"+
+                "</div></div></div>";
+        }
+        if(structure.list[j].type === "float"){
+            contentline = "["+structure.list[j].min+"->"+structure.list[j].max+"]:"+structure.list[j].note;
+            className="form-control "+"sys_conf_input_"+structure.list[j].type;
+            tabsize = "6";
+            tabwidth = "90%";
+            if(structure.list[j].full){tabsize = "12";tabwidth = "95%";}
+            param = param+
+                "<div class='col-md-"+tabsize+"'>"+
+                "<div class='count' style='fontSize:20;marginTop:15;verticalAlign:bottom;width:"+tabwidth+"' >"+
+                "<div class='input-group'>"+
+                "<span class='input-group-addon'  style='minWidth: 100px;fontSize:12px'>"+structure.list[j].paraname+":"+"</span>"+
+                "<input type='text' class='"+className+"' placeholder='"+contentline+"' aria-describedby='basic-addon1' id='"+"P"+j+structure.list[j].type+"' data-parameter='"+j+"' value='"+structure.list[j].value+"'"+
+                "onChange='' onBlur=''"+
+                "data-min='"+structure.list[j].min+"'  data-max='"+structure.list[j].max+"' />"+
+                "</div></div></div>";
+        }
+        if(structure.list[j].type === "string"){
+            //var contentline = "Max length:["+structure.list[j].max+"];Note:"+structure.list[j].note;
+            contentline = structure.list[j].note;
+            className="form-control "+"sys_conf_input_"+structure.list[j].type;
+            tabsize = "6";
+            tabwidth = "90%";
+            if(structure.list[j].full){tabsize = "12";tabwidth = "95%";}
+            param = param+
+                "<div class='col-md-"+tabsize+"'>"+
+                "<div class='count' style='fontSize:20;marginTop:15;verticalAlign:bottom;width:"+tabwidth+"' >"+
+                "<div class='input-group'>"+
+                "<span class='input-group-addon'  style='minWidth: 100px;fontSize:12px'>"+structure.list[j].paraname+":"+"</span>"+
+                "<input type='text' class='"+className+"' placeholder='"+contentline+"' aria-describedby='basic-addon1' id='"+"P"+j+structure.list[j].type+"' data-parameter='"+j+"' value='"+structure.list[j].value+"'"+
+                "onChange='' onBlur=''"+
+                "data-min='"+structure.list[j].min+"'  data-max='"+structure.list[j].max+"' />"+
+                "</div></div></div>";
+        }
+        if(structure.list[j].type === "choice"){
+            contentline = structure.list[j].note;
+            className="form-control "+"sys_conf_choice";
+            choice_items = '';
+            structure.list[j].defaultvalue = structure.list[j].items[parseInt(structure.list[j].value)];
+            for(var k=0;k<structure.list[j].items.length;k++){
+                choice_items=choice_items+
+                    "<option value='"+structure.list[j].items[k]+"'  >"+structure.list[j].items[k]+"  </option>";
+
+            }
+            tabsize = "6";
+            tabwidth = "90%";
+            if(structure.list[j].full){tabsize = "12";tabwidth = "95%";}
+            param = param+
+                "<div class='col-md-"+tabsize+"'>"+
+            "<div class='count' style='fontSize:20;marginTop:15;verticalAlign:bottom;width:"+tabwidth+"' >"+
+            "<div class='input-group'>"+
+            "<span class='input-group-addon'  style='minWidth: 100px;fontSize:12px'>"+structure.list[j].paraname+":</span>"+
+            "<select class='"+className+"' placeholder='"+contentline+"' aria-describedby='basic-addon1' id='"+"P"+j+structure.list[j].type+"' data-parameter='"+j+"' defaultValue='"+structure.list[j].value+"'"+
+            "onChange='' onBlur=''"+
+            ">"+choice_items+"</select>"+
+            "</div></div></div>";
+        }
+    }
+    $("#FactoryItemStructureBody").empty();
+    $("#FactoryItemStructureBody").append(param);
+}
+function buildUpdatestructure(structure){
+    var config = clone(structure);
+    for(var j=0;j<config.list.length;j++){
+        if(config.list[j].type === "int"){
+            config.list[j].value=$("#P"+j+config.list[j].type).val();
+            if(config.list[j].value ==="" && (!config.list[j].null)){
+                $("#P"+j+config.list[j].type).val("");
+                $("#P"+j+config.list[j].type).focus();
+                return null;
+            }else if(isNaN(parseInt(config.list[j].value))||parseInt(config.list[j].value)>parseInt(config.list[j].max)||parseInt(config.list[j].value)<parseInt(config.list[j].min)){
+                $("#P"+j+config.list[j].type).val("");
+                $("#P"+j+config.list[j].type).focus();
+                return null;
+            }
+        }
+        if(config.list[j].type === "float"){
+            config.list[j].value=$("#P"+j+config.list[j].type).val();
+            if(config.list[j].value ==="" && (!config.list[j].null)){
+                $("#P"+j+config.list[j].type).val("");
+                $("#P"+j+config.list[j].type).focus();
+                return null;
+            }else if(isNaN(parseFloat(config.list[j].value))||parseFloat(config.list[j].value)>parseFloat(config.list[j].max)||parseFloat(config.list[j].value)<parseFloat(config.list[j].min)){
+                $("#P"+j+config.list[j].type).val("");
+                $("#P"+j+config.list[j].type).focus();
+                return null;
+            }
+        }
+        if(config.list[j].type === "string"){
+            config.list[j].value=$("#P"+j+config.list[j].type).val();
+            if(config.list[j].value ==="" && (!config.list[j].null)){
+                $("#P"+j+config.list[j].type).val("");
+                $("#P"+j+config.list[j].type).focus();
+                return null;
+            }else if(config.list[j].value.length > parseInt(config.list[j].max)){
+                $("#P"+j+config.list[j].type).val("");
+                $("#P"+j+config.list[j].type).focus();
+                return null;
+            }
+        }
+        if(config.list[j].type === "choice"){
+            config.list[j].value=$("#P"+j+config.list[j].type).get(0).selectedIndex+"";//val();
+        }
+    }
+
+    return config;
+}
+function SaveFactoryItemDetail(item){
+    var CurrentURL = CURRENT_URL;
+    var condition = {
+        DetailID:item.bill,
+        subDetailID:item.item,
+        item:item
+    };
+    var map={
+        action:"SaveFactoryItemDetail",
+        body:condition,
+        function:CurrentURL,
+        user:usr.id
+    };
+    var save_factory_item_detail_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        showFactoryItemModal(result.ret,false);
+
+    };
+
+    JQ_get(request_head,map,save_factory_item_detail_callback);
+}
+function GetFactoryBillStructure(){
+    factory_bill_list=[];
+
+    var CurrentURL = CURRENT_URL;
+    var map={
+        action:"GetFactoryBillStructure",
+        function:CurrentURL,
+        user:usr.id
+    };
+    var get_factory_bill_structure_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        factory_bill_structure=result.ret;
+        var substructure = clone(factory_bill_structure);
+        factory_bill_list.push(substructure);
+        factory_bill_list_show=0;
+        showFactoryBillModal(factory_bill_list_show);
+
+    };
+
+    JQ_get(request_head,map,get_factory_bill_structure_callback);
+}
+function showFactoryBillModal(series){
+    if(factory_bill_structure=== null||factory_bill_structure === undefined) return;
+    $('#FactoryBillModalLabel').empty();
+    $('#FactoryBillModalLabel').append("新建详单  进度:"+(series+1)+"/"+factory_bill_list.length," 最大长度:50");
+    buildbillstructure(factory_bill_list[series]);
+    //console.log("factory_bill_list: show ["+series+"]");
+    //console.log(factory_bill_list);
+    modal_middle($('#FactoryBillModal'));
+    $('#FactoryBillModal').modal('show');
+}
+function buildbillstructure(structure){
+    var param = "";
+    var contentline;
+    var className;
+    var choice_items;
+    var tabsize;
+    var tabwidth;
+    for(var j=0;j<structure.list.length;j++){
+        if(structure.list[j].type === "int"){
+            contentline = "["+structure.list[j].min+"->"+structure.list[j].max+"]:"+structure.list[j].note;
+            className="form-control "+"sys_conf_input_"+structure.list[j].type;
+            tabsize = "6";
+            tabwidth = "90%";
+            if(structure.list[j].full){tabsize = "12";tabwidth = "95%";}
+            param = param+
+                "<div class='col-md-"+tabsize+"'>"+
+                "<div class='count' style='fontSize:20;marginTop:15;verticalAlign:bottom;width:"+tabwidth+"' >"+
+                "<div class='input-group'>"+
+                "<span class='input-group-addon'  style='minWidth: 100px;fontSize:12px'>"+structure.list[j].paraname+":"+"</span>"+
+                "<input type='text' class='"+className+"' placeholder='"+contentline+"' aria-describedby='basic-addon1' id='"+"B"+j+structure.list[j].type+"' data-parameter='"+j+"' value='"+structure.list[j].value+"'"+
+                "onChange='' onBlur=''"+
+                "data-min='"+structure.list[j].min+"'  data-max='"+structure.list[j].max+"' />"+
+                "</div></div></div>";
+        }
+        if(structure.list[j].type === "float"){
+            contentline = "["+structure.list[j].min+"->"+structure.list[j].max+"]:"+structure.list[j].note;
+            className="form-control "+"sys_conf_input_"+structure.list[j].type;
+            tabsize = "6";
+            tabwidth = "90%";
+            if(structure.list[j].full){tabsize = "12";tabwidth = "95%";}
+            param = param+
+                "<div class='col-md-"+tabsize+"'>"+
+                "<div class='count' style='fontSize:20;marginTop:15;verticalAlign:bottom;width:"+tabwidth+"' >"+
+                "<div class='input-group'>"+
+                "<span class='input-group-addon'  style='minWidth: 100px;fontSize:12px'>"+structure.list[j].paraname+":"+"</span>"+
+                "<input type='text' class='"+className+"' placeholder='"+contentline+"' aria-describedby='basic-addon1' id='"+"B"+j+structure.list[j].type+"' data-parameter='"+j+"' value='"+structure.list[j].value+"'"+
+                "onChange='' onBlur=''"+
+                "data-min='"+structure.list[j].min+"'  data-max='"+structure.list[j].max+"' />"+
+                "</div></div></div>";
+        }
+        if(structure.list[j].type === "string"){
+            //var contentline = "Max length:["+structure.list[j].max+"];Note:"+structure.list[j].note;
+            contentline = structure.list[j].note;
+            className="form-control "+"sys_conf_input_"+structure.list[j].type;
+            tabsize = "6";
+            tabwidth = "90%";
+            if(structure.list[j].full){tabsize = "12";tabwidth = "95%";}
+            param = param+
+                "<div class='col-md-"+tabsize+"'>"+
+                "<div class='count' style='fontSize:20;marginTop:15;verticalAlign:bottom;width:"+tabwidth+"' >"+
+                "<div class='input-group'>"+
+                "<span class='input-group-addon'  style='minWidth: 100px;fontSize:12px'>"+structure.list[j].paraname+":"+"</span>"+
+                "<input type='text' class='"+className+"' placeholder='"+contentline+"' aria-describedby='basic-addon1' id='"+"B"+j+structure.list[j].type+"' data-parameter='"+j+"' value='"+structure.list[j].value+"'"+
+                "onChange='' onBlur=''"+
+                "data-min='"+structure.list[j].min+"'  data-max='"+structure.list[j].max+"' />"+
+                "</div></div></div>";
+        }
+        if(structure.list[j].type === "choice"){
+            contentline = structure.list[j].note;
+            className="form-control "+"sys_conf_choice";
+            choice_items = '';
+            structure.list[j].defaultvalue = structure.list[j].items[parseInt(structure.list[j].value)];
+            for(var k=0;k<structure.list[j].items.length;k++){
+                choice_items=choice_items+
+                    "<option value='"+structure.list[j].items[k]+"'  >"+structure.list[j].items[k]+"  </option>";
+
+            }
+            tabsize = "6";
+            tabwidth = "90%";
+            if(structure.list[j].full){tabsize = "12";tabwidth = "95%";}
+            param = param+
+                "<div class='col-md-"+tabsize+"'>"+
+                "<div class='count' style='fontSize:20;marginTop:15;verticalAlign:bottom;width:"+tabwidth+"' >"+
+                "<div class='input-group'>"+
+                "<span class='input-group-addon'  style='minWidth: 100px;fontSize:12px'>"+structure.list[j].paraname+":</span>"+
+                "<select class='"+className+"' placeholder='"+contentline+"' aria-describedby='basic-addon1' id='"+"B"+j+structure.list[j].type+"' data-parameter='"+j+"' defaultValue='"+structure.list[j].value+"'"+
+                "onChange='' onBlur=''"+
+                ">"+choice_items+"</select>"+
+                "</div></div></div>";
+        }
+    }
+    $("#FactoryBillStructureBody").empty();
+    $("#FactoryBillStructureBody").append(param);
+}
+function buildUpdatebillstructure(structure){
+    var config = clone(structure);
+    for(var j=0;j<config.list.length;j++){
+        if(config.list[j].type === "int"){
+            config.list[j].value=$("#B"+j+config.list[j].type).val();
+            if(config.list[j].value ==="" && (!config.list[j].null)){
+                $("#B"+j+config.list[j].type).val("");
+                $("#B"+j+config.list[j].type).focus();
+                return null;
+            }else if(isNaN(parseInt(config.list[j].value))||parseInt(config.list[j].value)>parseInt(config.list[j].max)||parseInt(config.list[j].value)<parseInt(config.list[j].min)){
+                $("#B"+j+config.list[j].type).val("");
+                $("#B"+j+config.list[j].type).focus();
+                return null;
+            }
+        }
+        if(config.list[j].type === "float"){
+            config.list[j].value=$("#B"+j+config.list[j].type).val();
+            if(config.list[j].value ==="" && (!config.list[j].null)){
+                $("#B"+j+config.list[j].type).val("");
+                $("#B"+j+config.list[j].type).focus();
+                return null;
+            }else if(isNaN(parseFloat(config.list[j].value))||parseFloat(config.list[j].value)>parseFloat(config.list[j].max)||parseFloat(config.list[j].value)<parseFloat(config.list[j].min)){
+                $("#B"+j+config.list[j].type).val("");
+                $("#B"+j+config.list[j].type).focus();
+                return null;
+            }
+        }
+        if(config.list[j].type === "string"){
+            config.list[j].value=$("#B"+j+config.list[j].type).val();
+            if(config.list[j].value ==="" && (!config.list[j].null)){
+                $("#B"+j+config.list[j].type).val("");
+                $("#B"+j+config.list[j].type).focus();
+                return null;
+            }else if(config.list[j].value.length > parseInt(config.list[j].max)){
+                $("#B"+j+config.list[j].type).val("");
+                $("#B"+j+config.list[j].type).focus();
+                return null;
+            }
+        }
+        if(config.list[j].type === "choice"){
+            config.list[j].value=$("#B"+j+config.list[j].type).get(0).selectedIndex+"";//val();
+        }
+    }
+
+    return config;
+}
+
+function SaveFactoryBill(bill){
+    var CurrentURL = CURRENT_URL;
+    var map={
+        action:"SaveFactoryBill",
+        body:bill,
+        function:CurrentURL,
+        user:usr.id
+    };
+    var save_factory_bill_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        setTimeout(function(){
+            show_alarm_module(false,"创建成功！稍后打开打印窗口",function(){
+                console.log("打开打印，序号："+result.ret);
+                GetFactoryBill();
+            });},500);
+        //跳出打印页面
+    };
+
+    JQ_get(request_head,map,save_factory_bill_callback);
 }

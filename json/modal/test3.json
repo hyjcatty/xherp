@@ -1,0 +1,15 @@
+{
+  "bill": "test1",
+  "item": "12345x",
+  "local": 1,
+  "total": 50,
+  "list": [
+    {"paraname":"choice11","type":"choice","max":"","min":"","value":"0","null":false,"full":false,"items":["123","456","789","0","sss","aaa","dddd","eeeee","fsdf","erere","ghghg","4545","98989","uiui","klkl"],"note":"choice info"},
+    {"paraname":"para11","type":"float","max":"100","min":"0","value":"50","null":false,"full":false,"note":"Note info"},
+
+    {"paraname":"para12","type":"int","max":"100","min":"0","value":"50","null":false,"full":false,"note":"Note info"},
+    {"paraname":"para13","type":"int","max":"100","min":"0","value":"51","null":false,"full":false,"note":"Note info"},
+    {"paraname":"para14","type":"int","max":"100","min":"0","value":"52","null":false,"full":false,"note":"Note info"},
+    {"paraname":"para15","type":"int","max":"100","min":"0","value":"53","null":false,"full":false,"note":"Note info"}
+  ]
+}

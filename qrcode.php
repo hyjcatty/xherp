@@ -8,7 +8,7 @@
     }
     function buildqrcode($session,$filepath,$url){
 
-        //Final url should be www.xxx.com/xxxx/xxx.html?xhsession=[session]#xxxxxcode=[wecharid]&xxxxxx
+        //Final url should be www.xxx.com/xxxx/xxx.html?xhsession=[session]&xxxxxcode=[wecharid]&xxxxxx
         $tempDir = $filepath;
 
         $codeContents = $url."?xhsession=".$session."#";

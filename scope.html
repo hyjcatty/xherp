@@ -76,13 +76,8 @@
                             <ul class="nav side-menu" id="menu_monther">
                                 <li><a><i class="fa fa-home"></i> 考勤管理 <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <!--li><a href="#" id="UserManage">用户管理</a></li-->
                                         <li><a href="#" id="StaffManage">员工信息</a></li>
                                         <li><a href="#" id="AttendanceManage">考勤信息</a></li>
-                                        <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
-                                        <li><a href="#" id="SoftwareLoadManage">软件包管理</a></li>
-                                        <li><a href="#" id="ParaManage">参数管理</a></li>
-                                        <li><a href="#" id="InstControl">数据管理</a></li-->
                                     </ul>
                                 </li>
                                 <li><a><i class="fa fa-pie-chart"></i> 生产管理 <span class="fa fa-chevron-down"></span></a>
@@ -91,137 +86,62 @@
                                         <li><a href="#" id="SpecificationManage">规格信息</a></li>
                                         <li><a href="#" id="AssembleManage">生产信息</a></li>
                                         <li><a href="#" id="AssembleAudit">生产统计</a></li>
-                                        <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
-                                        <li><a href="#" id="SoftwareLoadManage">软件包管理</a></li>
-                                        <li><a href="#" id="ParaManage">参数管理</a></li>
-                                        <li><a href="#" id="InstControl">数据管理</a></li-->
                                     </ul>
                                 </li>
                                 <li><a><i class="fa fa-edit"></i> 绩效管理 <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="#" id="AttendanceAudit">考勤统计</a></li>
                                         <li><a href="#" id="KPIAudit">绩效统计</a></li>
-                                        <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
-                                        <li><a href="#" id="SoftwareLoadManage">软件包管理</a></li>
-                                        <li><a href="#" id="ParaManage">参数管理</a></li>
-                                        <li><a href="#" id="InstControl">数据管理</a></li-->
                                     </ul>
                                 </li>
                                 <li><a><i class="fa fa-clipboard"></i> 耗材管理 <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="#" id="ConsumablesManage">耗材信息</a></li>
                                         <li><a href="#" id="ConsumablesHistory">耗材历史</a></li>
-                                        <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
-                                        <li><a href="#" id="SoftwareLoadManage">软件包管理</a></li>
-                                        <li><a href="#" id="ParaManage">参数管理</a></li>
-                                        <li><a href="#" id="InstControl">数据管理</a></li-->
                                     </ul>
                                 </li>
-
-                                <li><a><i class="fa fa-truck"></i> 仓库管理 <span class="fa fa-chevron-down"></span></a>
+                                <li><a><i class="fa fa-apple"></i> 原料管理 <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="#" id="MaterialAudit">原材料统计信息</a></li>
+                                        <li><a href="#" id="MaterialCheckIn">采购入库</a></li>
+                                        <li><a href="#" id="MaterialPurchaseDetail">采购流水</a></li>
+                                        <li><a href="#" id="OtherStorageCheckIn">别库入库</a></li>
+                                        <li><a href="#" id="MaterialTransfer">原材料转库</a></li>
+                                        <li><a href="#" id="MaterialSale">原材料销售</a></li>
+                                        <li><a href="#" id="MaterialConsume">车间加工</a></li>
+                                        <li><a href="#" id="MaterialConsumeBack">余料返库</a></li>
+                                    </ul>
+                                </li>
+                                <li><a><i class="fa fa-archive"></i> 代存管理 <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="#" id="DepositaryCheckIn">代存入库</a></li>
+                                        <li><a href="#" id="DepositaryCheckOut">代存出库</a></li>
+                                    </ul>
+                                </li>
+                                <li><a><i class="fa fa-cubes"></i> 成品管理 <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="#" id="ProductStorageManage">成品库存信息</a></li>
                                         <li><a href="#" id="ProductDeliveryManage">成品出库信息</a></li>
-                                        <li><a href="#" id="MaterialStorageManage">原材料库存信息</a></li>
-                                        <li><a href="#" id="MaterialDeliveryManage">原材料出入库信息</a></li>
-                                        <!--li><a href="#" id="ProductDeliveryHistory">成品出库历史</a></li>
-                                        <li><a href="#" id="MaterialLogisticsManage">物流信息</a></li>
-                                        <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
-                                        <li><a href="#" id="SoftwareLoadManage">软件包管理</a></li>
-                                        <li><a href="#" id="ParaManage">参数管理</a></li>
-                                        <li><a href="#" id="InstControl">数据管理</a></li-->
+                                        <li><a href="#" id="ProductWasteDeliver">残料出库</a></li>
                                     </ul>
                                 </li>
+                                <li><a><i class="fa fa-dropbox"></i> 容器管理 <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="#" id="ContainerStorageManage">容器库存信息</a></li>
+                                        <li><a href="#" id="ContainerCheckOut">空桶出库</a></li>
+                                        <li><a href="#" id="ContainerCheckIn">空桶入库</a></li>
+                                        <li><a href="#" id="ContainerSaleBack">销售返桶</a></li>
+                                        <li><a href="#" id="ContainerTransferBack">转库返桶</a></li>
+                                        <li><a href="#" id="ContainerOtherStorageRefund">别库退桶</a></li>
+                                    </ul>
+                                </li>
+
                                 <li><a><i class="fa fa-pied-piper-alt"></i> 水产管理 <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="#" id="SeafoodInfo">生产信息</a></li>
                                         <li><a href="#" id="SeafoodAudit">生产统计</a></li>
-                                        <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
-                                        <li><a href="#" id="SoftwareLoadManage">软件包管理</a></li>
-                                        <li><a href="#" id="ParaManage">参数管理</a></li>
-                                        <li><a href="#" id="InstControl">数据管理</a></li-->
                                     </ul>
                                 </li>
-                                <!--li><a><i class="fa fa-cubes"></i> 入库管理 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#" id="ApplePurchaseInManage">苹果采购入库</a></li>
-                                        <li><a href="#" id="AppleSaveInManage">苹果代存入库</a></li>
-                                        <li><a href="#" id="AppleStoreInManage">苹果收货入库</a></li>
-                                        <!--li><a href="#" id="ExportTableManage">报表管理</a></li>
-                                        <li><a href="#" id="SoftwareLoadManage">软件包管理</a></li>
-                                        <li><a href="#" id="ParaManage">参数管理</a></li>
-                                        <li><a href="#" id="InstControl">数据管理</a></li>
-                                    </ul>
-                                </li-->
-                                <!--li><a><i class="fa fa-edit"></i> 项目管理 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#" id="PGManage">项目组信息</a></li>
-                                        <li><a href="#" id="ProjManage">项目信息</a></li>
-                                        <li><a href="#" id="MPManage">站点信息</a></li>
-                                        <li><a href="#" id="DevManage">设备信息</a></li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-key"></i> 钥匙管理 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#" id="KeyManage">钥匙信息</a></li>
-                                        <li><a href="#" id="KeyAuth">钥匙授权</a></li>
-                                        <li><a href="#" id="KeyHistory">开锁历史</a></li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-bar-chart-o"></i> 监控管理 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#" id="MPMonitor">站点地图</a></li>
-                                        <li><a href="#" id="MPStaticMonitorTable">站点列表</a></li>
-                                        <!--li><a href="#" id="MPMonitorCard">站点列块</a></li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-exclamation-circle"></i> 告警管理 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#" id="WarningCheck">告警查看</a></li>
-                                        <li><a href="#" id="WarningHandle">告警处理</a></li>
-                                    </ul>
-                                </li-->
-                                <!--li><a><i class="fa fa-pencil"></i> 工单管理 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#" id="InstConf">施工单管理</a></li>
-                                        <li><a href="#" id="InstRead">巡检单管理</a></li>
-                                        <li><a href="#" id="InstDesign">软件设计</a></li>
-                                        <li><a href="#" id="InstControl">远程操控</a></li>
-                                        <li><a href="#" id="InstSnapshot">抓图拍图</a></li>
-                                        <li><a href="#" id="InstVideo">视频浏览</a></li>
-                                    </ul>
-                                </li-->
-                                <!--li><a><i class="fa fa-flag-checkered"></i>性能管理 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#" id="AuditTarget">业务指标</a></li>
-                                        <li><a href="#" id="AuditStability">稳定性统计</a></li>
-                                        <li><a href="#" id="AuditAvailability">可用性统计</a></li>
-                                        <li><a href="#" id="AuditError">差错率统计</a></li>
-                                        <li><a href="#" id="AuditQuality">质量统计</a></li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-globe"></i>地理环境管理 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#" id="GeoInfoQuery">信息查询</a></li>
-                                        <li><a href="#" id="GeoTrendAnalysis">趋势分析</a></li>
-                                        <li><a href="#" id="GeoDisaterForecast">灾情预警</a></li>
-                                        <li><a href="#" id="GeoEmergencyDirect">应急指挥</a></li>
-                                        <li><a href="#" id="GeoDiffusionAnalysis">扩散分析</a></li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-television"></i>广告和门户 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#" id="ADConf">广告信息设置</a></li>
-                                        <li><a href="#" id="WEBConf">门户信息设置</a></li>
-                                    </ul>
-                                </li-->
-                                <!--li><a><i class="fa fa-outdent"></i> 纤芯管理 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#" id="CableCheck">RTU管理</a></li>
-                                        <li><a href="#" id="RTUManage">RTU管理</a></li>
-                                        <li><a href="#" id="OTDRManage">OTDR管理</a></li>
-                                    </ul>
-                                </li-->
                             </ul>
                         </div>
 
@@ -3449,7 +3369,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="row clearfix hyjwindow" id="KeyHistoryView">
+                                    <!--div class="row clearfix hyjwindow" id="KeyHistoryView">
                                         <div class="col-md-12 column">
                                             <div class="col-md-4 col-sm-6 col-xs-12">
                                                 <div class="input-group" >
@@ -3677,7 +3597,6 @@
                                         </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12 column" id="Alarm_chart_view">
                                             <ul class="nav nav-tabs" id = "Alarm_chart_view_nav">
-                                                <!--li role="presentation" class="active" id="Warning_Noise_tab"><a href="#Warning_Noise" data-toggle="tab">噪声</a></li-->
                                                 <li class="dropdown">
                                                     <a href="#" id="Warning_0_tab" class="dropdown-toggle"
                                                        data-toggle="dropdown">噪声 <b class="caret"></b>
@@ -3796,7 +3715,6 @@
                                             <li>
                                                 <a href="#" id="KeyExportButton"><em class="glyphicon glyphicon-print" aria-hidden="true"></em></a>
                                             </li>
-                                            <!-- Modal -->
                                             <div class="modal fade" id="newKeyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
@@ -3984,10 +3902,8 @@
                                         <div class="row clearfix">
                                             <span class="section">钥匙信息</span>
                                             <div id="Key_card" style="min-height: 250px">
-                                                <!--div class="panel-body"-->
                                                 <div class="col-md-6 col-sm-12 col-xs-12 column">
-                                                    <!--div style="max-height: 210px;overflow:scroll;overflow-x:hidden" id="Label_user_detail"-->
-                                                    <div id="Label_key_detail">
+                                                   <div id="Label_key_detail">
                                                         <p></p><p></p>
                                                         <div class='col-md-6 col-sm-6 col-xs-12 column'>
                                                             <dl>
@@ -4017,11 +3933,10 @@
                                                         <p></p>
                                                         <label style="min-width: 300px">邮箱：</label>
                                                         <p></p>
-                                                        <label>备注：</label-->
+                                                        <label>备注：</label>
                                                     </div>
                                                 </div>
 
-                                                <!--div style="max-height: 210px;overflow:scroll;overflow-x:hidden"-->
                                                 <div class="col-md-6 col-sm-12 col-xs-12 column">
                                                     <table data-toggle="table" class="table table-hover table-bordered" id="Table_key_auth" data-click-to-select="false" >
                                                         <thead>
@@ -4060,7 +3975,6 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <!--/div-->
                                             </div>
 
                                         </div>
@@ -4139,7 +4053,7 @@
                                             </table>
                                         </div>
 
-                                    </div>
+                                    </div-->
                                     <div class="row clearfix hyjwindow" id="ConsumablesHistoryView">
                                         <div class="col-md-12 column">
                                             <div class="col-md-4 col-sm-6 col-xs-12">
@@ -4204,156 +4118,7 @@
                                             </table>
                                         </div>
                                         </div>
-                                    <div class="row clearfix hyjwindow" id="ProductDeliveryHistoryView">
-                                        <div class="col-md-12 column">
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="input-group" >
-                                                    <span class="input-group-addon" id="ProductDeliveryHistorySelect" style="min-width: 100px">仓库选择</span>
-                                                    <select class="form-control" placeholder="仓库选择" aria-describedby="basic-addon1" id="ProductDeliveryHistorySelect_choice">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="input-group" >
-                                                    <span class="input-group-addon" id="ProductDeliveryHistoryQueryTime" style="min-width: 100px">查询周期</span>
-                                                    <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="ProductDeliveryHistoryQueryTime_choice">
-                                                        <option value="1">今日</option>
-                                                        <option value="7">近7天</option>
-                                                        <option value="30">近30天</option>
-                                                        <option value="all">全部</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon" id="ProductDeliveryHistoryQueryWord" style="min-width: 100px">关键字</span>
-                                                    <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="ProductDeliveryHistoryQueryWord_Input"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 column">
-                                            <div class="col-md-12 column">
-                                                <button type="button" class="btn btn-primary" id="ProductDeliveryHistoryFlash">查询</button>
-                                                <label  style="min-width: 20px"></label>
-                                                <label  style="min-width: 20px" id="ProductDeliveryHistoryLastFlash"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 column" id="ProductDeliveryHistoryQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
-                                            <p></p>
-                                            <table id="ProductDeliveryHistoryQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
-                                            </table>
-                                        </div>
 
-                                    </div>
-                                    <div class="row clearfix hyjwindow" id="ProductStorageManageView">
-                                        <div class="col-md-12 column">
-                                            <button type="button" class="btn btn-primary" id="ProductStorageadd">增加仓库</button>
-                                            <button type="button" class="btn btn-primary" id="ProductStoragedel">删除仓库</button>
-                                        </div>
-                                        <div class="col-md-12 column">
-                                            <div class="col-md-12 column">
-                                                <div class="col-md-4 col-sm-6 col-xs-12">
-                                                    <div class="input-group" >
-                                                        <span class="input-group-addon" id="ProductStorageSelect" style="min-width: 100px">仓库</span>
-                                                        <select class="form-control" placeholder="仓库选择" aria-describedby="basic-addon1" id="ProductStorageSelect_choice">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-sm-6 col-xs-12">
-                                                    <div class="input-group" >
-                                                        <span class="input-group-addon" id="ProductStorageWeightSelect" style="min-width: 100px">重量</span>
-                                                        <select class="form-control" placeholder="重量" aria-describedby="basic-addon1" id="ProductStorageWeightSelect_choice">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-sm-6 col-xs-12">
-                                                    <div class="input-group" >
-                                                        <span class="input-group-addon" id="ProductStorageSizeSelect" style="min-width: 100px">规格</span>
-                                                        <select class="form-control" placeholder="规格" aria-describedby="basic-addon1" id="ProductStorageSizeSelect_choice">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 column">
-                                                <button type="button" class="btn btn-primary" id="ProductStorageQuery">查询</button>
-                                                <label  style="min-width: 20px"></label>
-                                                <label  style="min-width: 20px" id="ProductStorageLastFlash"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 column" id="ProductStorageManageQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
-                                            <p></p>
-                                            <table id="ProductStorageManageQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="row clearfix hyjwindow" id="MaterialDeliveryHistoryView">
-                                        <div class="col-md-12 column">
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="input-group" >
-                                                    <span class="input-group-addon" id="MaterialDeliveryHistorySelect" style="min-width: 100px">仓库选择</span>
-                                                    <select class="form-control" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialDeliveryHistorySelect_choice">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="input-group" >
-                                                    <span class="input-group-addon" id="MaterialDeliveryHistoryQueryTime" style="min-width: 100px">查询周期</span>
-                                                    <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="MaterialDeliveryHistoryQueryTime_choice">
-                                                        <option value="1">今日</option>
-                                                        <option value="7">近7天</option>
-                                                        <option value="30">近30天</option>
-                                                        <option value="all">全部</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon" id="MaterialDeliveryHistoryQueryWord" style="min-width: 100px">关键字</span>
-                                                    <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="MaterialDeliveryHistoryQueryWord_Input"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 column">
-                                            <div class="col-md-12 column">
-                                                <button type="button" class="btn btn-primary" id="MaterialDeliveryHistoryFlash">查询</button>
-                                                <label  style="min-width: 20px"></label>
-                                                <label  style="min-width: 20px" id="MaterialDeliveryHistoryLastFlash"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 column" id="MaterialDeliveryHistoryQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
-                                            <p></p>
-                                            <table id="MaterialDeliveryHistoryQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
-                                            </table>
-                                        </div>
-
-                                    </div>
-                                    <div class="row clearfix hyjwindow" id="MaterialStorageManageView">
-                                        <div class="col-md-12 column">
-                                            <button type="button" class="btn btn-primary" id="MaterialStorageadd">增加仓库</button>
-                                            <button type="button" class="btn btn-primary" id="MaterialStoragedel">删除仓库</button>
-                                        </div>
-                                        <div class="col-md-12 column">
-                                            <div class="col-md-12 column">
-                                                <div class="col-md-4 col-sm-6 col-xs-12">
-                                                    <div class="input-group" >
-                                                        <span class="input-group-addon" id="MaterialStorageSelect" style="min-width: 100px">仓库</span>
-                                                        <select class="form-control" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialStorageSelect_choice">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 column">
-                                                <button type="button" class="btn btn-primary" id="MaterialStorageQuery">查询</button>
-                                                <label  style="min-width: 20px"></label>
-                                                <label  style="min-width: 20px" id="MaterialStorageLastFlash"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 column" id="MaterialStorageManageQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
-                                            <p></p>
-                                            <table id="MaterialStorageManageQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
-                                            </table>
-                                        </div>
-                                    </div>
                                     <div class="row clearfix hyjwindow" id="SeafoodInfoView">
                                         <div class="col-md-12 column">
                                             <div class="col-md-4 col-sm-12 col-xs-12">
@@ -4448,6 +4213,893 @@
                                             </table>
                                         </div>
                                     </div>
+
+                                    <div class="row clearfix hyjwindow" id="MaterialAuditView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialAuditStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-all" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialAuditStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <button type="button" class="btn btn-primary" id="MaterialStorageadd">增加仓库</button>
+                                            <button type="button" class="btn btn-primary" id="MaterialStoragedel">删除仓库</button>
+                                        </div>
+                                        <div class="col-md-12 column">
+                                            <button type="button" class="btn btn-primary factory-audit" id="MaterialAuditQuery">查询</button>
+                                            <label  style="min-width: 20px"></label>
+                                            <label  style="min-width: 20px" id="MaterialAuditLastFlash"></label>
+                                        </div>
+                                        <div class="col-md-12 column" id="MaterialAuditQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                            <p></p>
+                                            <table id="MaterialAuditQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="MaterialCheckInView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialCheckInStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialCheckInStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialCheckInQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="MaterialCheckInQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="MaterialCheckInQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="MaterialCheckInQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialCheckInMainInfo" class='main-table-view'  display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="MaterialCheckInQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" id="MaterialCheckInBillNew">新增账目</button>
+
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="MaterialCheckInLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialCheckInQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialCheckInQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialCheckInSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="MaterialCheckInReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="MaterialCheckInDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialCheckInDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialCheckInDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="MaterialPurchaseDetailView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialPurchaseDetailStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialPurchaseDetailStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialPurchaseDetailQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="MaterialPurchaseDetailQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="MaterialPurchaseDetailQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="MaterialPurchaseDetailQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialPurchaseDetailMainInfo" class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="MaterialPurchaseDetailQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="MaterialPurchaseDetailLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialPurchaseDetailQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialPurchaseDetailQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialPurchaseDetailSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="MaterialPurchaseDetailReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="MaterialPurchaseDetailDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialPurchaseDetailDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialPurchaseDetailDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="OtherStorageCheckInView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="OtherStorageCheckInStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="OtherStorageCheckInStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="OtherStorageCheckInQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="OtherStorageCheckInQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="OtherStorageCheckInQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="OtherStorageCheckInQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="OtherStorageCheckInMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="OtherStorageCheckInQuery">查询</button>
+
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="OtherStorageCheckInLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="OtherStorageCheckInQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="OtherStorageCheckInQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="OtherStorageCheckInSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="OtherStorageCheckInReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="OtherStorageCheckInDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="OtherStorageCheckInDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="OtherStorageCheckInDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="MaterialTransferView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialTransferStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialTransferStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialTransferQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="MaterialTransferQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="MaterialTransferQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="MaterialTransferQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialTransferMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="MaterialTransferQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="MaterialTransferLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialTransferQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialTransferQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialTransferSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="MaterialTransferReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="MaterialTransferDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialTransferDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialTransferDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="MaterialSaleView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialSaleStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialSaleStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialSaleQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="MaterialSaleQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="MaterialSaleQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="MaterialSaleQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialSaleMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="MaterialSaleQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="MaterialSaleLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialSaleQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialSaleQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialSaleSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="MaterialSaleReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="MaterialSaleDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialSaleDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialSaleDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="MaterialConsumeView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialConsumeStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialConsumeStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialConsumeQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="MaterialConsumeQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="MaterialConsumeQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="MaterialConsumeQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialConsumeMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="MaterialConsumeQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="MaterialConsumeLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialConsumeQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialConsumeQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialConsumeSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="MaterialConsumeReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="MaterialConsumeDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialConsumeDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialConsumeDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="MaterialConsumeBackView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialConsumeBackStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="MaterialConsumeBackStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="MaterialConsumeBackQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="MaterialConsumeBackQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="MaterialConsumeBackQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="MaterialConsumeBackQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialConsumeBackMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="MaterialConsumeBackQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="MaterialConsumeBackLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialConsumeBackQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialConsumeBackQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="MaterialConsumebackSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="MaterialConsumebackReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="MaterialConsumebackDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="MaterialConsumebackDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="MaterialConsumebackDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row clearfix hyjwindow" id="ProductStorageManageView">
+                                        <div class="col-md-12 column">
+                                            <button type="button" class="btn btn-primary" id="ProductStorageadd">增加仓库</button>
+                                            <button type="button" class="btn btn-primary" id="ProductStoragedel">删除仓库</button>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ProductStorageManageStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control product-storage-all" placeholder="仓库选择" aria-describedby="basic-addon1" id="ProductStorageManageStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ProductStorageWeightSelect" style="min-width: 100px">重量</span>
+                                                <select class="form-control product-weight" placeholder="重量" aria-describedby="basic-addon1" id="ProductStorageManageWeightSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ProductStorageSizeSelect" style="min-width: 100px">规格</span>
+                                                <select class="form-control product-size" placeholder="规格" aria-describedby="basic-addon1" id="ProductStorageManageSizeSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 column">
+                                            <button type="button" class="btn btn-primary factory-audit" id="ProductStorageManageQuery">查询</button>
+                                            <label  style="min-width: 20px"></label>
+                                            <label  style="min-width: 20px" id="ProductStorageManageLastFlash"></label>
+                                        </div>
+                                        <div class="col-md-12 column" id="ProductStorageManageQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                            <p></p>
+                                            <table id="ProductStorageManageQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="ProductDeliveryManageView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ProductDeliveryManageStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control product-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="ProductDeliveryManageStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ProductDeliveryManageQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="ProductDeliveryManageQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="ProductDeliveryManageQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="ProductDeliveryManageQueryWord_Input"/>
+                                            </div>
+                                        </div>
+
+                                        <div id="ProductDeliveryManageMainInfo"  class='main-table-view'  display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="ProductDeliveryManageQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="ProductDeliveryManageLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ProductDeliveryManageQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ProductDeliveryManageQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="ProductDeliveryManageSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="ProductDeliveryManageReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="ProductDeliveryManageDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ProductDeliveryManageDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ProductDeliveryManageDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="ProductWasteDeliverView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ProductWasteDeliverStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control product-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="ProductWasteDeliverStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ProductWasteDeliverQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="ProductWasteDeliverQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="ProductWasteDeliverQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="ProductWasteDeliverQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="ProductWasteDeliverMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="ProductWasteDeliverQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="ProductWasteDeliverLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ProductWasteDeliverQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ProductWasteDeliverQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="ProductWasteDeliverSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="ProductWasteDeliverReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="ProductWasteDeliverDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ProductWasteDeliverDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ProductWasteDeliverDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row clearfix hyjwindow" id="ContainerStorageManageView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerStorageManageStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-all" placeholder="仓库选择" aria-describedby="basic-addon1" id="ContainerStorageManageStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 column">
+                                            <button type="button" class="btn btn-primary factory-audit" id="ContainerStorageManageQuery">查询</button>
+                                            <label  style="min-width: 20px"></label>
+                                            <label  style="min-width: 20px" id="ContainerStorageManageLastFlash"></label>
+                                        </div>
+                                        <div class="col-md-12 column" id="ContainerStorageManageQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                            <p></p>
+                                            <table id="ContainerStorageManageQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="ContainerCheckOutView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerCheckOutStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="ContainerCheckOutStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerCheckOutQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="ContainerCheckOutQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="ContainerCheckOutQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="ContainerCheckOutQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="ContainerCheckOutMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="ContainerCheckOutQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="ContainerCheckOutLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ContainerCheckOutQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ContainerCheckOutQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="ContainerCheckOutSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="ContainerCheckOutReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="ContainerCheckOutDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ContainerCheckOutDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ContainerCheckOutDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="ContainerCheckInView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerCheckInStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="ContainerCheckInStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerCheckInQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="ContainerCheckInQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="ContainerCheckInQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="ContainerCheckInQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="ContainerCheckInMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="ContainerCheckInQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="ContainerCheckInLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ContainerCheckInQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ContainerCheckInQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="ContainerCheckInSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="ContainerCheckInReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="ContainerCheckInDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ContainerCheckInDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ContainerCheckInDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="ContainerSaleBackView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerSaleBackStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="ContainerSaleBackStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerSaleBackQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="ContainerSaleBackQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="ContainerSaleBackQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="ContainerSaleBackQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="ContainerSaleBackMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="ContainerSaleBackQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="ContainerSaleBackLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ContainerSaleBackQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ContainerSaleBackQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="ContainerSaleBackSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="ContainerSaleBackReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="ContainerSaleBackDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ContainerSaleBackDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ContainerSaleBackDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="ContainerTransferBackView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerTransferBackStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="ContainerTransferBackStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerTransferBackQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="ContainerTransferBackQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="ContainerTransferBackQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="ContainerTransferBackQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="ContainerTransferBackMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="ContainerTransferBackQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="ContainerTransferBackLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ContainerTransferBackQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ContainerTransferBackQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="ContainerTransferBackSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="ContainerTransferBackReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="ContainerTransferBackDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ContainerTransferBackDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ContainerTransferBackDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="ContainerOtherStorageRefundView">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerOtherStorageRefundStorageSelect" style="min-width: 100px">仓库</span>
+                                                <select class="form-control material-storage-sub" placeholder="仓库选择" aria-describedby="basic-addon1" id="ContainerOtherStorageRefundStorageSelect_choice">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group" >
+                                                <span class="input-group-addon" id="ContainerOtherStorageRefundQueryTime" style="min-width: 100px">查询周期</span>
+                                                <select class="form-control" placeholder="查询时间段" aria-describedby="basic-addon1" id="ContainerOtherStorageRefundQueryTime_choice">
+                                                    <option value="1">今日</option>
+                                                    <option value="7">近7天</option>
+                                                    <option value="30">近30天</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="ContainerOtherStorageRefundQueryWord" style="min-width: 100px">关键字</span>
+                                                <input type="text" class="form-control" placeholder="查询关键字" aria-describedby="basic-addon1" id="ContainerOtherStorageRefundQueryWord_Input"/>
+                                            </div>
+                                        </div>
+                                        <div id="ContainerOtherStorageRefundMainInfo"  class='main-table-view' display="block">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary main-table-view-flash" id="ContainerOtherStorageRefundQuery">查询</button>
+                                                <button type="button" class="btn btn-primary main-table-view-new-bill" >新增账目</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="ContainerOtherStorageRefundLastFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ContainerOtherStorageRefundQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ContainerOtherStorageRefundQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="ContainerOtherStorageRefundSubInfo" class='sub-table-view' display="none">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary sub-table-view-back" id="ContainerOtherStorageRefundReturn">返回</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-print">打印</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <button type="button" class="btn btn-primary sub-table-view-add">增补记录</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px">详单：</label>
+                                                <label  style="min-width: 20px" id="ContainerOtherStorageRefundDetailFlash"></label>
+                                            </div>
+                                            <div class="col-md-12 column" id="ContainerOtherStorageRefundDetailResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                                <p></p>
+                                                <table id="ContainerOtherStorageRefundDetailTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -5332,6 +5984,264 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
                     <button type="button" class="btn btn-primary"  id="MaterialStockDelCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ContainerStockRemovalDelAlarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="ContainerStockRemovalDelAlertModalLabel">确认删除</h4>
+                </div>
+                <div class="modal-body" >
+                    <strong>警告！</strong>您确定要删除此记录么？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="delContainerStockRemovalCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ContainerStockRemovalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="ContainerStockRemovalLabel">原料出库</h4>
+                </div>
+                <div class="modal-body" style="min-height:520px">
+                    <div class="col-md-6">
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="ContainerStockRemovalStorageSelect" style="min-width: 100px">仓库</span>
+                            <select class="form-control" placeholder="仓库" aria-describedby="basic-addon1" disabled="disabled" id="ContainerStockRemovalStorageSelect_choice">
+                            </select>
+                        </div>
+
+                        <p></p>
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="ContainerStockRemovalModeSelect" style="min-width: 100px">货品选择</span>
+                            <select class="form-control" placeholder="货品选择" aria-describedby="basic-addon1" disabled="disabled" id="ContainerStockRemovalModeSelect_choice">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockRemovalNumber" style="min-width: 100px">桶数</span>
+                            <input type="text" class="form-control" placeholder="桶数" aria-describedby="basic-addon1"  id="ContainerStockRemovalNumber_Input"/>
+                        </div>
+                        <p></p>
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="ContainerStockRemovalPrice" style="min-width: 100px">总价</span>
+                            <input type="text" class="form-control" placeholder="总价" aria-describedby="basic-addon1"  id="ContainerStockRemovalPrice_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockRemovalTrunk" style="min-width: 100px">车牌号</span>
+                            <input type="text" class="form-control" placeholder="车牌号" aria-describedby="basic-addon1" id="ContainerStockRemovalTrunk_Input"/>
+                        </div>
+                        <p></p>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockRemovalLogistics" style="min-width: 100px">物流单位</span>
+                            <input type="text" class="form-control" placeholder="物流单位" aria-describedby="basic-addon1" id="ContainerStockRemovalLogistics_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockRemovalDriver" style="min-width: 100px">司机名</span>
+                            <input type="text" class="form-control" placeholder="司机名" aria-describedby="basic-addon1" id="ContainerStockRemovalDriver_Input"/>
+                        </div>
+                        <p></p>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockRemovalDriverMobile" style="min-width: 100px">司机手机</span>
+                            <input type="text" class="form-control" placeholder="司机手机" aria-describedby="basic-addon1" id="ContainerStockRemovalDriverMobile_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockRemovalTarget" style="min-width: 100px">收货单位</span>
+                            <input type="text" class="form-control" placeholder="收货单位" aria-describedby="basic-addon1" id="ContainerStockRemovalTarget_Input"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-primary"  id="ContainerStockRemovalCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ContainerStockIncomeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="ContainerStockTransferLabel">原料入库</h4>
+                </div>
+                <div class="modal-body" style="min-height:520px">
+                    <div class="col-md-6">
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="ContainerStockIncomeStorageSelect" style="min-width: 100px">仓库</span>
+                            <select class="form-control" placeholder="仓库" aria-describedby="basic-addon1" disabled="disabled" id="ContainerStockIncomeStorageSelect_choice">
+                            </select>
+                        </div>
+
+                        <p></p>
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="ContainerStockIncomeModeSelect" style="min-width: 100px">货品选择</span>
+                            <select class="form-control" placeholder="货品选择" aria-describedby="basic-addon1" disabled="disabled" id="ContainerStockIncomeModeSelect_choice">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockIncomeNumber" style="min-width: 100px">桶数</span>
+                            <input type="text" class="form-control" placeholder="桶数" aria-describedby="basic-addon1"  id="ContainerStockIncomeNumber_Input"/>
+                        </div>
+                        <p></p>
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="ContainerStockIncomePrice" style="min-width: 100px">总价</span>
+                            <input type="text" class="form-control" placeholder="总价" aria-describedby="basic-addon1"  id="ContainerStockIncomePrice_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockIncomeVendor" style="min-width: 100px">供应商</span>
+                            <input type="text" class="form-control" placeholder="供应商" aria-describedby="basic-addon1" id="ContainerStockIncomeVendor_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockIncomeBuyer" style="min-width: 100px">采购员</span>
+                            <input type="text" class="form-control" placeholder="采购员" aria-describedby="basic-addon1" id="ContainerStockIncomeBuyer_Input"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockIncomeBuyerMobile" style="min-width: 100px">采购员手机</span>
+                            <input type="text" class="form-control" placeholder="采购员手机" aria-describedby="basic-addon1" id="ContainerStockIncomeBuyerMobile_Input"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-primary"  id="ContainerStockIncomeCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ContainerStockNewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="ContainerStockNewModalLabel">新增原材料仓库（输入同名仓库视为修改）</h4>
+                </div>
+                <div class="modal-body" style="min-height:520px">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockNewName" style="min-width: 100px">仓库名</span>
+                            <input type="text" class="form-control" placeholder="仓库名" aria-describedby="basic-addon1"  id="ContainerStockNewName_Input"/>
+                        </div><p></p>
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="ContainerStockNewModeSelect" style="min-width: 100px">仓库种类</span>
+                            <select class="form-control" placeholder="仓库种类" aria-describedby="basic-addon1" id="ContainerStockNewModeSelect_choice">
+                                <option value="0">自有</option>
+                                <option value="1">第三方</option>
+                            </select>
+                        </div>
+                        <p></p>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ContainerStockNewAddress" style="min-width: 100px">地址</span>
+                            <input type="text" class="form-control" placeholder="地址" aria-describedby="basic-addon1"  id="ContainerStockNewAddress_Input"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-primary"  id="ContainerStockNewCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ContainerStockDelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="ContainerStockDelModalLabel">删除仓库（只能删除空仓库）</h4>
+                </div>
+                <div class="modal-body" style="min-height:520px">
+                    <div class="col-md-12">
+                        <div class="input-group" >
+                            <span class="input-group-addon" id="ContainerStockDelSelect" style="min-width: 100px">空仓库</span>
+                            <select class="form-control" placeholder="空仓库" aria-describedby="basic-addon1" id="ContainerStockDelSelect_choice">
+                            </select>
+                        </div>
+                        <!--p></p>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="ProductStockDelAddress" style="min-width: 100px">地址</span>
+                            <input type="text" class="form-control" placeholder="地址" aria-describedby="basic-addon1" disabled="disabled" id="ProductStockDelAddress_Input"/>
+                        </div-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-primary"  id="ContainerStockDelCommit">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="FactoryItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="FactoryItemModalLabel"></h4>
+                </div>
+                <div class="modal-body" style="min-height:20px" id="FactoryItemGuildBody">
+                    <div class="col-md-12">
+                    <button type="button" class="btn btn-default pull-left" id="FactoryGoBackward"><span aria-hidden="true">&lt;&lt;</span></button>
+                    <button type="button" class="btn btn-default pull-right" id="FactoryGoForward"><span aria-hidden="true">&gt;&gt;</span></button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-body" style="min-height:420px" id="FactoryItemStructureBody">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull-left" id="FactoryDelete">删除</button>
+                    <button type="button" class="btn btn-primary" id="FactorySave">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="FactoryBillModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="FactoryBillModalLabel"></h4>
+                </div>
+                <div class="modal-body" style="min-height:20px" id="FactoryBillGuildBody">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-default pull-left" id="FactoryBillGoBackward"><span aria-hidden="true">&lt;&lt;</span></button>
+                        <button type="button" class="btn btn-default pull-right" id="FactoryBillGoForward"><span aria-hidden="true">&gt;&gt;</span></button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-body" style="min-height:420px" id="FactoryBillStructureBody">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">放弃并退出</button>
+                    <button type="button" class="btn btn-primary" id="FactoryBillDelete">删除当前</button>
+                    <button type="button" class="btn btn-primary" id="FactoryBillNext">输入下一条</button>
+                    <button type="button" class="btn btn-primary" id="FactoryBillSave">保存并提交</button>
                 </div>
             </div>
         </div>

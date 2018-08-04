@@ -5,7 +5,19 @@
 function log(str){
     //console.log(str);
 }
+/*
+function clone(obj) {
+    var o = obj instanceof Array ? [] : {};
+    for(var k in obj)
+        o[k] = typeof obj[k] === Object ? clone(obj[k]) : obj[k];
+    return o;
+}*/
+function clone(Obj) {
+    var o = {};
+        o = JSON.parse(JSON.stringify(Obj));
 
+    return o;
+}
 function date_compare_today(date){
     var temp = date.split("-");
     var input = new Date(parseInt(temp[0]),parseInt(temp[1])-1,parseInt(temp[2])-1);

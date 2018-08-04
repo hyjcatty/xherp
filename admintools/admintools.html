@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>光交箱智能管理系统-系统管理工具</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./resource/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="./resource/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="./resource/css/bootstrap-duallistbox.min.css" rel="stylesheet" />
+    <link href="./resource/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="./resource/css/buttons.dataTables.min.css" rel="stylesheet">
+
+    <!-- Custom styling plus plugins -->
+
+    <!--link href="./css/dataTables.tableTools.min.css" rel="stylesheet"-->
+
+    <link href="./resource/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="./resource/css/custom.css" rel="stylesheet">
+    <link href="./css/nprogress.css" rel="stylesheet">
+    <link href="./css/scope.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
+    <script src="./resource/js/jquery.min.js"></script>
+    <script src="./resource/js/bootstrap.min.js"></script>
+    <script src="./resource/js/Chart.min.js"></script>
+    <script src="./resource/js/jquery.bootstrap-duallistbox.min.js"></script>
+    <script src="./resource/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="./resource/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="./resource/js/highstock-js/highstock.js"></script>
+    <script src="./resource/js/table/jquery.dataTables.min.js"></script>
+    <script src="./resource/js/table/dataTables.buttons.min.js"></script>
+    <script src="./resource/js/table/jszip.min.js"></script>
+    <script src="./resource/js/table/buttons.html5.min.js"></script>
+    <script src="./resource/js/table/buttons.flash.min.js"></script>
+    <script src="./resource/js/fileinput.min.js" type="text/javascript"></script>
+    <script src="./resource/js/fileinput_locale_zh.js" type="text/javascript"></script>
+    <!-- FastClick -->
+    <script src="./resource/js/fastclick/lib/fastclick.js"></script>
+
+
+    <script src="./js/nprogress.js"></script>
+    <script src="./js/hcu_util.js"></script>
+
+
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <!--div class="top_nav"-->
+                <div class="nav_menu">
+                    <nav>
+                        <!--div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div-->
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="Hello_label">
+                                    您好：用户
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    <li id="menu_logout"><a href="#" ><i class="fa fa-sign-out pull-right"></i>返回常规界面</a></li>
+                                </ul>
+                            </li>
+                            <li class="">
+                                <a  id="weather_label">
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            <!--/div-->
+
+            <div class="right_col" role="main" style="margin-left: 0px">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left" id="page_title">
+                            <h3> <small></small></h3>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_content">
+                                    <div class="row clearfix" id="SoftwareLoadview">
+
+                                        <div class="col-md-12 column">
+                                            <button type="button" class="btn btn-primary" id="NewSoftwareLoadModalShow">新建记录</button>
+                                            <button type="button" class="btn btn-primary" id="SoftwareLoadFlash" sytle="margin-left:20px">刷新</button>
+                                            <label  style="min-width: 20px"></label>
+                                            <label  style="min-width: 20px" id = "SoftwareLoadFlashTime"></label>
+                                        </div>
+                                        <div class="col-md-12 column" id="SoftwareLoadQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:scroll">
+                                            <p></p>
+                                            <table id="SoftwareLoadQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;overflow:scroll;overflow-y:hidden;overflow-x:scroll">
+                                            </table>
+                                        </div>
+                                        <div class="modal fade" id="newSoftwareLoadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="newSoftwareLoadModalLabel">创建新版本文件</h4>
+                                                    </div>
+                                                    <div class="modal-body" style="min-height:520px">
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="NewSoftwareLoadEquentry" style="min-width: 100px">Equentry</span>
+                                                                <input type="text" class="form-control" placeholder="Equentry" aria-describedby="basic-addon1" id="NewSoftwareLoadEquentry_Input"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="NewSoftwareValidFlag" style="min-width: 100px">ValidFlag</span>
+                                                                <input type="text" class="form-control" placeholder="ValidFlag" aria-describedby="basic-addon1" id="NewSoftwareValidFlag_Input"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="NewSoftwareUpgradeFlage" style="min-width: 100px">UpgradeFlage</span>
+                                                                <input type="text" class="form-control" placeholder="UpgradeFlage" aria-describedby="basic-addon1" id="NewSoftwareUpgradeFlage_Input"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="NewSoftwareHWType" style="min-width: 100px">HWType</span>
+                                                                <input type="text" class="form-control" placeholder="HWType" aria-describedby="basic-addon1" id="NewSoftwareHWType_Input"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="NewSoftwareLoadHWID" style="min-width: 100px">HWID</span>
+                                                                <input type="text" class="form-control" placeholder="HWID" aria-describedby="basic-addon1" id="NewSoftwareLoadHWID_Input"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="NewSoftwareSWRel" style="min-width: 100px">SWRel</span>
+                                                                <input type="text" class="form-control" placeholder="SWRel" aria-describedby="basic-addon1" id="NewSoftwareSWRel_Input"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="NewSoftwareLoadSWVer" style="min-width: 100px">SWVer</span>
+                                                                <input type="text" class="form-control" placeholder="SWVer" aria-describedby="basic-addon1" id="NewSoftwareLoadSWVer_Input"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="NewSoftwareDBVer" style="min-width: 100px">DBVer</span>
+                                                                <input type="text" class="form-control" placeholder="DBVer" aria-describedby="basic-addon1" id="NewSoftwareDBVer_Input"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <form enctype="form-data">
+                                                                <input id="file-zh" name="file-zh[]" type="file" multiple data-min-file-count="1">
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                                                        <button type="button" class="btn btn-primary" id="newSoftwareLoadCommit">确认</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="SoftwareLoadDelAlarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="SoftwareLoadDelAlertModalLabel">确认删除</h4>
+                                                    </div>
+                                                    <div class="modal-body" >
+                                                        <strong>警告！</strong>您确定要删除此版本么？
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                                                        <button type="button" class="btn btn-primary" id="delSoftwareLoadCommit">确认</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <footer style="margin-left: 0px">
+                <div class="pull-right" >
+                    智能云平台管理
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+        </div>
+    </div>
+    <div class="modal fade" id="UserAlarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="UserAlertModalLabel">警告</h4>
+                </div>
+                <div class="modal-body" id="UserAlertModalContent">
+                    <strong>警告！</strong>您尚未选择一个用户项。
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ExpiredAlarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="ExpiredAlertModalLabel">网页过期</h4>
+                </div>
+                <div class="modal-body" id="ExpiredAlertModalContent">
+                    <strong>警告！</strong>您的网页已经过期，请刷新页面并重新登陆！
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="ExpiredConfirm">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/admintools.js"></script>
+</body>
+</html>
