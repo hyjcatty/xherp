@@ -94,6 +94,13 @@
                                         <li><a href="#" id="KPIAudit">绩效统计</a></li>
                                     </ul>
                                 </li>
+
+                                <li><a><i class="fa fa-qrcode"></i> 扫码管理 <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="#" id="QrcodeAudit">扫码统计</a></li>
+                                        <li><a href="#" id="QrcodeBatch">批量扫码</a></li>
+                                    </ul>
+                                </li>
                                 <li><a><i class="fa fa-clipboard"></i> 耗材管理 <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="#" id="ConsumablesManage">耗材信息</a></li>
@@ -1779,6 +1786,100 @@
                                         <div class="col-md-12 column" id="AttendanceAuditQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
                                             <p></p>
                                             <table id="AttendanceAuditQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="QrcodeAuditView">
+                                        <div class="col-md-12 column">
+                                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                                <div class="form-group " style="height:29px">
+                                                    <div class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon" style="min-width: 100px">起始日期</div>
+                                                            <input class="form-control" size="16" type="text" value=""  disabled="disabled" placeholder="起始日期" id="QrcodeAuditStartTime_input" style="min-width: 116px">
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        </div></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                                <div class="form-group " style="height:29px">
+                                                    <div class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon" style="min-width: 100px">结束日期</div>
+                                                            <input class="form-control" size="16" type="text" value=""  disabled="disabled" placeholder="结束日期" id="QrcodeAuditEndTime_input" style="min-width: 116px">
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        </div></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                                <div class="input-group" style="float:left;width:100px">
+                                                    <span class="input-group-addon" id="QrcodeAuditWord" style="width: 100px;max-height:20px">关键字</span>
+                                                    <input type="text" class="form-control " placeholder="查询员工名或产品规格关键字" aria-describedby="basic-addon1" style="width: 0;padding-right: 0px;padding-left: 0px;border-left-width: 0px;border-right-width: 00px;"/>
+
+                                                </div>
+                                                <div class="form-group" style="float:left">
+                                                    <input type="text" class="form-control " placeholder="查询员工名关键字" aria-describedby="basic-addon1" id="QrcodeAuditWord_Input" style="width:100%"/>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 column">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary" id="QrcodeAuditTableFlash">查询</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="QrcodeAuditLastFlash"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 column" id="QrcodeAuditQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                            <p></p>
+                                            <table id="QrcodeAuditQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix hyjwindow" id="QrcodeBatchView">
+                                        <div class="col-md-12 column">
+                                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                                <div class="form-group " style="height:29px">
+                                                    <div class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon" style="min-width: 100px">起始日期</div>
+                                                            <input class="form-control" size="16" type="text" value=""  disabled="disabled" placeholder="起始日期" id="QrcodeBatchStartTime_input" style="min-width: 116px">
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        </div></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                                <div class="form-group " style="height:29px">
+                                                    <div class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon" style="min-width: 100px">结束日期</div>
+                                                            <input class="form-control" size="16" type="text" value=""  disabled="disabled" placeholder="结束日期" id="QrcodeBatchEndTime_input" style="min-width: 116px">
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        </div></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                                <div class="input-group" style="float:left;width:100px">
+                                                    <span class="input-group-addon" id="QrcodeBatchWord" style="width: 100px;max-height:20px">关键字</span>
+                                                    <input type="text" class="form-control " placeholder="查询员工名或产品规格关键字" aria-describedby="basic-addon1" style="width: 0;padding-right: 0px;padding-left: 0px;border-left-width: 0px;border-right-width: 00px;"/>
+
+                                                </div>
+                                                <div class="form-group" style="float:left">
+                                                    <input type="text" class="form-control " placeholder="查询员工名关键字" aria-describedby="basic-addon1" id="QrcodeBatchWord_Input" style="width:100%"/>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 column">
+                                            <div class="col-md-12 column">
+                                                <button type="button" class="btn btn-primary" id="QrcodeBatchTableFlash">查询</button>
+                                                <label  style="min-width: 20px"></label>
+                                                <label  style="min-width: 20px" id="QrcodeBatchLastFlash"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 column" id="QrcodeBatchQueryResult" style="overflow:scroll;overflow-y:hidden;overflow-x:hidden">
+                                            <p></p>
+                                            <table id="QrcodeBatchQueryTable" class="display" cellspacing="0" width="100%"  style="white-space: nowrap;">
                                             </table>
                                         </div>
                                     </div>

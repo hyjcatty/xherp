@@ -201,7 +201,11 @@ var Assemble_Audit_table_initialized = true;
 var  if_assemble_audit_table_initialize = false;
 //key history table Control
 var Attendance_Audit_table_initialized = true;
+var Qrcode_Audit_table_initialized = true;
+var Qrcode_batch_table_initialized = true;
 var  if_attendance_audit_table_initialize = false;
+var  if_qrcode_audit_table_initialize = false;
+var  if_qrcode_batch_table_initialize = false;
 
 //kpi table Control
 var KPI_Audit_table_initialized = true;
@@ -758,6 +762,20 @@ $(document).ready(function() {
         active_menu("AttendanceAudit");
         touchcookie();
         attendance_audit();
+
+    });
+	$("#QrcodeAudit").on('click',function(){
+        CURRENT_URL = "QrcodeAudit";
+        active_menu("QrcodeAudit");
+        touchcookie();
+        qrcode_audit();
+
+    });
+	$("#QrcodeBatch").on('click',function(){
+        CURRENT_URL = "QrcodeBatch";
+        active_menu("QrcodeBatch");
+        touchcookie();
+        qrcode_batch();
 
     });
     $("#KPIAudit").on('click',function(){
@@ -1832,6 +1850,100 @@ $(document).ready(function() {
         }
         return;
     });
+	$("#QrcodeAuditStartTime_input").change(function(){
+        //console.log("AttendanceHistoryStartTime_input changes");
+        var startdate  = $("#QrcodeAuditStartTime_input").val();
+        var enddate  = $("#QrcodeAuditEndTime_input").val();
+        var compare = date_compare_today(startdate);
+        if(startdate !==  compare){
+            $("#QrcodeAuditStartTime_input").val(compare);
+            startdate = compare;
+        }
+        if(enddate === ""){
+            $("#QrcodeAuditEndTime_input").val(startdate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+            var startplus30 = dateplus30(startdate);
+            var tempdate2 = date_compare(startplus30,enddate);
+            if(tempdate === enddate){
+                $("#QrcodeAuditEndTime_input").val(startdate);
+            }else if(tempdate2 ===startplus30){
+                $("#QrcodeAuditEndTime_input").val(startplus30);
+            }
+        }
+        return;
+    });
+    $("#QrcodeAuditEndTime_input").change(function(){
+        //console.log("AttendanceHistoryEndTime_input changes");
+        var startdate  = $("#QrcodeAuditStartTime_input").val();
+        var enddate  = $("#QrcodeAuditEndTime_input").val();
+        var compare = date_compare_today(enddate);
+        if(enddate !==  compare){
+            $("#QrcodeAuditEndTime_input").val(compare);
+            enddate = compare;
+        }
+        if(startdate === ""){
+            $("#QrcodeAuditStartTime_input").val(enddate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+
+            var endminus30 = dateminus30(enddate);
+            var tempdate2 = date_compare(endminus30,startdate);
+            if(tempdate === enddate){
+                $("#QrcodeAuditStartTime_input").val(enddate);
+            }else if(tempdate2 ===startdate){
+                $("#QrcodeAuditStartTime_input").val(endminus30);
+            }
+        }
+        return;
+    });
+	$("#QrcodeBatchStartTime_input").change(function(){
+        //console.log("AttendanceHistoryStartTime_input changes");
+        var startdate  = $("#QrcodeBatchStartTime_input").val();
+        var enddate  = $("#QrcodeBatchEndTime_input").val();
+        var compare = date_compare_today(startdate);
+        if(startdate !==  compare){
+            $("#QrcodeBatchStartTime_input").val(compare);
+            startdate = compare;
+        }
+        if(enddate === ""){
+            $("#QrcodeBatchEndTime_input").val(startdate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+            var startplus30 = dateplus30(startdate);
+            var tempdate2 = date_compare(startplus30,enddate);
+            if(tempdate === enddate){
+                $("#QrcodeBatchEndTime_input").val(startdate);
+            }else if(tempdate2 ===startplus30){
+                $("#QrcodeBatchEndTime_input").val(startplus30);
+            }
+        }
+        return;
+    });
+    $("#QrcodeBatchEndTime_input").change(function(){
+        //console.log("AttendanceHistoryEndTime_input changes");
+        var startdate  = $("#QrcodeBatchStartTime_input").val();
+        var enddate  = $("#QrcodeBatchEndTime_input").val();
+        var compare = date_compare_today(enddate);
+        if(enddate !==  compare){
+            $("#QrcodeBatchEndTime_input").val(compare);
+            enddate = compare;
+        }
+        if(startdate === ""){
+            $("#QrcodeBatchStartTime_input").val(enddate);
+        }else{
+            var tempdate = date_compare(startdate,enddate);
+
+            var endminus30 = dateminus30(enddate);
+            var tempdate2 = date_compare(endminus30,startdate);
+            if(tempdate === enddate){
+                $("#QrcodeBatchStartTime_input").val(enddate);
+            }else if(tempdate2 ===startdate){
+                $("#QrcodeBatchStartTime_input").val(endminus30);
+            }
+        }
+        return;
+    });
     $("#KPIAuditStartTime_input").change(function(){
         //console.log("AttendanceHistoryStartTime_input changes");
         var startdate  = $("#KPIAuditStartTime_input").val();
@@ -2210,6 +2322,16 @@ $(document).ready(function() {
     });
     $("#AttendanceAuditTableFlash").on('click',function(){
         query_attendance_audit();
+
+        touchcookie();
+    });
+	$("#QrcodeAuditTableFlash").on('click',function(){
+        query_qrcode_audit();
+
+        touchcookie();
+    });
+	$("#QrcodeBatchTableFlash").on('click',function(){
+        query_qrcode_batch();
 
         touchcookie();
     });
@@ -2951,6 +3073,24 @@ function attendance_audit(){
     write_title("考勤统计查询","请输入查询条件");
     $("#AttendanceAuditView").css("display","block");
     attendance_audit_initialize();
+    //key_history_initialize();
+    //query_static_warning();
+}
+function qrcode_audit(){
+    clear_window();
+    hide_searchbar();
+    write_title("扫码统计查询","请输入查询条件");
+    $("#QrcodeAuditView").css("display","block");
+    arcode_audit_initialize();
+    //key_history_initialize();
+    //query_static_warning();
+}
+function qrcode_batch(){
+    clear_window();
+    hide_searchbar();
+    write_title("批量扫码查询","请输入查询条件");
+    $("#QrcodeBatchView").css("display","block");
+    qrcode_batch_initialize();
     //key_history_initialize();
     //query_static_warning();
 }
@@ -10225,6 +10365,12 @@ function assemble_audit_initialize(){
 function attendance_audit_initialize(){
     Attendance_Audit_table_initialized = true;
 }
+function qrcode_audit_initialize(){
+    Qrcode_Audit_table_initialized = true;
+}
+function qrcode_batch_initialize(){
+    Qrcode_Batch_table_initialized = true;
+}
 function kpi_audit_initialize(){
     KPI_Audit_table_initialized = true;
 }
@@ -10953,7 +11099,175 @@ function query_attendance_audit(){
     JQ_get(request_head,map,query_attendance_audit_callback);
 
 }
+function query_qrcode_audit(){
+    if(Qrcode_Audit_table_initialized !== true) return;
+    //var Query_time = $("#AssembleHistoryTime_choice").val();
+    var Query_start_time = $("#QrcodeAuditStartTime_input").val();
+    var Query_end_time = $("#QrcodeAuditEndTime_input").val();
+    var Query_word = $("#QrcodeAuditWord_Input").val();
+    if(Query_start_time===""){
+        return;
+    }if(Query_end_time===""){
+        return;
+    }
+    var condition = {
+        TimeStart:Query_start_time,
+        TimeEnd:Query_end_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"QrcodeAudit",
+        body:condition,
+        user:usr.id
+    };
+    var query_qrcode_audit_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#QrcodeAuditLastFlash").empty();
+        $("#QrcodeAuditLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+            txt = txt +"<tr>";
+            //txt = txt +"<td><button type='button' class='btn btn-default open_btn' AttendanceCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><ul class='pagination'> <li><a href='#' class = 'video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></a> </li></ul></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
+            //console.log("StateCode="+TableData[i][0]);
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#QrcodeAuditQueryTable").empty();
+        $("#QrcodeAuditQueryTable").append(txt);
+        if(if_qrcode_audit_table_initialize) $("#QrcodeAuditQueryTable").DataTable().destroy();
 
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#QrcodeAuditQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        if_qrcode_audit_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_qrcode_audit_callback);
+
+}
+
+function query_qrcode_batch(){
+    if(Qrcode_Batch_table_initialized !== true) return;
+    //var Query_time = $("#AssembleHistoryTime_choice").val();
+    var Query_start_time = $("#QrcodeBatchStartTime_input").val();
+    var Query_end_time = $("#QrcodeBatchEndTime_input").val();
+    var Query_word = $("#QrcodeBatchWord_Input").val();
+    if(Query_start_time===""){
+        return;
+    }if(Query_end_time===""){
+        return;
+    }
+    var condition = {
+        TimeStart:Query_start_time,
+        TimeEnd:Query_end_time,
+        KeyWord:Query_word
+    };
+    var map={
+        action:"QrcodeBatch",
+        body:condition,
+        user:usr.id
+    };
+    var query_qrcode_batch_callback = function(result){
+        if(result.status == "false"){
+            show_expiredModule();
+            return;
+        }
+        var Last_update_date=(new Date()).Format("yyyy-MM-dd_hhmmss");
+        $("#QrcodeBatchLastFlash").empty();
+        $("#QrcodeBatchLastFlash").append("最后刷新时间："+Last_update_date);
+        var ColumnName = result.ret.ColumnName;
+        var TableData = result.ret.TableData;
+        var txt = "<thead> <tr>";
+        var i;
+        for( i=0;i<ColumnName.length;i++){
+            txt = txt +"<th>"+ColumnName[i]+"</th>";
+        }
+        //txt = txt +"<th></th></tr></thead>";
+        txt = txt +"</tr></thead>";
+        txt = txt +"<tbody>";
+        for( i=0;i<TableData.length;i++){
+            txt = txt +"<tr>";
+            //txt = txt +"<td><button type='button' class='btn btn-default open_btn' AttendanceCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-trash ' aria-hidden='true' ></em></button></td>";
+            //txt = txt +"<td><ul class='pagination'> <li><a href='#' class = 'video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></a> </li></ul></td>";
+            //txt = txt +"<td><button type='button' class='btn btn-default lock_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-lock ' aria-hidden='true' ></em></button></td><td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' ><em class='glyphicon glyphicon-play ' aria-hidden='true' ></em></button></td>";
+            //console.log("StateCode="+TableData[i][0]);
+            for(var j=0;j<TableData[i].length;j++){
+                txt = txt +"<td>"+TableData[i][j]+"</td>";
+            }
+            //txt = txt + "<td><button type='button' class='btn btn-default video_btn' StateCode='"+TableData[i][0]+"' >视频</button></td>";
+            txt = txt +"</tr>";
+        }
+        txt = txt+"</tbody>";
+        $("#QrcodeBatchQueryTable").empty();
+        $("#QrcodeBatchQueryTable").append(txt);
+        if(if_qrcode_batch_table_initialize) $("#QrcodeBatchQueryTable").DataTable().destroy();
+
+        //console.log(monitor_map_list);
+
+        var show_table  = $("#QrcodeBatchQueryTable").DataTable( {
+            //dom: 'T<"clear">lfrtip',
+            "scrollY": false,
+            "scrollCollapse": true,
+
+            "scrollX": true,
+            "searching": false,
+            "autoWidth": true,
+            "lengthChange":false,
+            //bSort: false,
+            //aoColumns: [ { sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false } ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '导出到excel',
+                    filename: "HistoryData"+Last_update_date
+                }
+            ]
+
+        } );
+        if_qrcode_batch_table_initialize = true;
+    };
+    JQ_get(request_head,map,query_qrcode_batch_callback);
+
+}
 function query_kpi_audit(){
     if(KPI_Audit_table_initialized !== true) return;
     //var Query_time = $("#AssembleHistoryTime_choice").val();
